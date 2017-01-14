@@ -22,14 +22,9 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
     @Override
     public void setUpComponent(){
         if(null == mMainActivityComponent){
-            mMainActivityComponent = DaggerMainActivityComponent.builder().applicationComponent(KindergartenApplication.get(this).getApplicationComponent()).mainActivityModule(new MainActivityModule(this)).build();
+            mMainActivityComponent = DaggerMainActivityComponent.builder().applicationComponent(KindergartenApplication.get().getApplicationComponent()).mainActivityModule(new MainActivityModule(this)).build();
             mMainActivityComponent.inject(this);
         }
-    }
-
-    @Override
-    public int getLayoutId(){
-        return R.layout.activity_main;
     }
 
     @Override
