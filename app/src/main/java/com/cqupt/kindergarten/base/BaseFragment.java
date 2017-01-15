@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 public abstract class BaseFragment extends Fragment{
 
     private View mView;
@@ -31,6 +33,7 @@ public abstract class BaseFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         mView = inflater.inflate(getLayoutId(), container, false);
+        ButterKnife.bind(this, mView);
         setUpComponent();
         initView();
         initData();
@@ -42,11 +45,6 @@ public abstract class BaseFragment extends Fragment{
     public abstract void initView();
 
     public abstract void initData();
-
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-    }
 
     @Override
     public void onDetach(){

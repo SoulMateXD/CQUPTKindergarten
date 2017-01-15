@@ -28,7 +28,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements IMainActivityInterface, BottomNavigationView.OnNavigationItemSelectedListener, View.OnTouchListener{
+public class MainActivity extends BaseActivity implements IMainActivityInterface, BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, View.OnTouchListener{
 
     @Inject
     MainActivityPresenter mMainActivityPresenter;
@@ -74,6 +74,7 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
         mMainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), mMainActivityPresenter
                 .getFragment());
         mMainBottom.setOnNavigationItemSelectedListener(this);
+        mMainViewPager.addOnPageChangeListener(this);
         mMainViewPager.setAdapter(mMainViewPagerAdapter);
         mMainViewPager.setOnTouchListener(this);
     }
@@ -99,20 +100,43 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
                 break;
             case R.id.mine:
                 mMainViewPager.setCurrentItem(3);
-                Fragment fragment = getSupportFragmentManager().findFragmentByTag(MineFragment.class
-                                                                                          .getName());
-                if(fragment != null && isLogin){
-                    getSupportFragmentManager().beginTransaction().show(fragment).commit();
-                } else{
-                    Fragment loginFragment = getSupportFragmentManager().findFragmentByTag(LoginFragment.class
-                                                                                                   .getName());
-                    if(loginFragment != null){
-                        getSupportFragmentManager().beginTransaction().show(loginFragment).commit();
-                    }
-                }
                 break;
         }
         return false;
+    }
+
+    //viewpager滑动事件
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
+
+    }
+
+    @Override
+    public void onPageSelected(int position){
+        if(menuItem != null){
+            menuItem.setChecked(false);
+        } else{
+            mMainBottom.getMenu().getItem(0).setChecked(false);
+        }
+        menuItem = mMainBottom.getMenu().getItem(position);
+        menuItem.setChecked(true);
+        if(position == 3){
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(MineFragment.class.getName());
+            if(fragment != null && isLogin){
+                getSupportFragmentManager().beginTransaction().show(fragment).commit();
+            } else{
+                Fragment loginFragment = getSupportFragmentManager().findFragmentByTag(LoginFragment.class
+                                                                                               .getName());
+                if(loginFragment != null){
+                    getSupportFragmentManager().beginTransaction().show(loginFragment).commit();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state){
+
     }
 
     //禁止viewpager滑动

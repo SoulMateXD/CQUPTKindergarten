@@ -31,9 +31,11 @@ public class ClassFragment extends BaseFragment implements IClassFragmentInterfa
 
     private ClassFragmentComponent mClassFragmentComponent;
 
+
+
     @Override
     public int getLayoutId(){
-        return R.layout.fragment_login;
+        return R.layout.fragment_class;
     }
 
     @Override
