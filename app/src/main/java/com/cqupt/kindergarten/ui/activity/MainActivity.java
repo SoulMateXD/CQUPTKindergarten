@@ -1,7 +1,6 @@
 package com.cqupt.kindergarten.ui.activity;
 
 import com.cqupt.kindergarten.KindergartenApplication;
-import com.cqupt.kindergarten.R;
 import com.cqupt.kindergarten.base.BaseActivity;
 import com.cqupt.kindergarten.injection.component.DaggerMainActivityComponent;
 import com.cqupt.kindergarten.injection.component.MainActivityComponent;
@@ -22,7 +21,10 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
     @Override
     public void setUpComponent(){
         if(null == mMainActivityComponent){
-            mMainActivityComponent = DaggerMainActivityComponent.builder().applicationComponent(KindergartenApplication.get().getApplicationComponent()).mainActivityModule(new MainActivityModule(this)).build();
+            mMainActivityComponent = DaggerMainActivityComponent.builder()
+                    .applicationComponent(KindergartenApplication.get().getApplicationComponent())
+                    .mainActivityModule(new MainActivityModule(this))
+                    .build();
             mMainActivityComponent.inject(this);
         }
     }
