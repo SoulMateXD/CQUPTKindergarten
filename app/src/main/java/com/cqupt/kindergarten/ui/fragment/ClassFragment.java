@@ -50,7 +50,7 @@ public class ClassFragment extends BaseFragment implements IClassFragmentInterfa
 
     @Override
     public void setUpComponent(){
-        if(null == mClassFragmentComponent){
+        if(mClassFragmentComponent == null){
             mClassFragmentComponent = DaggerClassFragmentComponent.builder()
                     .applicationComponent(KindergartenApplication.get().getApplicationComponent())
                     .classFragmentModule(new ClassFragmentModule(this))
