@@ -4,11 +4,11 @@
              android:layout_height="match_parent"
              tools:context="com.cqupt.kindergarten.ui.fragment.MineFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:textColor="@color/colorAccent"
+    <ImageView
+        android:id="@+id/img_home_big"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:src="@mipmap/img_home_big"
+        android:scaleType="centerCrop"/>
 
 </FrameLayout>
