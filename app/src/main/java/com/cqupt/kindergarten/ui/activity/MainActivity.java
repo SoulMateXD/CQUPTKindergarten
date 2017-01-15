@@ -3,9 +3,13 @@ package com.cqupt.kindergarten.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.cqupt.kindergarten.KindergartenApplication;
 import com.cqupt.kindergarten.R;
@@ -15,6 +19,8 @@ import com.cqupt.kindergarten.injection.component.DaggerMainActivityComponent;
 import com.cqupt.kindergarten.injection.component.MainActivityComponent;
 import com.cqupt.kindergarten.injection.module.MainActivityModule;
 import com.cqupt.kindergarten.presenter.MainActivityPresenter;
+import com.cqupt.kindergarten.ui.fragment.LoginFragment;
+import com.cqupt.kindergarten.ui.fragment.MineFragment;
 import com.cqupt.kindergarten.ui.ui_interface.IMainActivityInterface;
 
 import javax.inject.Inject;
@@ -22,7 +28,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements IMainActivityInterface, BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener{
+public class MainActivity extends BaseActivity implements IMainActivityInterface, BottomNavigationView.OnNavigationItemSelectedListener, View.OnTouchListener{
 
     @Inject
     MainActivityPresenter mMainActivityPresenter;
@@ -39,6 +45,7 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
     private MainActivityComponent mMainActivityComponent;
     private MainViewPagerAdapter mMainViewPagerAdapter;
     private MenuItem menuItem;
+    private boolean isLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -63,19 +70,18 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
 
     @Override
     public void initData(){
-//        mMainActivityPresenter = new MainActivityPresenter();
+        //        mMainActivityPresenter = new MainActivityPresenter();
         mMainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), mMainActivityPresenter
                 .getFragment());
         mMainBottom.setOnNavigationItemSelectedListener(this);
-        mMainViewPager.addOnPageChangeListener(this);
         mMainViewPager.setAdapter(mMainViewPagerAdapter);
+        mMainViewPager.setOnTouchListener(this);
     }
 
     @Override
     public int getLayoutID(){
         return R.layout.activity_main;
     }
-
 
     //底部选择事件
     @Override
@@ -93,30 +99,25 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
                 break;
             case R.id.mine:
                 mMainViewPager.setCurrentItem(3);
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(MineFragment.class
+                                                                                          .getName());
+                if(fragment != null && isLogin){
+                    getSupportFragmentManager().beginTransaction().show(fragment).commit();
+                } else{
+                    Fragment loginFragment = getSupportFragmentManager().findFragmentByTag(LoginFragment.class
+                                                                                                   .getName());
+                    if(loginFragment != null){
+                        getSupportFragmentManager().beginTransaction().show(loginFragment).commit();
+                    }
+                }
                 break;
         }
         return false;
     }
 
-    //viewpager滑动事件
+    //禁止viewpager滑动
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
-
-    }
-
-    @Override
-    public void onPageSelected(int position){
-        if(menuItem != null){
-            menuItem.setChecked(false);
-        } else{
-            mMainBottom.getMenu().getItem(0).setChecked(false);
-        }
-        menuItem = mMainBottom.getMenu().getItem(position);
-        menuItem.setChecked(true);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state){
-
+    public boolean onTouch(View view, MotionEvent motionEvent){
+        return true;
     }
 }
