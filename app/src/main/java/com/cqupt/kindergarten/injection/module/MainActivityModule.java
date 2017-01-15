@@ -1,6 +1,5 @@
 package com.cqupt.kindergarten.injection.module;
 
-import com.cqupt.kindergarten.model.DataManager;
 import com.cqupt.kindergarten.presenter.MainActivityPresenter;
 import com.cqupt.kindergarten.ui.activity.MainActivity;
 
@@ -19,7 +18,7 @@ public class MainActivityModule {
         return mMainActivity;
     }
     @Provides
-    public MainActivityPresenter provideMainActivityPresenter(DataManager dataManager){
-        return new MainActivityPresenter(dataManager);
+    public MainActivityPresenter provideMainActivityPresenter(){
+        return new MainActivityPresenter();
     }
 }

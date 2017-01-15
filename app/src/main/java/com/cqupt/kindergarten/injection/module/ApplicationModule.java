@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.cqupt.kindergarten.KindergartenApplication;
-import com.cqupt.kindergarten.model.DataManager;
 import com.cqupt.kindergarten.model.data.DbOpenHelper;
 import com.cqupt.kindergarten.model.helper.DatabaseOperatorHelper;
 import com.cqupt.kindergarten.model.helper.PreferencesOperatorHelper;
@@ -37,33 +36,33 @@ public class ApplicationModule{
         return mContext;
     }
 
-    @Provides
-    @Singleton
-    INetworkOperator provideINetworkOperator() {
-        return INetworkOperator.Creator.newINetworkOperator();
-    }
-
-    @Provides
-    @Singleton
-    DatabaseOperatorHelper provideDatabaseOperatorHelper(DbOpenHelper dbOpenHelper) {
-        return new DatabaseOperatorHelper(dbOpenHelper);
-    }
-
-    @Provides
-    @Singleton
-    PreferencesOperatorHelper providePreferencesOperatorHelper() {
-        return new PreferencesOperatorHelper(mKindergartenApplication);
-    }
-
-    @Provides
-    @Singleton
-    DataManager provideDataManager(DatabaseOperatorHelper databaseOperatorHelper, INetworkOperator networkOperatorHelper, PreferencesOperatorHelper preferencesOperatorHelper) {
-        return new DataManager(databaseOperatorHelper, networkOperatorHelper, preferencesOperatorHelper);
-    }
-
-    @Provides
-    @Singleton
-    DbOpenHelper provideDbOpenHelper() {
-        return new DbOpenHelper(mContext);
-    }
+//    @Provides
+//    @Singleton
+//    INetworkOperator provideINetworkOperator() {
+//        return INetworkOperator.Creator.newINetworkOperator();
+//    }
+//
+//    @Provides
+//    @Singleton
+//    DatabaseOperatorHelper provideDatabaseOperatorHelper(DbOpenHelper dbOpenHelper) {
+//        return new DatabaseOperatorHelper(dbOpenHelper);
+//    }
+//
+//    @Provides
+//    @Singleton
+//    PreferencesOperatorHelper providePreferencesOperatorHelper() {
+//        return new PreferencesOperatorHelper(mKindergartenApplication);
+//    }
+//
+//    @Provides
+//    @Singleton
+//    DataManager provideDataManager(DatabaseOperatorHelper databaseOperatorHelper, INetworkOperator networkOperatorHelper, PreferencesOperatorHelper preferencesOperatorHelper) {
+//        return new DataManager(databaseOperatorHelper, networkOperatorHelper, preferencesOperatorHelper);
+//    }
+//
+//    @Provides
+//    @Singleton
+//    DbOpenHelper provideDbOpenHelper() {
+//        return new DbOpenHelper(mContext);
+//    }
 }

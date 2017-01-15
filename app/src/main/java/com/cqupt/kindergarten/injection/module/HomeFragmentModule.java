@@ -1,6 +1,5 @@
 package com.cqupt.kindergarten.injection.module;
 
-import com.cqupt.kindergarten.model.DataManager;
 import com.cqupt.kindergarten.presenter.HomeFragmentPresenter;
 import com.cqupt.kindergarten.presenter.MineFragmentPresenter;
 import com.cqupt.kindergarten.ui.fragment.HomeFragment;
@@ -21,7 +20,7 @@ public class HomeFragmentModule {
     }
 
     @Provides
-    public HomeFragmentPresenter providesHomeFragmentPresenter(DataManager dataManager){
-        return new HomeFragmentPresenter(dataManager);
+    public HomeFragmentPresenter providesHomeFragmentPresenter(){
+        return new HomeFragmentPresenter();
     }
 }

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.cqupt.kindergarten.injection.module.ApplicationModule;
-import com.cqupt.kindergarten.model.DataManager;
 
 import javax.inject.Singleton;
 
@@ -19,6 +18,6 @@ public interface ApplicationComponent {
 
     Context context();
 
-    DataManager dataManager();
+//    DataManager dataManager();
 
 }

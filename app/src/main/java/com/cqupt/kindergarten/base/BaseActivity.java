@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 public abstract class BaseActivity extends AppCompatActivity{
 
     private static final long TIME_INTERVAL = 2 * 1000;
@@ -38,10 +40,11 @@ public abstract class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(getLayoutID());
+        ButterKnife.bind(this);
         setUpComponent();
         initView();
         initData();
-
     }
 
 
@@ -255,4 +258,5 @@ public abstract class BaseActivity extends AppCompatActivity{
     public abstract void initView();
 
     public abstract void initData();
+    public abstract int getLayoutID();
 }

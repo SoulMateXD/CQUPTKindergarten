@@ -1,6 +1,5 @@
 package com.cqupt.kindergarten.injection.module;
 
-import com.cqupt.kindergarten.model.DataManager;
 import com.cqupt.kindergarten.presenter.LoginFragmentPresenter;
 import com.cqupt.kindergarten.presenter.MineFragmentPresenter;
 import com.cqupt.kindergarten.ui.fragment.LoginFragment;
@@ -21,7 +20,7 @@ public class LoginFragmentModule{
     }
 
     @Provides
-    public LoginFragmentPresenter providesLoginFragmentPresenter(DataManager dataManager){
-        return new LoginFragmentPresenter(dataManager);
+    public LoginFragmentPresenter providesLoginFragmentPresenter(){
+        return new LoginFragmentPresenter();
     }
 }

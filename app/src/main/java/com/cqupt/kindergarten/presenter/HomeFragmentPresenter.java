@@ -1,7 +1,6 @@
 package com.cqupt.kindergarten.presenter;
 
 import com.cqupt.kindergarten.base.BasePresenter;
-import com.cqupt.kindergarten.model.DataManager;
 import com.cqupt.kindergarten.ui.ui_interface.IHomeFragmentInterface;
 
 /**
@@ -10,6 +9,6 @@ import com.cqupt.kindergarten.ui.ui_interface.IHomeFragmentInterface;
 
 public class HomeFragmentPresenter extends BasePresenter<IHomeFragmentInterface>{
 
-    public HomeFragmentPresenter(DataManager dataManager){
+    public HomeFragmentPresenter(){
     }
 }

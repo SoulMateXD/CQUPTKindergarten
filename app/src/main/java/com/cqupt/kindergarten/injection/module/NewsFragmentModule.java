@@ -1,6 +1,5 @@
 package com.cqupt.kindergarten.injection.module;
 
-import com.cqupt.kindergarten.model.DataManager;
 import com.cqupt.kindergarten.presenter.NewsFragmentPresenter;
 import com.cqupt.kindergarten.ui.fragment.NewsFragment;
 
@@ -19,7 +18,7 @@ public class NewsFragmentModule {
     }
 
     @Provides
-    public NewsFragmentPresenter providesNewsFragmentPresenter(DataManager dataManager){
-        return new NewsFragmentPresenter(dataManager);
+    public NewsFragmentPresenter providesNewsFragmentPresenter(){
+        return new NewsFragmentPresenter();
     }
 }

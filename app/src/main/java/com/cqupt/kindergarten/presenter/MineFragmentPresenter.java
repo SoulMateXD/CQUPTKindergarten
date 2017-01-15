@@ -1,7 +1,6 @@
 package com.cqupt.kindergarten.presenter;
 
 import com.cqupt.kindergarten.base.BasePresenter;
-import com.cqupt.kindergarten.model.DataManager;
 import com.cqupt.kindergarten.ui.ui_interface.IMineFragmentInterface;
 
 /**
@@ -10,6 +9,8 @@ import com.cqupt.kindergarten.ui.ui_interface.IMineFragmentInterface;
 
 public class MineFragmentPresenter extends BasePresenter<IMineFragmentInterface>{
 
-    public MineFragmentPresenter(DataManager dataManager){
+//    public MineFragmentPresenter(DataManager dataManager){
+//    }
+    public MineFragmentPresenter(){
     }
 }

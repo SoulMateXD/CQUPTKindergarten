@@ -3,4 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorBottomText">#e2d7db</color>
+    <color name="colorBottomIcon">#71d9f1</color>
+    <color name="colorBottomBG">#98284bbc</color>
+    <color name="colorNormalBG">#ffffff</color>
+    <color name="colorToolbar">#639ad4</color>
 </resources>

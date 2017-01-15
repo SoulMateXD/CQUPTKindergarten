@@ -1,6 +1,5 @@
 package com.cqupt.kindergarten.injection.module;
 
-import com.cqupt.kindergarten.model.DataManager;
 import com.cqupt.kindergarten.presenter.MineFragmentPresenter;
 import com.cqupt.kindergarten.ui.fragment.MineFragment;
 
@@ -19,7 +18,7 @@ public class MineFragmentModule{
     }
 
     @Provides
-    public MineFragmentPresenter providesMineFragmentPresenter(DataManager dataManager){
-        return new MineFragmentPresenter(dataManager);
+    public MineFragmentPresenter providesMineFragmentPresenter(){
+        return new MineFragmentPresenter();
     }
 }

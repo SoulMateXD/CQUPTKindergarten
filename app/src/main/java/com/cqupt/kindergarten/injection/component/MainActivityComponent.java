@@ -1,5 +1,6 @@
 package com.cqupt.kindergarten.injection.component;
 
+import com.cqupt.kindergarten.adapter.MainViewPagerAdapter;
 import com.cqupt.kindergarten.injection.module.MainActivityModule;
 import com.cqupt.kindergarten.presenter.MainActivityPresenter;
 import com.cqupt.kindergarten.ui.activity.MainActivity;
