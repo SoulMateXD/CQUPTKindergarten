@@ -9,4 +9,5 @@
     <color name="colorNormalBG">#ffffff</color>
     <color name="colorToolbar">#639ad4</color>
     <color name="colorLoginFindPass">#306eff</color>
+    <color name="selector">#cdcdcd</color>
 </resources>

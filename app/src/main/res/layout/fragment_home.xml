@@ -8,11 +8,8 @@
         android:id="@+id/img_home_big"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-<<<<<<< HEAD
+
         android:src="@mipmap/img_home_big"
         android:scaleType="centerCrop"/>
-=======
-        android:text="home"/>
->>>>>>> d32692f00e37bd2e0a026123789c1c508dd94145
 
 </FrameLayout>
