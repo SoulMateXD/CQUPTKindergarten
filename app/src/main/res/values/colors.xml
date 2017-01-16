@@ -6,7 +6,7 @@
     <color name="colorBottomText">#e2d7db</color>
     <color name="colorBottomIcon">#71d9f1</color>
     <color name="colorBottomBG">#98284bbc</color>
-    <color name="colorNormalBG">#ffffff</color>
+    <color name="colorNormalBG">#edebeb</color>
     <color name="colorToolbar">#639ad4</color>
     <color name="colorLoginFindPass">#306eff</color>
     <color name="selector">#cdcdcd</color>
