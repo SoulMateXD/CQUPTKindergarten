@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-<<<<<<< HEAD
+
         android:layout_height="52sp"
         android:background="@android:color/white"
         android:orientation="vertical">
@@ -20,13 +20,5 @@
             android:textColor="@android:color/black"
             android:textSize="18sp" />
     </RelativeLayout>
-
-
-
-=======
-        android:layout_height="match_parent"
-        android:text="news"
-        android:textColor="@color/colorAccent"/>
->>>>>>> d32692f00e37bd2e0a026123789c1c508dd94145
 
 </FrameLayout>
