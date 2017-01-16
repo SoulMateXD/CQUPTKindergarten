@@ -99,6 +99,7 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
                     .applicationComponent(KindergartenApplication.get().getApplicationComponent())
                     .noticeListFragmentModule(new NoticeListFragmentModule(this))
                     .build();
+            mNoticeListFragmentComponent.inject(this);
         }
     }
 

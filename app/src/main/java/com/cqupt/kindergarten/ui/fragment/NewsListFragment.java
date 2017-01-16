@@ -1,5 +1,6 @@
 package com.cqupt.kindergarten.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.cqupt.kindergarten.injection.component.DaggerNewsListFragmentComponen
 import com.cqupt.kindergarten.injection.component.NewsListFragmentComponent;
 import com.cqupt.kindergarten.injection.module.NewsListFragmentModule;
 import com.cqupt.kindergarten.presenter.NewsListFragmentPresenter;
+import com.cqupt.kindergarten.ui.activity.NewsDetailActivity;
 import com.cqupt.kindergarten.ui.ui_interface.INewsListFragment;
 import com.cqupt.kindergarten.util.ToastUtils;
 
@@ -72,7 +74,8 @@ public class NewsListFragment extends BaseFragment implements INewsListFragment,
         mAdapter.setOnItemClickLitener(new NewsListAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtils.showShortToast("您点击了第"+position+"个内容");
+                //ToastUtils.showShortToast("您点击了第"+position+"个内容");
+                startActivity(new Intent(getActivity(), NewsDetailActivity.class));
             }
         });
         ///mSwipeRefreshWidget.setRefreshing(true);
@@ -97,6 +100,7 @@ public class NewsListFragment extends BaseFragment implements INewsListFragment,
                     .applicationComponent(KindergartenApplication.get().getApplicationComponent())
                     .newsListFragmentModule(new NewsListFragmentModule(this))
                     .build();
+            mNewsListFragmentComponent.inject(this);
         }
     }
 
