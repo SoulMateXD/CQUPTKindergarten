@@ -1,15 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorNormalBG"
-                tools:context="com.cqupt.kindergarten.ui.fragment.LoginFragment">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/colorNormalBG"
+             tools:context="com.cqupt.kindergarten.ui.fragment.LoginFragment">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="50dp"
         android:background="@color/colorNormalBG"
         app:cardCornerRadius="2dp"
         app:cardElevation="@dimen/card_elevation"
@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorNormalBG">
+
 
             <LinearLayout
                 android:id="@+id/phone"
@@ -33,6 +34,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:contentDescription="nothing"
+                    android:layout_marginRight="@dimen/paddingFindPass"
                     android:scaleType="fitXY"
                     android:src="@mipmap/icon_phone"/>
 
@@ -41,20 +43,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="#848484"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="11"
-                    app:counterOverflowTextAppearance="@color/colorAccent"
-                    app:counterTextAppearance="@color/colorBottomBG">
+                    >
 
                     <EditText
                         android:id="@+id/et_username"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/edit_bg"
                         android:hint="@string/phone_number"
-                        android:inputType="phone"/>
+                        android:inputType="phone"
+                        android:textColor="@color/color_button_font_bg"/>
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/pass"
@@ -69,6 +71,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/paddingFindPass"
                     android:contentDescription="nothing"
                     android:scaleType="fitXY"
                     android:src="@mipmap/icon_password"/>
@@ -78,20 +81,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="#848484"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="16"
-                    app:counterOverflowTextAppearance="@color/colorAccent"
-                    app:counterTextAppearance="@color/colorBottomBG">
+                    >
 
                     <EditText
                         android:id="@+id/et_password"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/edit_bg"
                         android:hint="@string/et_password"
-                        android:inputType="textPassword"/>
+                        android:inputType="textPassword"
+                        android:textColor="@color/color_button_font_bg"/>
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_find_the_pass"
@@ -146,4 +149,4 @@
             </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-</FrameLayout >
+</FrameLayout>
