@@ -1,5 +1,6 @@
 package com.cqupt.kindergarten.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.cqupt.kindergarten.injection.component.DaggerNewsFragmentComponent;
 import com.cqupt.kindergarten.injection.component.NewsFragmentComponent;
 import com.cqupt.kindergarten.injection.module.NewsFragmentModule;
 import com.cqupt.kindergarten.presenter.NewsFragmentPresenter;
+import com.cqupt.kindergarten.ui.activity.NewsActivity;
 import com.cqupt.kindergarten.ui.ui_interface.INewsFragmentInterface;
 import com.cqupt.kindergarten.util.GlideImageLoader;
 import com.cqupt.kindergarten.util.ToastUtils;
@@ -76,7 +78,7 @@ public class NewsFragment extends BaseFragment implements INewsFragmentInterface
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_news:
-
+                startActivity(new Intent(getActivity(), NewsActivity.class));
                 break;
             case R.id.ll_knowledge:
                 break;

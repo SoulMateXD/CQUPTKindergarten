@@ -11,4 +11,12 @@ public class NewsListFragmentPresenter extends BasePresenter<IHomeFragmentInterf
 
     public NewsListFragmentPresenter(){
     }
+
+    void getNoticeList(){
+
+    }
+
+    void getNewsList(){
+
+    }
 }
