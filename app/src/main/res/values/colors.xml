@@ -10,4 +10,5 @@
     <color name="colorToolbar">#639ad4</color>
     <color name="colorLoginFindPass">#306eff</color>
     <color name="selector">#cdcdcd</color>
+    <color name="color_tab_bg">#e7e3e3</color>
 </resources>
