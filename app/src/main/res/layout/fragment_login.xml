@@ -1,152 +1,139 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/colorNormalBG"
-             tools:context="com.cqupt.kindergarten.ui.fragment.LoginFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorNormalBG"
+                tools:context="com.cqupt.kindergarten.ui.fragment.LoginFragment">
 
-    <android.support.v7.widget.CardView
+
+    <LinearLayout
+        android:id="@+id/phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="@color/colorNormalBG"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="@dimen/card_elevation"
-        app:cardPreventCornerOverlap="true">
+        android:layout_margin="@dimen/paddingFindPass"
+        android:layout_marginTop="@dimen/login_margin_top"
+        android:orientation="horizontal">
 
-        <RelativeLayout
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/paddingFindPass"
+            android:contentDescription="nothing"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_phone"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_usernameText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorNormalBG">
+            android:layout_height="wrap_content"
+            android:textColorHint="#848484"
+            >
 
-
-            <LinearLayout
-                android:id="@+id/phone"
+            <EditText
+                android:id="@+id/et_username"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/paddingFindPass"
-                android:layout_marginTop="@dimen/login_margin_top"
-                android:orientation="horizontal">
+                android:layout_height="40dp"
+                android:background="@drawable/edit_bg"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:textColor="@color/color_button_font_bg"
+                android:textSize="14sp"/>
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="nothing"
-                    android:layout_marginRight="@dimen/paddingFindPass"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/icon_phone"/>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/et_usernameText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="#848484"
-                    >
-
-                    <EditText
-                        android:id="@+id/et_username"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@drawable/edit_bg"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:textColor="@color/color_button_font_bg"/>
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/pass"
+    <LinearLayout
+        android:id="@+id/pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phone"
+        android:layout_margin="@dimen/paddingFindPass"
+        android:layout_marginTop="@dimen/login_margin_top"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/paddingFindPass"
+            android:contentDescription="nothing"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_password"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/et_passwordText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#848484"
+
+            >
+
+            <EditText
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/phone"
-                android:layout_margin="@dimen/paddingFindPass"
-                android:layout_marginTop="@dimen/login_margin_top"
-                android:orientation="horizontal">
+                android:layout_height="40dp"
+                android:background="@drawable/edit_bg"
+                android:hint="@string/et_password"
+                android:inputType="textPassword"
+                android:textColor="@color/color_button_font_bg"
+                android:textSize="14sp"/>
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="@dimen/paddingFindPass"
-                    android:contentDescription="nothing"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/icon_password"/>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/et_passwordText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColorHint="#848484"
-                    >
-
-                    <EditText
-                        android:id="@+id/et_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="@drawable/edit_bg"
-                        android:hint="@string/et_password"
-                        android:inputType="textPassword"
-                        android:textColor="@color/color_button_font_bg"/>
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tv_find_the_pass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/pass"
-                android:layout_marginTop="@dimen/login_margin_top"
-                android:paddingRight="@dimen/paddingFindPass"
-                android:text="@string/find_the_password"
-                android:textColor="@color/colorLoginFindPass"/>
+    <TextView
+        android:id="@+id/tv_find_the_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/pass"
+        android:layout_marginTop="@dimen/login_margin_top"
+        android:paddingRight="@dimen/paddingFindPass"
+        android:text="@string/find_the_password"
+        android:textColor="@color/colorLoginFindPass"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_find_the_pass"
-                android:layout_marginTop="@dimen/login_margin_top"
-                android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_find_the_pass"
+        android:layout_marginTop="@dimen/login_margin_top"
+        android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-                <Button
-                    android:id="@+id/btn_registered"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/color_button_bg"
-                    android:text="@string/registered"
-                    android:textColor="@color/color_button_font_bg"/>
+        <Button
+            android:id="@+id/btn_registered"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/color_button_bg"
+            android:text="@string/registered"
+            android:textColor="@color/color_button_font_bg"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-                <Button
-                    android:id="@+id/btn_login"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/color_button_bg"
-                    android:text="@string/login"
-                    android:textColor="@color/color_button_font_bg"/>
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/color_button_bg"
+            android:text="@string/login"
+            android:textColor="@color/color_button_font_bg"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-</FrameLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</RelativeLayout>

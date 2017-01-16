@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.cqupt.kindergarten.R;
 import com.cqupt.kindergarten.base.BaseActivity;
@@ -44,14 +46,16 @@ public class NewsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        getSupportActionBar();
-        mToolbar.setTitle("新闻与公告");
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitle("资讯");
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
         mFragments.add(NewsListFragment.newInstance());
         mFragments.add(NoticeListFragment.newInstance());
-        mTitles.add("校园公告");
         mTitles.add("校园新闻");
+        mTitles.add("校园公告");
         mViewPager.setAdapter(new NewsAdapter(getSupportFragmentManager(),mFragments,mTitles));
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setCurrentItem(0);
@@ -101,5 +105,22 @@ public class NewsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.getMenuInflater().inflate(R.menu.empty_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
