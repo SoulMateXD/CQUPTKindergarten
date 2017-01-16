@@ -1,127 +1,149 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorBottomBG"
+                android:background="@color/colorNormalBG"
                 tools:context="com.cqupt.kindergarten.ui.fragment.LoginFragment">
 
-
-    <LinearLayout
-        android:id="@+id/phone"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/paddingFindPass"
-        android:layout_marginTop="@dimen/login_margin_top"
-        android:orientation="horizontal">
+        android:layout_marginTop="100dp"
+        android:background="@color/colorNormalBG"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="@dimen/card_elevation"
+        app:cardPreventCornerOverlap="true">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:contentDescription="nothing"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"/>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_usernameText"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:counterEnabled="true"
-            app:counterMaxLength="11"
-            app:counterOverflowTextAppearance="@color/colorAccent">
+            android:layout_height="match_parent"
+            android:background="@color/colorNormalBG">
 
-            <EditText
-                android:id="@+id/et_username"
+            <LinearLayout
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/phone_number"
-                android:inputType="phone"/>
+                android:layout_margin="@dimen/paddingFindPass"
+                android:layout_marginTop="@dimen/login_margin_top"
+                android:orientation="horizontal">
 
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="nothing"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_phone"/>
 
-    <LinearLayout
-        android:id="@+id/pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/phone"
-        android:layout_margin="@dimen/paddingFindPass"
-        android:layout_marginTop="@dimen/login_margin_top"
-        android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/et_usernameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#848484"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="11"
+                    app:counterOverflowTextAppearance="@color/colorAccent"
+                    app:counterTextAppearance="@color/colorBottomBG">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:contentDescription="nothing"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher"/>
+                    <EditText
+                        android:id="@+id/et_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/phone_number"
+                        android:inputType="phone"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_passwordText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:counterEnabled="true"
-            app:counterMaxLength="16"
-            app:counterOverflowTextAppearance="@color/colorAccent">
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/et_password"
+            <LinearLayout
+                android:id="@+id/pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/et_password"
-                android:inputType="textPassword"/>
+                android:layout_below="@+id/phone"
+                android:layout_margin="@dimen/paddingFindPass"
+                android:layout_marginTop="@dimen/login_margin_top"
+                android:orientation="horizontal">
 
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="nothing"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_password"/>
 
-    <TextView
-        android:id="@+id/tv_find_the_pass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/pass"
-        android:layout_marginTop="@dimen/login_margin_top"
-        android:paddingRight="@dimen/paddingFindPass"
-        android:text="@string/find_the_password"
-        android:textColor="@color/colorLoginFindPass"/>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/et_passwordText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#848484"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="16"
+                    app:counterOverflowTextAppearance="@color/colorAccent"
+                    app:counterTextAppearance="@color/colorBottomBG">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_find_the_pass"
-        android:layout_marginTop="@dimen/login_margin_top"
-        android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/et_password"
+                        android:inputType="textPassword"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_registered"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/registered"/>
+            <TextView
+                android:id="@+id/tv_find_the_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/pass"
+                android:layout_marginTop="@dimen/login_margin_top"
+                android:paddingRight="@dimen/paddingFindPass"
+                android:text="@string/find_the_password"
+                android:textColor="@color/colorLoginFindPass"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_find_the_pass"
+                android:layout_marginTop="@dimen/login_margin_top"
+                android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/login"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </LinearLayout>
+                <Button
+                    android:id="@+id/btn_registered"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/color_button_bg"
+                    android:text="@string/registered"
+                    android:textColor="@color/color_button_font_bg"/>
 
-</RelativeLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/color_button_bg"
+                    android:text="@string/login"
+                    android:textColor="@color/color_button_font_bg"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout >

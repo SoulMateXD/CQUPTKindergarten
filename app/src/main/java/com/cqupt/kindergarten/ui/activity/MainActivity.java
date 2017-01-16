@@ -81,6 +81,7 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
         mMainViewPager.addOnPageChangeListener(this);
         mMainViewPager.setAdapter(mMainViewPagerAdapter);
         mMainViewPager.setOnTouchListener(this);
+        mMainActivityPresenter.registerLocalBroadcast(this);
     }
 
     @Override
@@ -105,19 +106,11 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
             case R.id.mine:
                 mMainViewPager.setCurrentItem(3);
                 if(isLogin){
-                    fragmentsUpdateFlag[3] = true;
-                    mMainViewPagerAdapter.setFragmentsUpdateFlag(fragmentsUpdateFlag);
-                    //替换fragment
-                    mFragment.set(3, new MineFragment());
-                    mMainViewPagerAdapter.notifyDataSetChanged();
+                    replaceFragment(3, new MineFragment());
                 } else{
-                    fragmentsUpdateFlag[3] = true;
-                    //替换fragment
-                    mMainViewPagerAdapter.setFragmentsUpdateFlag(fragmentsUpdateFlag);
-                    mFragment.set(3, new LoginFragment());
-                    mMainViewPagerAdapter.notifyDataSetChanged();
+                    replaceFragment(3, new LoginFragment());
                 }
-                Log.e("xxxxxxxxx", isLogin + "");
+                //测试
                 isLogin = !isLogin;
                 break;
         }
@@ -153,4 +146,12 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
         return true;
     }
 
+    @Override
+    public void replaceFragment(int position, Fragment fragment){
+        fragmentsUpdateFlag[position] = true;
+        //替换fragment
+        mMainViewPagerAdapter.setFragmentsUpdateFlag(fragmentsUpdateFlag);
+        mFragment.set(position, fragment);
+        mMainViewPagerAdapter.notifyDataSetChanged();
+    }
 }

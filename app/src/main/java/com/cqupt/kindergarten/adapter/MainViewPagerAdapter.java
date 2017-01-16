@@ -16,7 +16,7 @@ import java.util.List;
 public class MainViewPagerAdapter extends FragmentPagerAdapter{
 
     private List<Fragment> fragmentList;
-    private boolean fragmentsUpdateFlag[] = {false, false, false, false};;
+    private boolean fragmentsUpdateFlag[] = {false, false, false, false};
 
     private FragmentManager fm;
 

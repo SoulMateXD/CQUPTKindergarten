@@ -1,11 +1,8 @@
 package com.cqupt.kindergarten.ui.fragment;
 
-import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -23,7 +20,6 @@ import com.cqupt.kindergarten.ui.ui_interface.ILoginFragmentInterface;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -80,17 +76,29 @@ public class LoginFragment extends BaseFragment implements ILoginFragmentInterfa
         }
     }
 
-
-
     @OnClick({R.id.tv_find_the_pass, R.id.btn_registered, R.id.btn_login})
     public void onClick(View view){
         switch(view.getId()){
             case R.id.tv_find_the_pass:
+
                 break;
             case R.id.btn_registered:
+                mLoginFragmentPresenter.notifyMainActivityReplace(getContext());
                 break;
             case R.id.btn_login:
+                mLoginFragmentPresenter.login(getContext(), mEtUsername.getText()
+                        .toString(), mEtPassword.getText().toString());
                 break;
         }
+    }
+
+    @Override
+    public void loginFail(){
+
+    }
+
+    @Override
+    public void loginSuccess(){
+
     }
 }
