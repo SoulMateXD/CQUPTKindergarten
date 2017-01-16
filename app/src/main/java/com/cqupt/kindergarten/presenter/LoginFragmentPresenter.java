@@ -31,6 +31,7 @@ public class LoginFragmentPresenter extends BasePresenter<ILoginFragmentInterfac
 
         Intent intent = new Intent(FRAGMENT_REPLACE);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        System.out.println("发送成功");
     }
 
     public void login(Context context, String etUsername, String etPassword){

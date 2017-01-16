@@ -55,6 +55,7 @@ public class MainActivityPresenter extends BasePresenter<IMainActivityInterface>
                 switch(action){
                     case FRAGMENT_REPLACE:
                         mainActivity.replaceFragment(3, new RegisteredFragment());
+                        System.out.println("接受成功");
                         break;
                     case FRAGMENT_BACK:
                         mainActivity.replaceFragment(3, new LoginFragment());
