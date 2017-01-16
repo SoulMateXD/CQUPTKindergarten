@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.cqupt.kindergarten.presenter.MainActivityPresenter;
 import com.cqupt.kindergarten.ui.fragment.LoginFragment;
 import com.cqupt.kindergarten.ui.fragment.MineFragment;
 import com.cqupt.kindergarten.ui.ui_interface.IMainActivityInterface;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -46,6 +49,8 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
     private MainViewPagerAdapter mMainViewPagerAdapter;
     private MenuItem menuItem;
     private boolean isLogin = false;
+    private boolean fragmentsUpdateFlag[] = {false, false, false, false};
+    private List<Fragment> mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -70,13 +75,13 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
 
     @Override
     public void initData(){
-        //        mMainActivityPresenter = new MainActivityPresenter();
-        mMainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), mMainActivityPresenter
-                .getFragment());
+        mFragment = mMainActivityPresenter.getFragment();
+        mMainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), mFragment);
         mMainBottom.setOnNavigationItemSelectedListener(this);
         mMainViewPager.addOnPageChangeListener(this);
         mMainViewPager.setAdapter(mMainViewPagerAdapter);
         mMainViewPager.setOnTouchListener(this);
+        mMainActivityPresenter.registerLocalBroadcast(this);
     }
 
     @Override
@@ -100,6 +105,13 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
                 break;
             case R.id.mine:
                 mMainViewPager.setCurrentItem(3);
+                if(isLogin){
+                    replaceFragment(3, new MineFragment());
+                } else{
+                    replaceFragment(3, new LoginFragment());
+                }
+                //测试
+                isLogin = !isLogin;
                 break;
         }
         return false;
@@ -120,18 +132,7 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
         }
         menuItem = mMainBottom.getMenu().getItem(position);
         menuItem.setChecked(true);
-        if(position == 3){
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(MineFragment.class.getName());
-            if(fragment != null && isLogin){
-                getSupportFragmentManager().beginTransaction().show(fragment).commit();
-            } else{
-                Fragment loginFragment = getSupportFragmentManager().findFragmentByTag(LoginFragment.class
-                                                                                               .getName());
-                if(loginFragment != null){
-                    getSupportFragmentManager().beginTransaction().show(loginFragment).commit();
-                }
-            }
-        }
+
     }
 
     @Override
@@ -143,5 +144,14 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent){
         return true;
+    }
+
+    @Override
+    public void replaceFragment(int position, Fragment fragment){
+        fragmentsUpdateFlag[position] = true;
+        //替换fragment
+        mMainViewPagerAdapter.setFragmentsUpdateFlag(fragmentsUpdateFlag);
+        mFragment.set(position, fragment);
+        mMainViewPagerAdapter.notifyDataSetChanged();
     }
 }

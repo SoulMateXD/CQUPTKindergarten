@@ -13,8 +13,9 @@ import dagger.Component;
  * Created by inferno on 2017/1/14.
  */
 @ActivityScope
-@Component(dependencies = ApplicationComponent.class,modules = ClassFragmentModule.class)
+@Component(dependencies = ApplicationComponent.class, modules = ClassFragmentModule.class)
 public interface ClassFragmentComponent{
     void inject(ClassFragment classFragment);
+
     ClassFragmentPresenter classFragmentPresenter();
 }

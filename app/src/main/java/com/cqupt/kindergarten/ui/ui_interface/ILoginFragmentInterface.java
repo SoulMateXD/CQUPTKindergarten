@@ -7,4 +7,8 @@ import com.cqupt.kindergarten.base.MvpView;
  */
 
 public interface ILoginFragmentInterface extends MvpView{
+
+    void loginFail();
+
+    void loginSuccess();
 }

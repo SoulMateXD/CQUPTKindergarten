@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="paddingFindPass">10dp</dimen>
     <dimen name="login_margin_top">20dp</dimen>
+    <dimen name="et_register_font">13sp</dimen>
+    <dimen name="card_elevation">1dp</dimen>
 </resources>

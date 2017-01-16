@@ -9,4 +9,10 @@
     <color name="colorNormalBG">#ffffff</color>
     <color name="colorToolbar">#639ad4</color>
     <color name="colorLoginFindPass">#306eff</color>
+    <color name="selector">#cdcdcd</color>
+    <color name="color_tab_bg">#e7e3e3</color>
+    <color name="color_login_bg">#e7e3e3</color>
+    <color name="color_button_bg">#ffffff</color>
+    <color name="color_button_font_bg">#000000</color>
+    <color name="color_line">#aeaeae</color>
 </resources>
