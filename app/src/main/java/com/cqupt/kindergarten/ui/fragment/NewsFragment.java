@@ -13,6 +13,7 @@ import com.cqupt.kindergarten.injection.component.DaggerNewsFragmentComponent;
 import com.cqupt.kindergarten.injection.component.NewsFragmentComponent;
 import com.cqupt.kindergarten.injection.module.NewsFragmentModule;
 import com.cqupt.kindergarten.presenter.NewsFragmentPresenter;
+import com.cqupt.kindergarten.ui.activity.KnowledgeActivity;
 import com.cqupt.kindergarten.ui.activity.NewsActivity;
 import com.cqupt.kindergarten.ui.ui_interface.INewsFragmentInterface;
 import com.cqupt.kindergarten.util.GlideImageLoader;
@@ -81,6 +82,7 @@ public class NewsFragment extends BaseFragment implements INewsFragmentInterface
                 startActivity(new Intent(getActivity(), NewsActivity.class));
                 break;
             case R.id.ll_knowledge:
+                startActivity(new Intent(getActivity(), KnowledgeActivity.class));
                 break;
         }
     }

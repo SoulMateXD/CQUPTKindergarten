@@ -2,9 +2,6 @@ package com.cqupt.kindergarten.ui.activity;
 
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -79,7 +76,7 @@ public class NewsDetailActivity extends BaseActivity implements INewsDetailActiv
 
     @Override
     public int getLayoutID() {
-        return R.layout.activity_scrolling;
+        return R.layout.activity_news_detail;
     }
 
     @Override

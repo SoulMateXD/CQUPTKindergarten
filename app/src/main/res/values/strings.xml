@@ -25,8 +25,8 @@
     <string name="send_verification">发送验证码</string>
     <string name="title_activity_news">公告与新闻</string>
     <string name="title_fragment_class">班级</string>
-    <string name="title_activity_news_detail">NewsDetailActivity</string>
+    <string name="title_activity_news_detail">详情</string>
+    <string name="title_activity_news_knowledge">成长知识</string>
     <string name="large_text">
     </string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
 </resources>

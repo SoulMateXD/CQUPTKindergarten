@@ -28,6 +28,12 @@
             android:theme="@style/NoActionBar"
             android:label="@string/title_activity_news_detail">
         </activity>
+
+        <activity
+            android:name=".ui.activity.KnowledgeActivity"
+            android:label="@string/title_activity_news_knowledge"
+            android:theme="@style/NoActionBar">
+        </activity>
     </application>
 
 </manifest>
