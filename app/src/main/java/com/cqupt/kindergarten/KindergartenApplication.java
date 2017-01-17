@@ -6,6 +6,7 @@ import android.content.Context;
 import com.cqupt.kindergarten.injection.component.ApplicationComponent;
 import com.cqupt.kindergarten.injection.component.DaggerApplicationComponent;
 import com.cqupt.kindergarten.injection.module.ApplicationModule;
+import com.cqupt.kindergarten.ui.activity.MainActivity;
 
 public class KindergartenApplication extends Application{
 
