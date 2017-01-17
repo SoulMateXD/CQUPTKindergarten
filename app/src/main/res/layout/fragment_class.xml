@@ -1,14 +1,95 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:background="#ebebeb"
              tools:context="com.cqupt.kindergarten.ui.fragment.ClassFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:textColor="@color/colorAccent"
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/class_main_timetable"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="class"/>
+        android:layout_height="wrap_content"
+        >
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="班级课表"
+            android:textColor="#252525"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:layout_marginLeft="20dp"
+            />
+    </RelativeLayout>
+
+    <include layout="@layout/gray_line"/>
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/class_main_cookbook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="班级食谱"
+            android:textColor="#252525"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:layout_marginLeft="20dp"
+            />
+    </RelativeLayout>
+
+    <include layout="@layout/gray_line"/>
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/class_main_album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="班级相册"
+            android:textColor="#252525"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:layout_marginLeft="20dp"
+            />
+    </RelativeLayout>
+
+    <include layout="@layout/gray_line"/>
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/class_main_teacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="班级教师"
+            android:textColor="#252525"
+            android:gravity="center_vertical"
+            android:textSize="17sp"
+            android:layout_marginLeft="20dp"
+            />
+    </RelativeLayout>
+
+    <include layout="@layout/gray_line"/>
+
+
+</LinearLayout>

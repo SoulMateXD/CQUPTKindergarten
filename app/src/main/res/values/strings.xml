@@ -24,4 +24,5 @@
     <string name="verification">请输入验证码</string>
     <string name="send_verification">发送验证码</string>
     <string name="title_activity_news">公告与新闻</string>
+    <string name="title_fragment_class">班级</string>
 </resources>

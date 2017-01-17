@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseFragment extends Fragment{
 
-    private View mView;
+    public View mView;
     private PermissionsListener mListener;
     private int mRequestCode;
 
