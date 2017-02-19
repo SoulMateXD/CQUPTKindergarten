@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_class_album"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_class"
+    tools:context="com.cqupt.kindergarten.ui.activity.ClassAlbumActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/class_album_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorToolbar"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/class_album_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/class_album_toolbar"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_class_time_table"
+    android:background="@color/color_class"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cqupt.kindergarten.ui.activity.ClassTimeTableActivity">
+
+
+
+    <LinearLayout
+        android:id="@+id/activity_class_time_number"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/class_timetable_toolbar"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginTop="50dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="1"
+            android:textColor="@color/color_class_timetable_number"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="2"
+            android:textColor="@color/color_class_timetable_number"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="3"
+            android:textColor="@color/color_class_timetable_number"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="4"
+            android:textColor="@color/color_class_timetable_number"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="5"
+            android:textColor="@color/color_class_timetable_number"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="6"
+            android:textColor="@color/color_class_timetable_number"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="7"
+            android:textColor="@color/color_class_timetable_number"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="8"
+            android:textColor="@color/color_class_timetable_number"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/class_timetable_week"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/class_timetable_toolbar"
+        android:layout_toRightOf="@id/activity_class_time_number">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="一"
+            android:textColor="@color/color_class_timetable_number"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="二"
+            android:textColor="@color/color_class_timetable_number"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="三"
+            android:textColor="@color/color_class_timetable_number"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="四"
+            android:textColor="@color/color_class_timetable_number"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="五"
+            android:textColor="@color/color_class_timetable_number"/>
+
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/class_timetable_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/class_timetable_week"
+        android:layout_toRightOf="@id/activity_class_time_number"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:numColumns="5"
+        android:scrollbars="none"
+        android:verticalSpacing="1dp"
+        android:horizontalSpacing="1dp"
+        />
+
+
+
+
+</RelativeLayout>

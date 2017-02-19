@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.cqupt.kindergarten">
+    package="com.cqupt.kindergarten">
 
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".KindergartenApplication"
@@ -15,19 +15,22 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.NewsActivity"
-            android:label="@string/title_activity_news"/>
+            android:label="@string/title_activity_news" />
         <activity
             android:name=".ui.activity.NewsDetailActivity"
-            android:theme="@style/NoActionBar"
-            android:label="@string/title_activity_news_detail">
-        </activity>
+            android:label="@string/title_activity_news_detail"
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".ui.activity.ClassTimeTableActivity" />
+        <activity android:name=".ui.activity.ClassCookBookActivity" />
+        <activity android:name=".ui.activity.ClassAlbumActivity" />
+        <activity android:name=".ui.activity.CLassTeacherAvtivity"></activity>
     </application>
 
 </manifest>

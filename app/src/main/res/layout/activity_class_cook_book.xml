@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_class_cook_book"
+    android:background="@color/color_class"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cqupt.kindergarten.ui.activity.ClassCookBookActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/cook_book_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorToolbar">
+
+        <TextView
+            android:id="@+id/cook_book_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+    </android.support.v7.widget.Toolbar>
+
+    <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cook_book_banner"
+        android:layout_width="match_parent"
+        app:image_scale_type ="center_crop"
+        android:layout_below="@id/cook_book_toolbar"
+        android:layout_height="200dp" />
+    
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cook_book_banner"
+        android:orientation="horizontal"
+        >
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今日食谱"
+                android:textSize="19sp"
+                android:layout_alignParentRight="true"
+                android:textColor="@color/cook_book_font" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/cook_book_recycler"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:layout_marginTop="5dp"
+            />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/cook_book_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2017年X月XX日"
+        android:textColor="@color/cook_book_font"
+        android:textSize="17sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/cook_book_cqupt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="重邮幼儿园"
+        android:textColor="@color/cook_book_font"
+        android:textSize="17sp"
+        android:layout_alignParentRight="true"
+        android:layout_above="@id/cook_book_date"
+        android:layout_marginRight="20dp"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_class"
+    >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_class"
+    >
+
+   <LinearLayout
+       android:layout_marginTop="20dp"
+       android:layout_width="0dp"
+       android:layout_height="wrap_content"
+       android:layout_weight="1"
+       android:orientation="vertical"
+       >
+       <TextView
+           android:id="@+id/item_class_infolist_teacher_child_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="王叶鱼"
+           android:textColor="@color/cook_book_font"
+           android:layout_marginLeft="15dp"
+           android:textSize="17sp"
+           />
+
+       <TextView
+           android:id="@+id/item_class_infolist_teacher_child_class"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="中三班"
+           android:textColor="@color/color_class_timetable_number"
+           android:layout_gravity="right"
+           android:layout_marginLeft="5dp"
+           android:textSize="13sp"
+           />
+
+   </LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        >
+        <TextView
+            android:id="@+id/item_calss_infolist_teacher_father_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="王XX"
+            android:textColor="@color/cook_book_font"
+            android:layout_marginLeft="30dp"
+            android:textSize="17sp"
+            />
+        <TextView
+            android:id="@+id/item_calss_infolist_teacher_father_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12345678910"
+            android:textColor="@color/cook_book_font"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp"
+            android:textSize="17sp"
+            />
+
+        <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="0.3dp"
+            android:background="#d5d5d5"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@id/item_calss_infolist_teacher_father_name"
+            android:layout_marginTop="5dp"
+            />
+
+        <TextView
+            android:id="@+id/item_calss_infolist_teacher_mother_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="周XX"
+            android:textColor="@color/cook_book_font"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@id/item_calss_infolist_teacher_father_name"
+            android:textSize="17sp"
+            android:layout_marginTop="11dp"
+            />
+        <TextView
+            android:id="@+id/item_calss_infolist_teacher_mother_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="98765432109"
+            android:textColor="@color/cook_book_font"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp"
+            android:layout_below="@id/item_calss_infolist_teacher_father_tel"
+            android:textSize="17sp"
+            android:layout_marginTop="11dp"
+            />
+    </RelativeLayout>
+
+</LinearLayout>
+
+    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:background="#d5d5d5"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/item_calss_infolist_teacher_father_name"
+        android:layout_marginTop="5dp"
+        />
+</LinearLayout>
