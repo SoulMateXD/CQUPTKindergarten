@@ -25,12 +25,24 @@
             android:label="@string/title_activity_news" />
         <activity
             android:name=".ui.activity.NewsDetailActivity"
+<<<<<<< HEAD
             android:label="@string/title_activity_news_detail"
             android:theme="@style/NoActionBar" />
         <activity android:name=".ui.activity.ClassTimeTableActivity" />
         <activity android:name=".ui.activity.ClassCookBookActivity" />
         <activity android:name=".ui.activity.ClassAlbumActivity" />
         <activity android:name=".ui.activity.CLassTeacherAvtivity"></activity>
+=======
+            android:theme="@style/NoActionBar"
+            android:label="@string/title_activity_news_detail">
+        </activity>
+
+        <activity
+            android:name=".ui.activity.KnowledgeActivity"
+            android:label="@string/title_activity_news_knowledge"
+            android:theme="@style/NoActionBar">
+        </activity>
+>>>>>>> a532274dc33ebc97767cb001d235b80bd204b5b7
     </application>
 
 </manifest>

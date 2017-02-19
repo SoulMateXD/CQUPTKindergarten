@@ -15,7 +15,11 @@
     <color name="color_button_bg">#ffffff</color>
     <color name="color_button_font_bg">#000000</color>
     <color name="color_line">#aeaeae</color>
+<<<<<<< HEAD
     <color name="color_class">#ebebeb</color>
     <color name="color_class_timetable_number">#7a7a7a</color>
     <color name="cook_book_font">#252525</color>
+=======
+    <color name="colorTagVideo">#22c928</color>
+>>>>>>> a532274dc33ebc97767cb001d235b80bd204b5b7
 </resources>
