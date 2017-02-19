@@ -94,26 +94,13 @@ public class ClassAlbumActivity extends AppCompatActivity {
             AlbumBean data = datas.get(position);
             holder.time.setText(data.getTime());
             AlbumGridViewAdapter adapter = new AlbumGridViewAdapter(data.getImgs(), context, holder.gridView);
+            adapter.setOnClickInterface(new OnClickInterface() {
+                @Override
+                public void onClick(View view, int position) {
+                    Toast.makeText(context, "您点击了第"+ position + "个图片", Toast.LENGTH_SHORT).show();
+                }
+            });
             holder.gridView.setAdapter(adapter);
-            setGridViewHeightByChildren(holder.gridView, data);
-        }
-
-        private void setGridViewHeightByChildren(GridView gridView, AlbumBean data){
-            AlbumGridViewAdapter adapter = (AlbumGridViewAdapter) gridView.getAdapter();
-
-            if (adapter == null){
-                return;
-            }
-
-            int totalHeight = 0;
-            int lineNum = data.getImgs().size()/4 + 1;
-            View item = adapter.getView(0, null, gridView);
-            item.measure(0, 0);
-            totalHeight = item.getMeasuredHeight()*lineNum;
-            ViewGroup.LayoutParams params = gridView.getLayoutParams();
-            params.height = totalHeight;
-            ((ViewGroup.MarginLayoutParams)params).setMargins(10, 10, 10, 10);
-            gridView.setLayoutParams(params);
         }
 
         @Override
@@ -134,10 +121,11 @@ public class ClassAlbumActivity extends AppCompatActivity {
         }
     }
 
-    private class AlbumGridViewAdapter extends BaseAdapter{
+    private class AlbumGridViewAdapter extends BaseAdapter implements View.OnClickListener{
         ArrayList<Integer> imgs;
         Context context;
         GridView gridView;
+        OnClickInterface onClickInterface;
 
         AlbumGridViewAdapter(ArrayList<Integer> imgs, Context context, GridView gridView){
             this.imgs = imgs;
@@ -166,16 +154,27 @@ public class ClassAlbumActivity extends AppCompatActivity {
             if (view == null){
                 imageView = (ImageView) LayoutInflater.from(context).inflate
                         (R.layout.item_class_album_gridview, viewGroup, false);
-                imageView.setLayoutParams(new ViewGroup.LayoutParams(
-                        (gridView.getWidth()-10)/4, (gridView.getWidth()-10)/2));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }else {
                 imageView = (ImageView) view;
             }
-
-            imageView.setImageResource(imgs.get(i));
+            imageView.setTag(i);
+            imageView.setOnClickListener(this);
             return imageView;
         }
+
+        @Override
+        public void onClick(View view) {
+            onClickInterface.onClick(view, (Integer) view.getTag());
+        }
+
+        public void setOnClickInterface(OnClickInterface onClickInterface) {
+            this.onClickInterface = onClickInterface;
+        }
+    }
+
+    private interface OnClickInterface{
+        void onClick(View view, int position);
     }
 
     private class AlbumBean{

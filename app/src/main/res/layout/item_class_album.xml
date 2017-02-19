@@ -18,7 +18,7 @@
         android:layout_marginLeft="40dp"
         />
 
-    <GridView
+    <com.cqupt.kindergarten.ui.activity.ClassAlbumGridVIew
         android:id="@+id/item_class_album_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
