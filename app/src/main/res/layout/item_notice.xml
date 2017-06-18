@@ -3,16 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cardview"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="140dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/colorNormalBG"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="2dp"
+    app:cardBackgroundColor="@color/white"
+    android:layout_marginLeft="13dp"
+    android:layout_marginRight="13dp"
+    android:layout_marginTop="15dp"
+    app:cardCornerRadius="4dp"
     >
 
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="8dp"
@@ -23,21 +25,43 @@
         <TextView
             android:id="@+id/tv_notice_title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="寒假放假通知"
             android:textSize="18sp"
-            android:textColor="@android:color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:textColor="#555555"
             />
+
 
         <TextView
             android:id="@+id/tv_notice_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:gravity="bottom"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
             android:text="2017-1-16"
-            android:textColor="@android:color/black"
+            android:textColor="#b7b7b7"
             android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tv_notice_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_notice_title"
+            android:layout_above="@id/tv_notice_time"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#797979"
+            android:textSize="14sp"
+            android:text="巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉"
+            android:ellipsize="end"
+            android:maxLines="3"
+            />
 
     </RelativeLayout>
 

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/item_handbook_video_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    >
+
+    <ImageView
+        android:id="@+id/item_video_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/soulmatexd"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="3dp"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/item_video_sth_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_video_image"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        >
+
+        <TextView
+            android:id="@+id/item_video_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016-3-17"
+            android:textColor="@color/item_video_date_text_color"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/item_video_message_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/message_icon"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/item_video_collect"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/collect_unclicked"
+            android:layout_toLeftOf="@id/item_video_message_icon"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            />
+
+        <ImageView
+            android:id="@+id/item_video_dianzan"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/dianzan_unclicked"
+            android:layout_toLeftOf="@id/item_video_collect"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/item_video_time_long"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12:23'"
+        android:textColor="@color/color_class_timetable_number"
+        android:layout_above="@id/item_video_sth_layout"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="30dp"
+        />
+
+
+</RelativeLayout>

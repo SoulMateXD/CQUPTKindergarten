@@ -33,11 +33,10 @@ public class MainActivityPresenter extends BasePresenter<IMainActivityInterface>
     public MainActivityPresenter(){
     }
 
-    public List<Fragment> getFragment(){
+    public List<Fragment> getFragment(int userType){
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new HomeFragment());
         fragments.add(new NewsFragment());
-        fragments.add(new ClassFragment());
+        fragments.add(ClassFragment.newInstance(userType));
         fragments.add(new MineFragment());
         return fragments;
     }

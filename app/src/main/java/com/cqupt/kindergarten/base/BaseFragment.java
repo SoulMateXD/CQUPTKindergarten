@@ -29,6 +29,12 @@ public abstract class BaseFragment extends Fragment{
     private PermissionsListener mListener;
     private int mRequestCode;
 
+    /*
+    *  class，和 news 两个fragment中，公告和图鉴模块，用于跳转判断
+    * */
+    public static int TYPE_CLASS = 0;
+    public static int TYPE_NEWS = 1;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){

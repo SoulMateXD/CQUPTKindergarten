@@ -1,5 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:orientation="vertical"
@@ -7,90 +8,77 @@
              tools:context="com.cqupt.kindergarten.ui.fragment.ClassFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
-        android:id="@+id/class_main_timetable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="班级课表"
-            android:textColor="#252525"
-            android:gravity="center_vertical"
-            android:textSize="17sp"
-            android:layout_marginLeft="20dp"
-            />
+
+    <RelativeLayout
+        android:id="@+id/class_main_info_list"
+        android:layout_width="150dp"
+        android:layout_height="165dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="30dp"
+        android:background="@mipmap/icon_class_info_list_parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/class_main_notice"
+        app:layout_constraintRight_toRightOf="@+id/class_main_notice"
+        app:layout_constraintTop_toBottomOf="@+id/class_main_notice">
+
     </RelativeLayout>
 
-    <include layout="@layout/gray_line"/>
-
-    <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
-        android:id="@+id/class_main_cookbook"
-        android:layout_width="match_parent"
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="班级食谱"
-            android:textColor="#252525"
-            android:gravity="center_vertical"
-            android:textSize="17sp"
-            android:layout_marginLeft="20dp"
-            />
-    </RelativeLayout>
-
-    <include layout="@layout/gray_line"/>
+        android:id="@+id/guideline"
+        app:layout_constraintGuide_begin="192dp"
+        android:orientation="vertical" />
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
         android:id="@+id/class_main_album"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_width="150dp"
+        android:layout_height="165dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="20dp"
+        android:background="@mipmap/icon_class_tujian_image"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/class_main_timetable"
+        app:layout_constraintRight_toRightOf="@+id/class_main_timetable"
+        app:layout_constraintTop_toBottomOf="@+id/class_main_timetable">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="班级相册"
-            android:textColor="#252525"
-            android:gravity="center_vertical"
-            android:textSize="17sp"
-            android:layout_marginLeft="20dp"
-            />
+
     </RelativeLayout>
-
-    <include layout="@layout/gray_line"/>
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
-        android:id="@+id/class_main_teacher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:id="@+id/class_main_notice"
+        android:layout_width="150dp"
+        android:layout_height="165dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="51dp"
+        android:background="@mipmap/icon_class_notice_image"
+        app:layout_constraintHorizontal_bias="0.35"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/fragment_class_info_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="null"
-            android:textColor="#252525"
-            android:gravity="center_vertical"
-            android:textSize="17sp"
-            android:layout_marginLeft="20dp"
-            />
+
     </RelativeLayout>
 
-    <include layout="@layout/gray_line"/>
+    <RelativeLayout
+        android:id="@+id/class_main_timetable"
+        android:layout_width="150dp"
+        android:layout_height="165dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="31dp"
+        android:background="@mipmap/icon_class_timetable_image"
+        app:layout_constraintHorizontal_bias="0.71"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent">
 
 
-</LinearLayout>
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>

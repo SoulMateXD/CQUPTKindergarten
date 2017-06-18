@@ -27,6 +27,9 @@
     <string name="title_fragment_class">班级</string>
     <string name="title_activity_news_detail">详情</string>
     <string name="title_activity_news_knowledge">成长知识</string>
-    <string name="large_text">
-    </string>
+    <string name="large_text"></string>
+
+    <item name="video_adapter_before_state" type="id" />
+    <item name="video_adapter_position" type="id" />
+    <item name="recycler_item_position_tag" type="id" />
 </resources>

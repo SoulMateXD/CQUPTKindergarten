@@ -5,21 +5,17 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".KindergartenApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:launchMode="singleTask"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.activity.MainActivity" />
         <activity
             android:name=".ui.activity.NewsActivity"
             android:label="@string/title_activity_news" />
@@ -27,19 +23,48 @@
             android:name=".ui.activity.NewsDetailActivity"
             android:label="@string/title_activity_news_detail"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.activity.ClassTimeTableActivity" />
+        <activity android:name=".ui.activity.ClassTimeTableActivity"
+            android:theme="@style/NoActionBar"
+            />
         <activity android:name=".ui.activity.ClassCookBookActivity" />
         <activity android:name=".ui.activity.ClassAlbumActivity" />
-        <activity android:name=".ui.activity.CLassTeacherAvtivity">
-            android:theme="@style/NoActionBar"
-            android:label="@string/title_activity_news_detail">
-        </activity>
-
+        <activity
+            android:name=".ui.activity.CLassTeacherAvtivity"
+            android:label="@string/title_activity_news_detail"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.activity.KnowledgeActivity"
             android:label="@string/title_activity_news_knowledge"
-            android:theme="@style/NoActionBar">
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:theme="@style/LoginTheme" />
+        <activity
+            android:name=".ui.activity.WelcomeActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppStartLoadTranslucent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.NoticeDetailsActivity"
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".ui.activity.SendNoticeActivity" />
+        <activity android:name=".ui.activity.SendKnowledgeActivity" />
+        <activity android:name=".ui.activity.HandbookActivity" />
+        <activity android:name=".ui.activity.CollegeAlbumActivity" />
+        <activity android:name=".ui.activity.AlbumDetailsActivity"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ui.activity.ImageDetailsActivity"
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".ui.activity.VideoDetailsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

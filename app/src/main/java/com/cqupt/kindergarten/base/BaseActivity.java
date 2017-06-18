@@ -38,6 +38,15 @@ public abstract class BaseActivity extends AppCompatActivity{
     private PermissionsListener mListener;
     private long lastBackTime = 0;
     private int mRequestCode;
+    private int type; //0表示老师 1表示家长
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){

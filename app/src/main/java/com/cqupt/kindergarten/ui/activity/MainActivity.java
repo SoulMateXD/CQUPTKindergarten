@@ -1,5 +1,6 @@
 package com.cqupt.kindergarten.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -48,9 +49,9 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
     private MainActivityComponent mMainActivityComponent;
     private MainViewPagerAdapter mMainViewPagerAdapter;
     private MenuItem menuItem;
-    private boolean isLogin = false;
-    private boolean fragmentsUpdateFlag[] = {false, false, false, false};
+    private boolean fragmentsUpdateFlag[] = {false, false, false};
     private List<Fragment> mFragment;
+    private int userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -70,12 +71,14 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
 
     @Override
     public void initView(){
-        mMainToolbar.setTitle("重邮幼儿园");
+        mMainToolbar.setTitle("");
     }
 
     @Override
     public void initData(){
-        mFragment = mMainActivityPresenter.getFragment();
+        Intent intent = getIntent();
+        userType = intent.getIntExtra("TYPE", 0);
+        mFragment = mMainActivityPresenter.getFragment(userType);
         mMainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), mFragment);
         mMainBottom.setOnNavigationItemSelectedListener(this);
         mMainViewPager.addOnPageChangeListener(this);
@@ -94,24 +97,14 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
     public boolean onNavigationItemSelected(@NonNull MenuItem item){
 
         switch(item.getItemId()){
-            case R.id.main:
+            case R.id.news:
                 mMainViewPager.setCurrentItem(0);
                 break;
-            case R.id.news:
+            case R.id.class_pic:
                 mMainViewPager.setCurrentItem(1);
                 break;
-            case R.id.class_pic:
-                mMainViewPager.setCurrentItem(2);
-                break;
             case R.id.mine:
-                mMainViewPager.setCurrentItem(3);
-                if(isLogin){
-                    replaceFragment(3, new MineFragment());
-                } else{
-                    replaceFragment(3, new LoginFragment());
-                }
-                //测试
-                isLogin = !isLogin;
+                mMainViewPager.setCurrentItem(2);
                 break;
         }
         return false;

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.activity.AlbumDetailsActivity"
+    >
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/toolbar_blue_theme"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/top_image"
+            >
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="bottom"
+                android:paddingBottom="@dimen/toolbar_title_padding_bottom"
+                android:text="图片详情"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/toolbar_title_text_size" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <ImageView
+            android:id="@+id/album_details_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/soulmatexd"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="3dp"
+            />
+
+
+        <RelativeLayout
+            android:id="@+id/album_details_sth_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/album_details_image"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            >
+
+            <TextView
+                android:id="@+id/album_details_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016-3-17"
+                android:textColor="@color/item_video_date_text_color"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                />
+
+
+
+            <ImageView
+                android:id="@+id/album_details_collect"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/collect_unclicked"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                />
+
+            <ImageView
+                android:id="@+id/album_details_dianzan"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/dianzan_unclicked"
+                android:layout_toLeftOf="@id/album_details_collect"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                />
+
+            <ImageView
+                android:id="@+id/album_details_download_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/download_unclicked"
+                android:layout_toLeftOf="@id/album_details_dianzan"
+                android:layout_marginRight="15dp"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/total_comment_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="全部回复 ( 共34条 )"
+            android:textSize="18sp"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp"
+            android:layout_below="@id/album_details_sth_layout"
+            />
+
+        <ImageView
+            android:id="@+id/album_details_comment_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/album_details_sth_layout"
+            android:src="@drawable/message_icon"
+            android:layout_marginTop="9dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#d9d9d9"/>
+
+        <LinearLayout
+            android:id="@+id/bottom_chat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="10dp"
+            android:background="#efefef"
+            >
+
+            <EditText
+                android:id="@+id/chat_text_input_edit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="5dp"
+                android:maxLines="6"
+                android:padding="5dp"
+                android:background="@drawable/chat_editext_background"
+                android:freezesText="true"
+                />
+
+            <TextView
+                android:id="@+id/chat_button_send"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="7dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/chat_button_send_have_text"
+                android:gravity="center"
+                android:text="发送"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:background="@color/white"
+            android:layout_below="@id/total_comment_text"
+            android:layout_above="@id/bottom_chat_layout"
+            android:layout_margin="7dp"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/album_details_comment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </RelativeLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

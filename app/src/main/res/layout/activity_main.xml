@@ -7,14 +7,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorNormalBG">
+    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.activity.MainActivity"
+    >
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorToolbar"
-        />
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/top_image"
+        >
+
+        <TextView
+            android:id="@+id/main_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:gravity="bottom"
+            android:paddingBottom="@dimen/toolbar_title_padding_bottom"
+            android:text="重邮幼儿园"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/toolbar_title_text_size" />
+
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/main_viewPager"
@@ -28,9 +44,10 @@
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/color_tab_bg"
-        app:itemIconTint="@color/colorBottomIcon"
-        app:itemTextColor="@color/colorBottomIcon"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:menu="@menu/main_bottom"
+
         />
 </LinearLayout>

@@ -7,51 +7,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
     app:cardCornerRadius="2dp"
-    app:cardBackgroundColor="@color/colorNormalBG">
+    app:cardBackgroundColor="#ffffff">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="12dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="2dp"
         android:layout_marginTop="12dp"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
-
         >
 
         <ImageView
             android:id="@+id/img_news"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
-            android:src="@mipmap/img_news02"/>
+            android:background="@color/white"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
             >
 
-            <TextView
-                android:id="@+id/tv_news_title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="15sp"
-                android:text="重邮幼儿园邀请当红童星TFboys举办第一届小小歌唱家比赛"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="8dp"
-                />
             <TextView
                 android:id="@+id/tv_news_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2017-1-16"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@android:color/black"/>
+                android:layout_centerVertical="true"
+                android:text="2017-04-23"
+                android:textSize="12sp"
+                android:textColor="#d4d4d4"/>
+
+            <TextView
+                android:id="@+id/tv_news_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#474747"
+                android:text="某某小学春游"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_toLeftOf="@id/tv_news_time"
+                android:layout_alignParentLeft="true"
+                />
 
         </RelativeLayout>
 

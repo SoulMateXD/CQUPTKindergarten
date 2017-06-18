@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.cqupt.kindergarten.R;
+import com.cqupt.kindergarten.bean.NewsListBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +24,16 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
     private Context mContext;
     private LayoutInflater inflater;
     private OnItemClickLitener mOnItemClickLitener;
-    List<String>newsList;
+    private ArrayList<NewsListBean> datas;
 
     public interface OnItemClickLitener
     {
         void onItemClick(View view, int position);
     }
 
-    public NewsListAdapter(Context context, List<String>notices){
-        notices = new ArrayList<>();
+    public NewsListAdapter(Context context, ArrayList<NewsListBean> datas){
         this.mContext = context;
-        this.newsList = notices;
+        this.datas = datas;
         inflater = LayoutInflater.from(context);
     }
 
@@ -51,6 +52,13 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
 
     @Override
     public void onBindViewHolder(final NewsViewHolder holder, int position) {
+        NewsListBean bean = datas.get(position);
+        holder.mTvTitle.setText(bean.getTitle());
+        holder.mTvTime.setText(bean.getTime());
+        Glide.with(mContext)
+                .load(bean.getUrl1())
+                .placeholder(R.drawable.default_image)
+                .into(holder.mImgNews);
         if (mOnItemClickLitener!=null){
             holder.mCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -64,7 +72,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.NewsVi
 
     @Override
     public int getItemCount() {
-        return 10;
+        return datas.size();
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {

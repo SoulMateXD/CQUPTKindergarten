@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.activity.VideoDetailsActivity"
+    android:fitsSystemWindows="true"
+    >
+
+    <include layout="@layout/toolbar_activity"/>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+            android:id="@+id/video_details_player"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="3dp"
+            />
+
+
+        <RelativeLayout
+            android:id="@+id/video_details_sth_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            >
+
+            <TextView
+                android:id="@+id/video_details_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016-3-17"
+                android:textColor="@color/item_video_date_text_color"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                />
+
+
+
+            <ImageView
+                android:id="@+id/video_details_collect"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/collect_unclicked"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                />
+
+            <ImageView
+                android:id="@+id/video_details_dianzan"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/dianzan_unclicked"
+                android:layout_toLeftOf="@id/video_details_collect"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

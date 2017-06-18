@@ -1,5 +1,6 @@
 package com.cqupt.kindergarten.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.cqupt.kindergarten.injection.component.DaggerNoticeListFragmentCompon
 import com.cqupt.kindergarten.injection.component.NoticeListFragmentComponent;
 import com.cqupt.kindergarten.injection.module.NoticeListFragmentModule;
 import com.cqupt.kindergarten.presenter.NewsListFragmentPresenter;
+import com.cqupt.kindergarten.ui.activity.NoticeDetailsActivity;
 import com.cqupt.kindergarten.ui.ui_interface.INewsListFragment;
 import com.cqupt.kindergarten.util.ToastUtils;
 
@@ -74,7 +76,8 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
         mAdapter.setOnItemClickLitener(new NoticeListAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtils.showShortToast("您点击了第"+position+"个内容");
+//                ToastUtils.showShortToast("您点击了第"+position+"个内容");
+                startActivity(new Intent(getContext(), NoticeDetailsActivity.class));
             }
         });
         //mSwipeRefreshWidget.setRefreshing(true);

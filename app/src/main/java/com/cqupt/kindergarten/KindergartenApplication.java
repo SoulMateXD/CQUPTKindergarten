@@ -8,6 +8,8 @@ import com.cqupt.kindergarten.injection.component.DaggerApplicationComponent;
 import com.cqupt.kindergarten.injection.module.ApplicationModule;
 import com.cqupt.kindergarten.ui.activity.MainActivity;
 
+import org.litepal.LitePal;
+
 public class KindergartenApplication extends Application{
 
     private ApplicationComponent mApplicationComponent;
@@ -17,6 +19,7 @@ public class KindergartenApplication extends Application{
         super.onCreate();
         setApplicationComponent();
         mContext = this;
+        LitePal.initialize(this);
     }
 
     public static KindergartenApplication get(){

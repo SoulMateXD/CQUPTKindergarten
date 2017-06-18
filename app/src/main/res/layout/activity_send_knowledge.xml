@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/knowledge_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_login_bg"
+    tools:context="com.cqupt.kindergarten.ui.activity.SendKnowledgeActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_send_knowledge_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        >
+        <TextView
+            android:id="@+id/activity_send_knowledge_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发布成长知识"
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            />
+
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/knowledge_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/cook_book_font"
+            android:text="文章标题 :"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <EditText
+            android:id="@+id/knowledge_title_input_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="27dp"
+            android:layout_toRightOf="@id/knowledge_title"
+            android:lines="1"
+            android:padding="5dp"
+            android:background="@drawable/editext_background"
+            android:freezesText="true"
+            />
+
+        <TextView
+            android:id="@+id/knowledge_pic_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/cook_book_font"
+            android:text="图片"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="50dp"
+            android:layout_below="@id/knowledge_title"
+            />
+
+        <ImageView
+            android:id="@+id/knowledge_pic"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_toRightOf="@id/knowledge_pic_text"
+            android:layout_below="@id/knowledge_title_input_edit"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/edit_bg"
+            />
+
+        <TextView
+            android:id="@+id/choose_pic_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择图片"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:background="@drawable/login_button_background"
+            android:padding="5dp"
+            android:layout_below="@id/knowledge_pic_text"
+            android:layout_toLeftOf="@id/knowledge_pic"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="20dp"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:id="@+id/knowledge_website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/cook_book_font"
+            android:text="输入网址 :"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@id/knowledge_pic"
+            />
+
+        <EditText
+            android:id="@+id/knowledge_website_input_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="27dp"
+            android:layout_toRightOf="@id/knowledge_title"
+            android:layout_below="@id/knowledge_pic"
+            android:lines="1"
+            android:padding="5dp"
+            android:background="@drawable/editext_background"
+            android:freezesText="true"
+            />
+
+        <TextView
+            android:id="@+id/send_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="发送"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:background="@drawable/login_button_background"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="@dimen/margin_left"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_below="@id/knowledge_website"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:id="@+id/cancel_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:background="@drawable/login_button_background"
+            android:layout_marginLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_below="@id/knowledge_website"
+            android:layout_toRightOf="@id/send_button"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/white"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

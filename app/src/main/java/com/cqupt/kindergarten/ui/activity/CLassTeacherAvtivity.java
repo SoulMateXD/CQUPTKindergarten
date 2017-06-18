@@ -3,8 +3,8 @@ package com.cqupt.kindergarten.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,15 +13,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cqupt.kindergarten.R;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CLassTeacherAvtivity extends AppCompatActivity {
 
 
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     private ArrayList<ItemForTeacher> datasForTeacher = new ArrayList<>();
@@ -35,16 +39,16 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_teacher_avtivity);
+        ButterKnife.bind(this);
 
         initView();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        if (type == 0){
+        if (type == 0) {
             recyclerView.setAdapter(new TeacherAdapter(datasForTeacher, this));
-        }else if (type == 1){
+        } else if (type == 1) {
             recyclerView.setAdapter(new ParentAdapter(this, datasForParent));
         }
-
 
 
     }
@@ -55,12 +59,12 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.class_teacher_recycler);
         toolbar = (Toolbar) findViewById(R.id.class_teacher_toolbar);
-
+        toolbar.setTitle("");
         //判断登录用户类型，改变名单标题
-        if (type == 0){
-            toolbar.setTitle("学生及家长名单");
-        }else if (type == 1){
-            toolbar.setTitle("班级教师");
+        if (type == 0) {
+            toolbarTitle.setText("学生及家长名单");
+        } else if (type == 1) {
+            toolbarTitle.setText("班级教师");
         }
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,14 +74,14 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
 
     private void initData() {
         ItemForTeacher itemForTeacher;
-        for (int i=1; i<=30; i++){
-            itemForTeacher = new ItemForTeacher("张瀚漩", "6666666666"+i, "许建军", "9999999999"+i,
-                    "王小"+ i, "中一班");
+        for (int i = 1; i <= 30; i++) {
+            itemForTeacher = new ItemForTeacher("张瀚漩", "6666666666" + i, "许建军", "9999999999" + i,
+                    "王小" + i, "中一班");
             datasForTeacher.add(itemForTeacher);
         }
 
         ItemForParent itemForParent;
-        for (int i=1; i<=30; i++){
+        for (int i = 1; i <= 30; i++) {
             itemForParent = new ItemForParent("韩" + i + "青老师", "23333333333" + i, "安卓武装部");
             datasForParent.add(itemForParent);
         }
@@ -85,7 +89,7 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -95,11 +99,11 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class TeacherAdapter extends RecyclerView.Adapter<TeacherViewHolder> implements View.OnClickListener{
+    private class TeacherAdapter extends RecyclerView.Adapter<TeacherViewHolder> implements View.OnClickListener {
         private ArrayList<ItemForTeacher> datas;
         private LayoutInflater inflater;
 
-        TeacherAdapter(ArrayList<ItemForTeacher> datas, Context context){
+        TeacherAdapter(ArrayList<ItemForTeacher> datas, Context context) {
             this.datas = datas;
             inflater = LayoutInflater.from(context);
         }
@@ -135,7 +139,7 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
             TextView textView = (TextView) view;
             String tel = (String) textView.getText();
             Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:"+ tel));
+            intent.setData(Uri.parse("tel:" + tel));
             startActivity(intent);
         }
     }
@@ -147,6 +151,7 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         private TextView fatherTel;
         private TextView motherName;
         private TextView motherTel;
+
         public TeacherViewHolder(View itemView) {
             super(itemView);
             childName = (TextView) itemView.findViewById(R.id.item_class_infolist_teacher_child_name);
@@ -158,11 +163,11 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         }
     }
 
-    class ParentAdapter extends RecyclerView.Adapter<ParentViewHolder> implements View.OnClickListener{
+    class ParentAdapter extends RecyclerView.Adapter<ParentViewHolder> implements View.OnClickListener {
         private LayoutInflater inflater;
         private ArrayList<ItemForParent> datas;
 
-        ParentAdapter(Context context, ArrayList<ItemForParent> datas){
+        ParentAdapter(Context context, ArrayList<ItemForParent> datas) {
             inflater = LayoutInflater.from(context);
             this.datas = datas;
         }
@@ -201,6 +206,7 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         private TextView teacherName;
         private TextView teacherClass;
         private TextView teacherTel;
+
         public ParentViewHolder(View itemView) {
             super(itemView);
             teacherClass = (TextView) itemView.findViewById(R.id.item_class_infolist_parent_teacher_class);
@@ -210,7 +216,7 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
     }
 
     //教师界面， item的信息
-    private class ItemForTeacher{
+    private class ItemForTeacher {
         String fatherName;
         String fatherTel;
         String motherName;
@@ -254,7 +260,7 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
     }
 
     //家长界面， item信息
-    private class ItemForParent{
+    private class ItemForParent {
         private String teacherName;
         private String teacherTel;
         private String teacherClass;

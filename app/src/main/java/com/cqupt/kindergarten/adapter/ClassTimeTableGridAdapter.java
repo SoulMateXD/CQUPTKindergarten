@@ -53,7 +53,7 @@ public class ClassTimeTableGridAdapter extends BaseAdapter {
             text.setText(datas.get(i));
         }
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                (gridView.getWidth()-10)/5 , (gridView.getHeight()-10)/4);
+                (gridView.getWidth()-30)/5 , (gridView.getHeight()-80)/4);
         view.setLayoutParams(params);
         return view;
     }
