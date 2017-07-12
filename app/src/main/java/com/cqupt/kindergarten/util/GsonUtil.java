@@ -38,5 +38,14 @@ public class GsonUtil {
         return arrayList;
     }
 
+    /*
+    *   暂时未经测试
+    * */
+    public static <T> List<T> parseJsonArrayWithGson(String json, Class<T> clazz){
+        Gson gson = new Gson();
+        List<T> results = gson.fromJson(json, new TypeToken<List<T>>(){}.getType());
+        return results;
+    }
+
 
 }
