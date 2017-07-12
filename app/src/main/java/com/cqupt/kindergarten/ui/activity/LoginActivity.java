@@ -299,7 +299,15 @@ public class LoginActivity extends BaseActivity {
                 }
                 dismissProgressDialog();
             } catch (JSONException e) {
-                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "哎哟，服务器出错了！", Toast.LENGTH_SHORT).show();
+            } catch(NullPointerException e){
+                /*
+                *   测试代码，用于服务器没有开启
+                * */
+                Toast.makeText(getApplicationContext(), "哎哟，服务器出错了！", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                intent1.putExtra("TYPE", TEACHER);
+                startActivity(intent1);
             }
         }
     };
