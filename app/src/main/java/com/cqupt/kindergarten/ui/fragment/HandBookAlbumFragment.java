@@ -1,6 +1,7 @@
 package com.cqupt.kindergarten.ui.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,6 +18,8 @@ import com.cqupt.kindergarten.adapter.AlbumAdapter;
 import com.cqupt.kindergarten.base.BaseFragment;
 import com.cqupt.kindergarten.bean.AlbumAdapterBean;
 import com.cqupt.kindergarten.bean.AlbumBeanFromJson;
+import com.cqupt.kindergarten.bean.Parent;
+import com.cqupt.kindergarten.bean.Teacher;
 import com.cqupt.kindergarten.listener.RecyclerOnclickInterface;
 import com.cqupt.kindergarten.ui.activity.CollegeAlbumActivity;
 import com.cqupt.kindergarten.util.GsonUtil;
@@ -26,6 +29,7 @@ import com.cqupt.kindergarten.util.ToastUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,16 +50,24 @@ import okhttp3.Response;
 public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.handbook_album_recycler)
     RecyclerView recyclerView;
+    @BindView(R.id.swipe_refresh_widget)
+    SwipeRefreshLayout swipeRefreshLayout;
     Unbinder unbinder;
 
-    private static final String URL_ALBUM = "http://119.29.53.178:8080/kindergarden/PCtShowteacher";
+    private static final String URL_COLLEGE_ALBUM = "http://172.20.2.164:8080/kindergarden/PCtShowteacher";
+    private static final String URL_CLASS_ALBUM = "http://172.20.2.164:8080/kindergarden/PCShowApp";
     private static final String KEY_PAGENUM = "pageNum";
     private static final String KEY_CID = "cid";
     private static final String RESPONSE_NULL = "[]";
     private static final String DEFAULT_IMAGE_URL = "http://imgsrc.baidu.com/forum/w%3D580/sign=79323d29054f78f0800b9afb49300a83/e32e6159252dd42aaaeba2d6053b5bb5c8eab8f5.jpg";
-    @BindView(R.id.swipe_refresh_widget)
-    SwipeRefreshLayout swipeRefreshLayout;
 
+    private SharedPreferences sharedPreferences;
+    private String cID;
+
+    private Map<String, Object> map;
+    private String url;
+
+    private int type;
     private int page = 1;
     private ArrayList<AlbumAdapterBean> datas;
     private AlbumAdapter adapter;
@@ -85,6 +97,24 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
 
     @Override
     public void initView() {
+        Bundle bundle = getArguments();
+        type = bundle.getInt("type");
+        if (type == TYPE_CLASS) {
+            map = new HashMap<>();
+            url = URL_CLASS_ALBUM;
+            page = 1;
+            map.put(KEY_CID, cID);
+            map.put(KEY_PAGENUM, page);
+            page++;
+
+        } else if (type == TYPE_NEWS) {
+            map = new HashMap<>();
+            url = URL_COLLEGE_ALBUM;
+            page = 1;
+            map.put(KEY_CID, "1");
+            map.put(KEY_PAGENUM, page);
+            page++;
+        }
         datas = new ArrayList<>();
         adapter = new AlbumAdapter(getContext(), datas);
         adapter.setOnclick(new RecyclerOnclickInterface() {
@@ -110,16 +140,17 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
         onRefresh();
     }
 
-    //设置当fragment被用户看见时开始网络请求
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser) {
-////            onRefresh();
-//        } else {
-//
-//        }
-//    }
+    private void getLocalValues() {
+        sharedPreferences = getContext().getSharedPreferences(LOGIN_SHARED_PREFRERNCES, 0);
+        type = sharedPreferences.getInt("TYPE", 0);
+        if (type == PARENT) {
+            Parent parent = DataSupport.findFirst(Parent.class);
+             cID = parent.getcId();
+        } else if (type == TEACHER) {
+            Teacher teacher = DataSupport.findFirst(Teacher.class);
+             cID = teacher.getcId();
+        }
+    }
 
     @Override
     public void initData() {
@@ -131,10 +162,10 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
 
     }
 
-    public static HandBookAlbumFragment newInstance() {
+    public static HandBookAlbumFragment newInstance(int type) {
         HandBookAlbumFragment fragment = new HandBookAlbumFragment();
         Bundle bundle = new Bundle();
-
+        bundle.putInt("type", type);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -184,11 +215,7 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
 
     @Override
     public void onRefresh() {
-        Map<String, Object> map = new HashMap<>();
-        map.put(KEY_CID, "1");
-        map.put(KEY_PAGENUM, page);
-        page++;
-        HttpUtil.mOkHttpPost(URL_ALBUM, map, new Callback() {
+        HttpUtil.mOkHttpPost(url, map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Message message = new Message();

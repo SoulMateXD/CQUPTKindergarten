@@ -60,7 +60,7 @@ public class ClassTimeTableActivity extends AppCompatActivity {
     private static final int TEACHER = 0;
     private static final int PARENT = 1;
 
-    private static final String POSTURL = "http://119.29.53.178:8080/kindergarden/LessonAppShow";
+    private static final String POSTURL = "http://172.20.2.164:8080/kindergarden/LessonAppShow";
     private static final String POSTKEY = "lessonIdJson";
     private String POSTVALUE;
     private int type;

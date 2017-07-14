@@ -10,12 +10,12 @@ public class LoginMessageTeacher extends DataSupport {
 
     private String Appid;
     private String msg;
-    private Teacher[] Object;
+    private Teacher Object;
 
-    @Override
-    public String toString() {
-        return "Appid: " + Appid + "  Msg: " + msg + " Parent:" + Object[0];
-    }
+//    @Override
+//    public String toString() {
+//        return "Appid: " + Appid + "  Msg: " + msg + " Parent:" + Object[0];
+//    }
 
     public String getAppid() {
         return Appid;
@@ -33,11 +33,11 @@ public class LoginMessageTeacher extends DataSupport {
         this.msg = msg;
     }
 
-    public Teacher[] getObject() {
+    public Teacher getObject() {
         return Object;
     }
 
-    public void setObject(Teacher[] object) {
+    public void setObject(Teacher object) {
         Object = object;
     }
 }

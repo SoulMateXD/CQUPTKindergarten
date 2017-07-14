@@ -76,7 +76,7 @@ public class HandbookActivity extends AppCompatActivity {
         }
 
         //初始化顶部tab
-        mFragments.add(HandBookAlbumFragment.newInstance());
+        mFragments.add(HandBookAlbumFragment.newInstance(intentType));
         mFragments.add(HandBookVideoFragment.newInstance());
         handbookViewpager.setAdapter(new
                 HandbookFragmentAdapter(getSupportFragmentManager(), mTitles, mFragments));

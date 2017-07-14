@@ -54,7 +54,7 @@ public class CollegeAlbumActivity extends AppCompatActivity implements SwipeRefr
 
     private static final String KEY_PAGENUM = "pageNum";
     private static final String KEY_PID = "pid";
-    private static final String URL_ALBUM_DETAIL = "http://119.29.53.178:8080/kindergarden/PictureShowApp";
+    private static final String URL_ALBUM_DETAIL = "http://172.20.2.164:8080/kindergarden/PictureShowApp";
     private static final String RESPONSE_NULL = "{\"result\":false}";
 
     private String AlbumId;

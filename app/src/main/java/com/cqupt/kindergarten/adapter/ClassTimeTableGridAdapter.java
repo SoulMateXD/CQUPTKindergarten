@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cqupt.kindergarten.R;
@@ -52,8 +53,8 @@ public class ClassTimeTableGridAdapter extends BaseAdapter {
         }else {
             text.setText(datas.get(i));
         }
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                (gridView.getWidth()-30)/5 , (gridView.getHeight()-80)/4);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                (gridView.getWidth()-100)/5 , (gridView.getHeight()-80)/4);
         view.setLayoutParams(params);
         return view;
     }

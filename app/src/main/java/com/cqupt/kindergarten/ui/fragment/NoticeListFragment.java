@@ -1,5 +1,6 @@
 package com.cqupt.kindergarten.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,21 +9,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.cqupt.kindergarten.KindergartenApplication;
 import com.cqupt.kindergarten.R;
 import com.cqupt.kindergarten.adapter.NoticeListAdapter;
 import com.cqupt.kindergarten.base.BaseFragment;
+import com.cqupt.kindergarten.bean.NewsListBean;
+import com.cqupt.kindergarten.bean.NoticeListBean;
 import com.cqupt.kindergarten.injection.component.DaggerNoticeListFragmentComponent;
 import com.cqupt.kindergarten.injection.component.NoticeListFragmentComponent;
 import com.cqupt.kindergarten.injection.module.NoticeListFragmentModule;
 import com.cqupt.kindergarten.presenter.NewsListFragmentPresenter;
 import com.cqupt.kindergarten.ui.activity.NoticeDetailsActivity;
 import com.cqupt.kindergarten.ui.ui_interface.INewsListFragment;
+import com.cqupt.kindergarten.util.GsonUtil;
+import com.cqupt.kindergarten.util.OkHttpUtil;
 import com.cqupt.kindergarten.util.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -44,9 +52,19 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
 
     LinearLayoutManager mLinearLayoutManager;
     NoticeListAdapter mAdapter;
-    List<String>notices;
+    List<NoticeListBean> notices;
 
 
+    private static final String URL = "http://172.20.2.164:8080/kindergarden/GgStateSreach3";
+    private static final String RESPONSE_NULL = "[]";
+    private static final String KEY_A = "A";
+    private static final String KEY_B = "B";
+    private static final String KEY_C = "C";
+    private static final String KEY_D = "D";
+    private static final String KEY_PAGENUM = "pageNum";
+
+    private OkHttpUtil okHttpUtil;
+    private int page = 1;
 
     private NoticeListFragmentComponent mNoticeListFragmentComponent;
 
@@ -65,6 +83,7 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
 
     @Override
     public void initView() {
+        okHttpUtil = new OkHttpUtil((Activity) getContext());
         notices = new ArrayList<>();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,
                 R.color.colorPrimaryDark, R.color.selector);
@@ -76,12 +95,13 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
         mAdapter.setOnItemClickLitener(new NoticeListAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-//                ToastUtils.showShortToast("您点击了第"+position+"个内容");
-                startActivity(new Intent(getContext(), NoticeDetailsActivity.class));
+                Intent intent = new Intent(getContext(), NoticeDetailsActivity.class);
+                intent.putExtra("NoticeItem", notices.get(position));
+                startActivity(intent);
             }
         });
-        //mSwipeRefreshWidget.setRefreshing(true);
         mSwipeRefreshWidget.setOnRefreshListener(this);
+        onRefresh();
     }
 
     @Override
@@ -116,6 +136,35 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
 
     @Override
     public void onRefresh() {
-        mSwipeRefreshWidget.setRefreshing(false);
+        Map<String, Object> map = new HashMap<>();
+        map.put(KEY_A, "全部");
+        map.put(KEY_B, null);
+        map.put(KEY_C, null);
+        map.put(KEY_D, null);
+        map.put(KEY_PAGENUM, page);
+        page++;
+        okHttpUtil.mOkHttpPost(URL, map, new OkHttpUtil.OkHttpUtilCallback() {
+            @Override
+            public void onSuccess(String response) {
+                dealJson(response);
+                mSwipeRefreshWidget.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(String response) {
+                Toast.makeText(getContext(), "请求失败" , Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void dealJson(String response) {
+        if (response.equals(RESPONSE_NULL)){
+            ToastUtils.init(true);
+            ToastUtils.showShortToast("没有数据啦~");
+        }else {
+            List<NoticeListBean> beans = GsonUtil.jsonToArrayList(response, NoticeListBean.class);
+            notices.addAll(beans);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

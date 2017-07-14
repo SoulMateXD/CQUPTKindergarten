@@ -10,6 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cqupt.kindergarten.R;
+import com.cqupt.kindergarten.bean.NoticeListBean;
+import com.cqupt.kindergarten.util.ScreenUtils;
+import com.zzhoujay.richtext.ImageHolder;
+import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.callback.ImageFixCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +27,14 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Ne
     private Context mContext;
     private LayoutInflater inflater;
     private OnItemClickLitener mOnItemClickLitener;
-    List<String>noticeList;
+    List<NoticeListBean>noticeList;
 
     public interface OnItemClickLitener
     {
         void onItemClick(View view, int position);
     }
 
-    public NoticeListAdapter(Context context, List<String>notices){
-        notices = new ArrayList<>();
+    public NoticeListAdapter(Context context, List<NoticeListBean>  notices){
         this.mContext = context;
         this.noticeList = notices;
         inflater = LayoutInflater.from(context);
@@ -59,12 +63,27 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Ne
                     mOnItemClickLitener.onItemClick(holder.mCardView, pos);
                 }
             });
+            holder.mTvContent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getLayoutPosition();
+                    mOnItemClickLitener.onItemClick(holder.mCardView, pos);
+                }
+            });
         }
+        NoticeListBean bean = noticeList.get(position);
+        holder.mTvTime.setText(bean.getTime());
+        holder.mTvTitle.setText(bean.getTitle());
+        RichText.initCacheDir(mContext);
+        RichText.fromHtml(bean.getMessage())
+                .scaleType(ImageHolder.ScaleType.FIT_CENTER)
+                .into(holder.mTvContent);
+
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return noticeList.size();
     }
 
     public class NewsViewHolder extends RecyclerView.ViewHolder {
@@ -72,11 +91,13 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Ne
         private CardView mCardView;
         private TextView mTvTitle;
         private TextView mTvTime;
+        private TextView mTvContent;
         public NewsViewHolder(View itemView) {
             super(itemView);
             mCardView = (CardView) itemView.findViewById(R.id.cardview);
-            mTvTime = (TextView) itemView.findViewById(R.id.tv_news_time);
-            mTvTitle = (TextView) itemView.findViewById(R.id.tv_news_title);
+            mTvTime = (TextView) itemView.findViewById(R.id.tv_notice_time);
+            mTvTitle = (TextView) itemView.findViewById(R.id.tv_notice_title);
+            mTvContent = (TextView) itemView.findViewById(R.id.tv_notice_content);
         }
     }
 }

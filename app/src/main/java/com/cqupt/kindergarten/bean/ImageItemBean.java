@@ -11,13 +11,23 @@ public class ImageItemBean implements Parcelable {
     private String xcDate;
     private String xcId; //相片ID
     private String xcAdress;
+    private String pLike;
     private String pId; //相册ID
+
+    public String getpLike() {
+        return pLike;
+    }
+
+    public void setpLike(String pLike) {
+        this.pLike = pLike;
+    }
 
     public ImageItemBean(String xcDate, String xcId, String xcAdress, String pId) {
         this.xcDate = xcDate;
         this.xcId = xcId;
         this.xcAdress = xcAdress;
         this.pId = pId;
+
     }
 
     @Override
@@ -31,6 +41,7 @@ public class ImageItemBean implements Parcelable {
         dest.writeString(this.xcId);
         dest.writeString(this.xcAdress);
         dest.writeString(this.pId);
+        dest.writeString(this.pLike);
     }
 
     protected ImageItemBean(Parcel in) {
@@ -38,6 +49,7 @@ public class ImageItemBean implements Parcelable {
         this.xcId = in.readString();
         this.xcAdress = in.readString();
         this.pId = in.readString();
+        this.pLike = in.readString();
     }
 
     public static final Parcelable.Creator<ImageItemBean> CREATOR = new Parcelable.Creator<ImageItemBean>() {

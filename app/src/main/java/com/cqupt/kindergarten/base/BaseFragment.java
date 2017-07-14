@@ -15,7 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cqupt.kindergarten.R;
+import com.cqupt.kindergarten.bean.Parent;
+import com.cqupt.kindergarten.bean.Teacher;
 import com.cqupt.kindergarten.listener.PermissionsListener;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,8 +36,11 @@ public abstract class BaseFragment extends Fragment{
     /*
     *  class，和 news 两个fragment中，公告和图鉴模块，用于跳转判断
     * */
-    public static int TYPE_CLASS = 0;
-    public static int TYPE_NEWS = 1;
+    protected  static int TYPE_CLASS = 0;
+    protected  static int TYPE_NEWS = 1;
+    protected  static final int TEACHER = 0;
+    protected  static final int PARENT = 1;
+    protected static final String LOGIN_SHARED_PREFRERNCES = "LoginPreferences";
 
     @Nullable
     @Override
@@ -59,6 +66,7 @@ public abstract class BaseFragment extends Fragment{
 
     //模板方法,留给子类编写
     public abstract void setUpComponent();
+
 
     protected void performRequestPermissions(String desc, String[] permissions, int requestCode, PermissionsListener listener){
         if(permissions == null || permissions.length == 0) return;

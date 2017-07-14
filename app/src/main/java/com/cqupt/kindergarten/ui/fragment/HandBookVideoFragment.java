@@ -1,6 +1,7 @@
 package com.cqupt.kindergarten.ui.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,8 @@ import com.cqupt.kindergarten.base.BaseFragment;
 import com.cqupt.kindergarten.listener.VideoRecyclerOnclickListener;
 import com.cqupt.kindergarten.ui.activity.VideoDetailsActivity;
 
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -27,6 +30,13 @@ public class HandBookVideoFragment extends BaseFragment {
     @BindView(R.id.video_recycler)
     RecyclerView videoRecycler;
     Unbinder unbinder;
+
+    private SharedPreferences sharedPreferences;
+    private String cID;
+    private Map<String, Object> map;
+    private String url;
+    private int type;
+    private int page = 1;
 
     @Override
     public int getLayoutId() {

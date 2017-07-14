@@ -12,6 +12,6 @@
     <dimen name="margin_left">15dp</dimen>
     <dimen name="mine_round_image_size">80dp</dimen>
     <dimen name="image_details_image_height">200dp</dimen>
-    <dimen name="toolbar_title_padding_bottom">18dp</dimen>
-    <dimen name="toolbar_title_text_size">18sp</dimen>
+    <dimen name="toolbar_title_padding_bottom">16dp</dimen>
+    <dimen name="toolbar_title_text_size">20sp</dimen>
 </resources>

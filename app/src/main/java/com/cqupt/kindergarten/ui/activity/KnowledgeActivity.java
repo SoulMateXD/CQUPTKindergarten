@@ -65,7 +65,7 @@ public class KnowledgeActivity extends BaseActivity implements INewsDetailActivi
     private static final int PARENT = 1;
     private static final String LOGIN_SHARED_PREFRERNCES = "LoginPreferences";
     private static final String IS_LOGIN = "isLogin";
-    private static final String URL_KNOWLEDGE = "http://119.29.53.178:8080/kindergarden/ShowAllGrowth";
+    private static final String URL_KNOWLEDGE = "http://172.20.2.164:8080/kindergarden/ShowAllGrowth";
     private static final String KEY_PAGENUM = "pageNum";
     private static final String RESPONSE_NULL = "[]";
 

@@ -1,7 +1,6 @@
 package com.cqupt.kindergarten.ui.fragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,6 +27,7 @@ import com.cqupt.kindergarten.R;
 import com.cqupt.kindergarten.base.BaseFragment;
 import com.cqupt.kindergarten.bean.LoginMessageParent;
 import com.cqupt.kindergarten.bean.LoginMessageTeacher;
+import com.cqupt.kindergarten.bean.NoticeListBean;
 import com.cqupt.kindergarten.bean.Parent;
 import com.cqupt.kindergarten.bean.Teacher;
 import com.cqupt.kindergarten.injection.component.DaggerMineFragmentComponent;
@@ -36,14 +36,11 @@ import com.cqupt.kindergarten.injection.module.MineFragmentModule;
 import com.cqupt.kindergarten.presenter.MineFragmentPresenter;
 import com.cqupt.kindergarten.ui.activity.LoginActivity;
 import com.cqupt.kindergarten.ui.activity.MainActivity;
+import com.cqupt.kindergarten.ui.activity.NoticeDetailsActivity;
 import com.cqupt.kindergarten.ui.ui_interface.IMineFragmentInterface;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.litepal.crud.DataSupport;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -78,6 +75,10 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
     public static final int CHOOSE_PHOTO = 2;
     private static final int TEACHER = 0;
     private static final int PARENT = 1;
+    @BindView(R.id.mine_summary)
+    RelativeLayout mineSummary;
+    @BindView(R.id.mine_regulations)
+    RelativeLayout mineRegulations;
 
     private String Appid;
     private int type;
@@ -122,12 +123,12 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
         Appid = sharedPreferences.getString("Appid", "");
         type = sharedPreferences.getInt("TYPE", 0);
 
-        if (type == PARENT){
+        if (type == PARENT) {
             Parent parent = DataSupport.findFirst(Parent.class);
             mineUserClass.setText("所在班级 : " + parent.getcId());
             mineUserName.setText("昵称 : " + parent.getsName());
             mineUserAppid.setText("账号 : " + Appid);
-        }else if (type == TEACHER){
+        } else if (type == TEACHER) {
             Teacher teacher = DataSupport.findFirst(Teacher.class);
             mineUserClass.setText("任课班级 : " + teacher.getcId());
             mineUserName.setText("昵称 : " + teacher.gettName());
@@ -143,7 +144,7 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
         unbinder.unbind();
     }
 
-    @OnClick({R.id.ming_user_image, R.id.mine_exit})
+    @OnClick({R.id.ming_user_image, R.id.mine_exit, R.id.mine_summary, R.id.mine_regulations})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ming_user_image:
@@ -152,14 +153,28 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
             case R.id.mine_exit:
                 exit();
                 break;
+            case R.id.mine_summary:
+                NoticeListBean bean1 = new NoticeListBean("重邮幼儿园简介", "<h2 style=\"text-align: center;\"><b id=\"linkMyTitle\"></b></h2><p>重庆邮电大学幼儿园是重庆邮电大学举办，经教委批准的日托幼儿园，目前有5个教学班的规模，拥有24名高素质教职员工。</p><p>工作中，幼儿园努力践行科学发展观，积极依据教育部《幼儿园教育指导纲要》《3——6儿童学习与发展指南》实施幼儿素质教育，本着求真务实、科学发展的思路，以法规为准则，以规范为先导，以改革求发展，以科研创品牌，积极服务幼儿、服务家长、服务社会，构建以人为本的学习型、创新型、节约型和谐园所。</p><p>幼儿园于2004年评为重庆市一级幼儿园，荣获重庆市及南岸区“幼教先进集体”称号，教研团队被评为重庆市优秀教研组；曾参与中国体育科学会重点课题、中央教科所李忠忱教学法课题、市级幼儿早期阅读课题及校级心理健康课题研究，期间被评为优秀实验园，并荣获科研成果一等奖等奖项。目前正参加亲子趣味剪纸、细节化研讨等课题研究。</p><p>近5年来荣获多个奖项，其中国家级奖10余项、市级奖30余项，区级奖50余项，发表论文20余篇。同时作为本区唯一的幼儿园代表参加了南岸区中小学科技节师幼科幻绘画、剪纸制作展示等活动，深受小朋友的热爱，得到了家长、社会及领导的高度赞誉。</p><p>在今后的工作中，将继续本着务实求真、科学发展的理念，以更优质的幼儿教育回报家长、回报社会。</p>");
+                Intent intent1 = new Intent(getContext(), NoticeDetailsActivity.class);
+                intent1.putExtra("NoticeItem", bean1);
+                startActivity(intent1);
+                break;
+            case R.id.mine_regulations:
+                NoticeListBean bean2 = new NoticeListBean("重邮幼儿园办园章程",
+                        "<h2 style=\"text-align: center;\"><b id=\"linkMyTitle\"></b></h2><p>办园目标：深化内涵，立足质量，创学习型、节约型和谐园所</p><p>办园理念：规范管理提效率，提升质量求生存，彰显特色促发展，优质服务创品牌</p><p>办园特色：创科艺结合教育特色</p><p>培养目标：快乐自信 &nbsp;富有爱心 &nbsp;亲善合作 &nbsp;享有智慧</p><p>园训:爱心献孩子 &nbsp;&nbsp;放心给家长 &nbsp;与时代同步 &nbsp;树幼教典范</p><p>园风：团结 &nbsp;进取 &nbsp;求实 &nbsp;创新</p><p>教风：自信 &nbsp;勤学 &nbsp;乐思 &nbsp;进取</p>");
+                Intent intent2 = new Intent(getContext(), NoticeDetailsActivity.class);
+                intent2.putExtra("NoticeItem", bean2);
+                startActivity(intent2);
+                break;
         }
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case CHOOSE_PHOTO:
-                if (resultCode == -1 && data != null){
+                if (resultCode == -1 && data != null) {
                     Uri imageUri = data.getData();
                     String imagePath = getImagePath(imageUri, null);
                     Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
@@ -170,11 +185,11 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openAlbum();
-                }else {
+                } else {
                     Toast.makeText(mainActivity, "You denied the permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -185,15 +200,15 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
     /*
     *   退出删除登录信息
     * */
-    private void exit(){
+    private void exit() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(IS_LOGIN, false);
         editor.apply();
 
-        if (type == PARENT){
+        if (type == PARENT) {
             DataSupport.deleteAll(LoginMessageParent.class);
             DataSupport.deleteAll(Parent.class);
-        }else if (type == TEACHER){
+        } else if (type == TEACHER) {
             DataSupport.deleteAll(LoginMessageTeacher.class);
             DataSupport.deleteAll(Teacher.class);
         }
@@ -203,11 +218,11 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
         mainActivity.finish();
     }
 
-    private String getImagePath(Uri uri, String selection){
+    private String getImagePath(Uri uri, String selection) {
         String path = null;
         Cursor cursor = mainActivity.getContentResolver().query(uri, null, selection, null, null);
-        if (cursor != null){
-            if (cursor.moveToFirst()){
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
                 path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
             }
             cursor.close();
@@ -217,10 +232,10 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
 
     private void chooseFromAlbum() {
         if (ContextCompat.checkSelfPermission(mainActivity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(mainActivity,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }else {
+        } else {
             openAlbum();
         }
 

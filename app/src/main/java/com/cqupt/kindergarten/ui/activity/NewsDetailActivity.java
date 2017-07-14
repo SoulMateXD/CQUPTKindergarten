@@ -2,7 +2,6 @@ package com.cqupt.kindergarten.ui.activity;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
@@ -75,7 +74,7 @@ public class NewsDetailActivity extends BaseActivity implements INewsDetailActiv
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String imageUrl = defaultPic;
-        if (!bean.getUrl1().equals(defaultNullPic)){
+        if (!bean.getUrl1().equals(defaultNullPic)) {
             imageUrl = bean.getUrl1();
         }
         Glide.with(this)

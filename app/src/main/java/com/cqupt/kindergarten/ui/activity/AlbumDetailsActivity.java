@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,10 +34,10 @@ import com.cqupt.kindergarten.listener.RecyclerOnclickInterface;
 import com.cqupt.kindergarten.util.GsonUtil;
 import com.cqupt.kindergarten.util.HttpUtil;
 import com.cqupt.kindergarten.util.MyDialog;
+import com.cqupt.kindergarten.util.OkHttpUtil;
 import com.cqupt.kindergarten.util.ToastUtils;
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
@@ -86,14 +87,22 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     @BindView(R.id.album_details_comment_icon)
     ImageView albumDetailsCommentIcon;
 
-    private static final String URL_COMMENT = "http://119.29.53.178:8080/kindergarden/CommunicateShow";
-    private static final String URL_ADD_COMMENT = "http://119.29.53.178:8080/kindergarden/CommunicateAdd";
+    @BindView(R.id.activity_main)
+    CoordinatorLayout activityMain;
+
+    private static final String URL_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateShow";
+    private static final String URL_ADD_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateAdd";
+    //点赞按钮
+    private static final String URL_ADD_LIKE = "http://172.20.2.164:8080/kindergarden/PictureLike";
+    private static final String KEY_COMID = "ComId";
     private static final String KEY_XID = "XId";
     private static final String KEY_ADD_COMMENT = "CommuniJson";
     private static final String SAY_STH = "说点什么吧...  ";
     private static final String LOGIN_SHARED_PREFRERNCES = "LoginPreferences";
     private static final int TEACHER = 0;
     private static final int PARENT = 1;
+    @BindView(R.id.album_details_dianzan_number)
+    TextView dianzanNumberText;
 
 
     private boolean isDianzan;
@@ -101,11 +110,13 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     private ImageItemBean bean;
     private String imageUrl;
     private String imageId;
+    private int dianzanNumber;
     private ArrayList<ImageChatBean> datas = new ArrayList<>();
     private ImageChatAdapter adapter;
     private String userName;
     private ImageChatBean chatBean = null; // 用于区别点击回复事件和普通回复事件
     private boolean isResponse;
+    private OkHttpUtil okHttpUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,11 +132,13 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         bean = getIntent().getParcelableExtra("ImageUrl");
         imageUrl = bean.getXcAdress();
         imageId = bean.getXcId();
+        dianzanNumber = Integer.valueOf(bean.getpLike());
         Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.default_image)
                 .into(image);
         timeText.setText(bean.getXcDate());
+        dianzanNumberText.setText(dianzanNumber + "");
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -155,6 +168,8 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         swipeRefresh.setProgressViewOffset(false, 0, 52);
         swipeRefresh.setOnRefreshListener(this);
         onRefresh();
+
+        okHttpUtil = new OkHttpUtil(this);
     }
 
     private void getUserImformation() {
@@ -162,10 +177,10 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         String Appid = sharedPreferences.getString("Appid", "");
         int type = sharedPreferences.getInt("TYPE", 0);
 
-        if (type == PARENT){
+        if (type == PARENT) {
             Parent parent = DataSupport.findFirst(Parent.class);
             userName = parent.getsName();
-        }else if (type == TEACHER){
+        } else if (type == TEACHER) {
             Teacher teacher = DataSupport.findFirst(Teacher.class);
             userName = teacher.gettName();
         }
@@ -198,7 +213,22 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
             case R.id.album_details_dianzan:
                 //点赞按钮
                 isDianzan = !isDianzan;
-                dianzanSwitch(dianzanIcon, isDianzan);
+                Map<String, Object> map = new HashMap<>();
+                map.put(KEY_COMID, imageId);
+                okHttpUtil.mOkHttpPost(URL_ADD_LIKE, map, new OkHttpUtil.OkHttpUtilCallback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        dianzanSwitch(dianzanIcon, isDianzan);
+                        dianzanNumberText.setText((dianzanNumber + 1) + "");
+                        dianzanIcon.setClickable(false);
+                    }
+
+                    @Override
+                    public void onFailure(String response) {
+                        ToastUtils.showShortToast("不好意思，点赞失败了");
+                    }
+                });
+
                 break;
             case R.id.album_details_download_icon:
                 //下载按钮
@@ -210,11 +240,11 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
                 bottomChatLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.chat_button_send:
-                if(isResponse){
+                if (isResponse) {
                     sendComment(chatBean);
                     isResponse = false;
                     chatBean = null;
-                }else {
+                } else {
                     sendComment(null);
                 }
                 inputEdit.setText("");
@@ -241,7 +271,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
             sendBean.setComcount(0);
             sendBean.setxId(imageId);
             sendBean.setComTime(null);
-        }else {
+        } else {
             if (inputString == null || inputString.equals("")) {
                 ToastUtils.showShortToast("不能发空消息哦~");
                 return;
@@ -269,12 +299,12 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         hideKeyBoard();//这里必须隐藏软键盘
     }
 
-    private void sendResponseCommend(int position){
+    private void sendResponseCommend(int position) {
         ImageChatBean bean = datas.get(position);
-        if (userName.equals(bean.getPoneId())){
+        if (userName.equals(bean.getPoneId())) {
             inputEdit.setHint(SAY_STH);
             bottomChatLayout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             inputEdit.setHint("回复 " + bean.getPoneId() + " : ");
             bottomChatLayout.setVisibility(View.VISIBLE);
             isResponse = true;

@@ -71,7 +71,7 @@ public class LoginActivity extends BaseActivity {
     private static final String LOGIN_SHARED_PREFRERNCES = "LoginPreferences";
     private static final String IS_LOGIN = "isLogin";
 
-    private static final String KGURL = "http://119.29.53.178:8080/kindergarden/LoginServletApp";
+    private static final String KGURL = "http://172.20.2.164:8080/kindergarden/LoginServletApp";
 
     private String userName;
     private String passWord;
@@ -175,8 +175,8 @@ public class LoginActivity extends BaseActivity {
 
         boolean ii = loginMessageTeacher.save();
         log.d(ii + "");
-        Teacher[] teachers = loginMessageTeacher.getObject();
-        Teacher teacher = teachers[0];
+        Teacher teachers = loginMessageTeacher.getObject();
+        Teacher teacher = teachers;
         teacher.save();
 
         setType(TEACHER);//设置BaseActivity中的type，方便之后的activity获取
