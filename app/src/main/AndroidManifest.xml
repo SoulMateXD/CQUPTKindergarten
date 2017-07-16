@@ -23,9 +23,9 @@
             android:name=".ui.activity.NewsDetailActivity"
             android:label="@string/title_activity_news_detail"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.activity.ClassTimeTableActivity"
-            android:theme="@style/NoActionBar"
-            />
+        <activity
+            android:name=".ui.activity.ClassTimeTableActivity"
+            android:theme="@style/NoActionBar" />
         <activity android:name=".ui.activity.ClassCookBookActivity" />
         <activity android:name=".ui.activity.ClassAlbumActivity" />
         <activity
@@ -56,15 +56,19 @@
         <activity android:name=".ui.activity.SendKnowledgeActivity" />
         <activity android:name=".ui.activity.HandbookActivity" />
         <activity android:name=".ui.activity.CollegeAlbumActivity" />
-        <activity android:name=".ui.activity.AlbumDetailsActivity"
+        <activity
+            android:name=".ui.activity.AlbumDetailsActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.ImageDetailsActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.activity.VideoDetailsActivity"
+        <activity
+            android:name=".ui.activity.VideoDetailsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.HandbookVideoActivity" />
+        <activity android:name=".ui.activity.ParentDetailInfoActivity"></activity>
     </application>
 
 </manifest>

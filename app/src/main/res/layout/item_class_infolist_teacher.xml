@@ -1,115 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/color_class"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/white"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="1dp"
     >
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/color_class"
-    >
 
-   <LinearLayout
-       android:layout_marginTop="20dp"
-       android:layout_width="0dp"
-       android:layout_height="wrap_content"
-       android:layout_weight="1"
-       android:orientation="vertical"
-       >
-       <TextView
-           android:id="@+id/item_class_infolist_teacher_child_name"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="王叶鱼"
-           android:textColor="@color/cook_book_font"
-           android:layout_marginLeft="15dp"
-           android:textSize="17sp"
-           />
-
-       <TextView
-           android:id="@+id/item_class_infolist_teacher_child_class"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="中三班"
-           android:textColor="@color/color_class_timetable_number"
-           android:layout_gravity="right"
-           android:layout_marginLeft="5dp"
-           android:textSize="13sp"
-           />
-
-   </LinearLayout>
-
-    <RelativeLayout
-        android:layout_marginTop="8dp"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        >
-        <TextView
-            android:id="@+id/item_calss_infolist_teacher_father_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="王XX"
-            android:textColor="@color/cook_book_font"
-            android:layout_marginLeft="30dp"
-            android:textSize="17sp"
-            />
-        <TextView
-            android:id="@+id/item_calss_infolist_teacher_father_tel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="12345678910"
-            android:textColor="@color/cook_book_font"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="25dp"
-            android:textSize="17sp"
-            />
-
-        <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:background="#d5d5d5"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_below="@id/item_calss_infolist_teacher_father_name"
-            android:layout_marginTop="5dp"
-            />
-
-        <TextView
-            android:id="@+id/item_calss_infolist_teacher_mother_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="周XX"
-            android:textColor="@color/cook_book_font"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@id/item_calss_infolist_teacher_father_name"
-            android:textSize="17sp"
-            android:layout_marginTop="11dp"
-            />
-        <TextView
-            android:id="@+id/item_calss_infolist_teacher_mother_tel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="98765432109"
-            android:textColor="@color/cook_book_font"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="25dp"
-            android:layout_below="@id/item_calss_infolist_teacher_father_tel"
-            android:textSize="17sp"
-            android:layout_marginTop="11dp"
-            />
-    </RelativeLayout>
-
-</LinearLayout>
-
-    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/class_teacher_for_teacher"
         android:layout_width="match_parent"
-        android:layout_height="0.3dp"
-        android:background="#d5d5d5"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_below="@id/item_calss_infolist_teacher_father_name"
-        android:layout_marginTop="5dp"
-        />
-</LinearLayout>
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/item_class_infolist_teacher_child_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:background="@color/white"
+            android:text="张玲玲"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:background="@color/colorPrimary"
+            />
+
+        <TextView
+            android:id="@+id/item_class_infolist_teacher_parent_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:background="@color/white"
+            android:text="张建玲"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:background="@color/colorPrimary"
+            />
+
+        <TextView
+            android:id="@+id/item_class_infolist_teacher_parent_tel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:background="@color/white"
+            android:text="18888888888"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            />
+
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:background="@color/colorPrimary"
+            />
+
+        <TextView
+            android:id="@+id/item_class_infolist_teacher_details"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@color/white"
+            android:layout_marginLeft="1dp"
+            android:text="详情"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimary"
+            />
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

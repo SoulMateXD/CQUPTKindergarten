@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.cqupt.kindergarten.R;
 import com.cqupt.kindergarten.ui.fragment.HandBookAlbumFragment;
 import com.cqupt.kindergarten.ui.fragment.HandBookVideoFragment;
+import com.cqupt.kindergarten.ui.fragment.VideoListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class HandbookActivity extends AppCompatActivity {
         //初始化toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
 
         //初始化intenType相关的数据
@@ -77,7 +79,7 @@ public class HandbookActivity extends AppCompatActivity {
 
         //初始化顶部tab
         mFragments.add(HandBookAlbumFragment.newInstance(intentType));
-        mFragments.add(HandBookVideoFragment.newInstance());
+        mFragments.add(VideoListFragment.newInstance(intentType));
         handbookViewpager.setAdapter(new
                 HandbookFragmentAdapter(getSupportFragmentManager(), mTitles, mFragments));
         handbookViewpager.setOffscreenPageLimit(2);

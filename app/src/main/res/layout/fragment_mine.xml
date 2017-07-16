@@ -54,7 +54,7 @@
 
     <RelativeLayout
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="5dp"
         android:id="@+id/mine_my_collection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,22 +79,73 @@
             />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/mine_summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重邮幼儿园简介"
+            android:textColor="@color/cardview_dark_background"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/arrow_right"
+            android:layout_marginRight="20dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="5dp"
+        android:id="@+id/mine_regulations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重邮幼儿园章程"
+            android:textColor="@color/cardview_dark_background"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/arrow_right"
+            android:layout_marginRight="20dp"
+            />
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/mine_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="退出登录"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:background="@drawable/login_button_background"
         android:layout_marginLeft="@dimen/margin_left"
         android:layout_marginRight="@dimen/margin_left"
-        android:paddingTop="5dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/login_button_background"
+        android:gravity="center"
         android:paddingBottom="5dp"
-        android:layout_marginTop="60dp"
+        android:paddingTop="5dp"
+        android:text="退出登录"
         android:textColor="@color/white"
-    />
-
+        android:textSize="18sp" />
 
 
 </LinearLayout>

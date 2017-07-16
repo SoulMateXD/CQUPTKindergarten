@@ -30,7 +30,9 @@ import com.cqupt.kindergarten.bean.ImageChatBean;
 import com.cqupt.kindergarten.bean.ImageItemBean;
 import com.cqupt.kindergarten.bean.Parent;
 import com.cqupt.kindergarten.bean.Teacher;
+import com.cqupt.kindergarten.bean.VideoBean;
 import com.cqupt.kindergarten.listener.RecyclerOnclickInterface;
+import com.cqupt.kindergarten.util.GlideImageDownloadUtil;
 import com.cqupt.kindergarten.util.GsonUtil;
 import com.cqupt.kindergarten.util.HttpUtil;
 import com.cqupt.kindergarten.util.MyDialog;
@@ -48,6 +50,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -86,14 +90,21 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     TextView totalComment;
     @BindView(R.id.album_details_comment_icon)
     ImageView albumDetailsCommentIcon;
+    @BindView(R.id.album_details_dianzan_number)
+    TextView dianzanNumberText;
+    @BindView(R.id.video_details_player)
+    JCVideoPlayerStandard videoPlayer;
 
     @BindView(R.id.activity_main)
     CoordinatorLayout activityMain;
 
-    private static final String URL_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateShow";
-    private static final String URL_ADD_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateAdd";
-    //点赞按钮
-    private static final String URL_ADD_LIKE = "http://172.20.2.164:8080/kindergarden/PictureLike";
+    private static final String URL_IMAGE_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateShow";
+    private static final String URL_IMAGE_ADD_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateAdd";
+    private static final String URL_IMAGE_ADD_LIKE = "http://172.20.2.164:8080/kindergarden/PictureLike";
+    private static final String URL_VIDEO_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateShow";
+    private static final String URL_VIDEO_ADD_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateAdd";
+    private static final String URL_VIDEO_ADD_LIKE = "http://172.20.2.164:8080/kindergarden/MovieLike";
+
     private static final String KEY_COMID = "ComId";
     private static final String KEY_XID = "XId";
     private static final String KEY_ADD_COMMENT = "CommuniJson";
@@ -101,15 +112,21 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     private static final String LOGIN_SHARED_PREFRERNCES = "LoginPreferences";
     private static final int TEACHER = 0;
     private static final int PARENT = 1;
-    @BindView(R.id.album_details_dianzan_number)
-    TextView dianzanNumberText;
+    private static final int TYPE_VIDEO = 2;
+    private static final int TYPE_IMAGE = 3;
 
 
     private boolean isDianzan;
     private boolean isCollect;
-    private ImageItemBean bean;
+    private ImageItemBean imageBean;
+    private VideoBean videoBean;
+    private int intentType;
+    private String likeUrl;
+    private String commentUrl;
+    private String addCommentUrl;
     private String imageUrl;
-    private String imageId;
+    private String videoUrl;
+    private String xId;
     private int dianzanNumber;
     private ArrayList<ImageChatBean> datas = new ArrayList<>();
     private ImageChatAdapter adapter;
@@ -128,17 +145,50 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     }
 
     private void initView() {
+        okHttpUtil = new OkHttpUtil(this);
         getUserImformation();
-        bean = getIntent().getParcelableExtra("ImageUrl");
-        imageUrl = bean.getXcAdress();
-        imageId = bean.getXcId();
-        dianzanNumber = Integer.valueOf(bean.getpLike());
-        Glide.with(this)
-                .load(imageUrl)
-                .placeholder(R.drawable.default_image)
-                .into(image);
-        timeText.setText(bean.getXcDate());
-        dianzanNumberText.setText(dianzanNumber + "");
+        Intent intent = getIntent();
+        intentType = intent.getIntExtra("IntentType", 0);
+        if (intentType == 0) {
+            ToastUtils.showShortToast("出错了。。");
+        } else if (intentType == TYPE_IMAGE) {
+            videoPlayer.setVisibility(GONE);
+            image.setVisibility(View.VISIBLE);
+            imageBean = intent.getParcelableExtra("ImageUrl");
+            imageUrl = imageBean.getXcAdress();
+            xId = imageBean.getXcId();
+            dianzanNumber = Integer.valueOf(imageBean.getpLike());
+            Glide.with(this)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.default_image)
+                    .into(image);
+            timeText.setText(imageBean.getXcDate());
+            dianzanNumberText.setText(dianzanNumber + "");
+
+            commentUrl = URL_IMAGE_COMMENT;
+            addCommentUrl = URL_IMAGE_ADD_COMMENT;
+            likeUrl = URL_IMAGE_ADD_LIKE;
+            toolbarTitle.setText("图片详情");
+        } else if (intentType == TYPE_VIDEO) {
+            videoPlayer.setVisibility(View.VISIBLE);
+            image.setVisibility(View.GONE);
+            videoBean = intent.getParcelableExtra("VideoBean");
+            videoUrl = videoBean.getMvAdress();
+            xId = videoBean.getMvId();
+            dianzanNumber = Integer.valueOf(videoBean.getMvLike());
+            timeText.setText(videoBean.getMvDate());
+            dianzanNumberText.setText(dianzanNumber + "");
+            videoPlayer.widthRatio = 4;
+            videoPlayer.heightRatio = 3;
+            videoPlayer.setUp(videoUrl,
+                    JCVideoPlayer.NORMAL_ORIENTATION, "");
+
+            commentUrl = URL_VIDEO_COMMENT;
+            addCommentUrl = URL_VIDEO_ADD_COMMENT;
+            likeUrl = URL_VIDEO_ADD_LIKE;
+            toolbarTitle.setText("视频详情");
+        }
+
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -169,7 +219,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         swipeRefresh.setOnRefreshListener(this);
         onRefresh();
 
-        okHttpUtil = new OkHttpUtil(this);
+
     }
 
     private void getUserImformation() {
@@ -214,8 +264,8 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
                 //点赞按钮
                 isDianzan = !isDianzan;
                 Map<String, Object> map = new HashMap<>();
-                map.put(KEY_COMID, imageId);
-                okHttpUtil.mOkHttpPost(URL_ADD_LIKE, map, new OkHttpUtil.OkHttpUtilCallback() {
+                map.put(KEY_COMID, xId);
+                okHttpUtil.mOkHttpPost(likeUrl, map, new OkHttpUtil.OkHttpUtilCallback() {
                     @Override
                     public void onSuccess(String response) {
                         dianzanSwitch(dianzanIcon, isDianzan);
@@ -231,8 +281,13 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
 
                 break;
             case R.id.album_details_download_icon:
-                //下载按钮
-                Toast.makeText(this, "下载哟~", Toast.LENGTH_SHORT).show();
+                if (intentType == TYPE_IMAGE){
+                    GlideImageDownloadUtil download = new GlideImageDownloadUtil(this, "CQUPTKindergarten");
+                    String fileName = imageUrl.substring(imageUrl.lastIndexOf("/"));
+                    download.savePicture(fileName, imageUrl);
+                }else if (intentType == TYPE_VIDEO){
+                    ToastUtils.showShortToast("视频暂时不支持下载哦~");
+                }
                 break;
             case R.id.album_details_comment_icon:
                 //评论按钮，点击显示底部评论模块
@@ -269,7 +324,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
             sendBean.setPtwoId(null);
             sendBean.setComContent(inputString);
             sendBean.setComcount(0);
-            sendBean.setxId(imageId);
+            sendBean.setxId(xId);
             sendBean.setComTime(null);
         } else {
             if (inputString == null || inputString.equals("")) {
@@ -284,7 +339,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
 
         Map<String, Object> map = new HashMap<>();
         map.put(KEY_ADD_COMMENT, jsonString);
-        HttpUtil.mOkHttpPost(URL_ADD_COMMENT, map, new Callback() {
+        HttpUtil.mOkHttpPost(addCommentUrl, map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 ToastUtils.showShortToast("哎呀！评论失败了，请检查下网络哦~");
@@ -314,7 +369,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
             chatBean.setPtwoId(bean.getPoneId());
             chatBean.setComContent(null);  // 在sendButton的点击事件中设置
             chatBean.setComcount(0);
-            chatBean.setxId(imageId);
+            chatBean.setxId(xId);
             chatBean.setComTime(null);
             this.chatBean = chatBean;
         }
@@ -365,9 +420,9 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     @Override
     public void onRefresh() {
         Map<String, Object> map = new HashMap<>();
-        map.put(KEY_XID, imageId);
+        map.put(KEY_XID, xId);
 
-        HttpUtil.mOkHttpPost(URL_COMMENT, map, new Callback() {
+        HttpUtil.mOkHttpPost(commentUrl, map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Message message = new Message();

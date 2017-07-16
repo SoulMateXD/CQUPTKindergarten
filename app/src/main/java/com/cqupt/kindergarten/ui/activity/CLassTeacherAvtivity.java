@@ -12,22 +12,53 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cqupt.kindergarten.R;
+import com.cqupt.kindergarten.bean.InfoForParentBean;
+import com.cqupt.kindergarten.bean.InfoForTeacherBean;
+import com.cqupt.kindergarten.bean.ItemForParent;
+import com.cqupt.kindergarten.bean.ItemForTeacher;
+import com.cqupt.kindergarten.bean.ItemForTeacherParent;
+import com.cqupt.kindergarten.bean.Parent;
+import com.cqupt.kindergarten.bean.Teacher;
+import com.cqupt.kindergarten.util.GsonUtil;
+import com.cqupt.kindergarten.util.OkHttpUtil;
+import com.cqupt.kindergarten.util.ToastUtils;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CLassTeacherAvtivity extends AppCompatActivity {
-
-
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-    private RecyclerView recyclerView;
-    private Toolbar toolbar;
+    @BindView(R.id.class_teacher_toolbar)
+    Toolbar classTeacherToolbar;
+    @BindView(R.id.class_teacher_for_teacher)
+    LinearLayout classTeacherForTeacher;
+    @BindView(R.id.class_teacher_for_parent)
+    LinearLayout classTeacherForParent;
+    @BindView(R.id.class_teacher_recycler)
+    RecyclerView classTeacherRecycler;
+
+    private static final String URL_FOR_PARENT = "http://172.20.2.164:8080/kindergarden/TeacherByClass";
+    private static final String URL_FOR_TEACHER = "http://172.20.2.164:8080/kindergarden/StudentParent";
+    private static final String KEY_FOR_PARENT = "classid";
+    private static final String KEY_FOR_TEACHER = "classname";
+
+
+    private String url;
+    private String key;
+    private Map<String, Object> params;
+    private OkHttpUtil okHttpUtil;
+    private RecyclerView.Adapter adapter;
     private ArrayList<ItemForTeacher> datasForTeacher = new ArrayList<>();
     private ArrayList<ItemForParent> datasForParent = new ArrayList<>();
 
@@ -42,50 +73,110 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initView();
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        if (type == 0) {
-            recyclerView.setAdapter(new TeacherAdapter(datasForTeacher, this));
-        } else if (type == 1) {
-            recyclerView.setAdapter(new ParentAdapter(this, datasForParent));
-        }
-
-
     }
 
     private void initView() {
+        okHttpUtil = new OkHttpUtil(this);
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
+        params = new HashMap<>();
+        classTeacherRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        recyclerView = (RecyclerView) findViewById(R.id.class_teacher_recycler);
-        toolbar = (Toolbar) findViewById(R.id.class_teacher_toolbar);
-        toolbar.setTitle("");
         //判断登录用户类型，改变名单标题
         if (type == 0) {
+            classTeacherForTeacher.setVisibility(View.VISIBLE);
+            classTeacherForParent.setVisibility(View.GONE);
             toolbarTitle.setText("学生及家长名单");
         } else if (type == 1) {
+            classTeacherForTeacher.setVisibility(View.GONE);
+            classTeacherForParent.setVisibility(View.VISIBLE);
             toolbarTitle.setText("班级教师");
         }
-        setSupportActionBar(toolbar);
+        setSupportActionBar(classTeacherToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
-        initData();
-    }
+        //根据用户类型赋值并网络请求
+        if (type == 0) {
+            adapter = new TeacherAdapter(this, datasForTeacher);
+            classTeacherRecycler.setAdapter(adapter);
+            url = URL_FOR_TEACHER;
+            Teacher teacher = DataSupport.findFirst(Teacher.class);
+            key = teacher.getcId();
+            params.put(KEY_FOR_TEACHER, key);
+            okHttpUtil.mOkHttpPost(url, params, new OkHttpUtil.OkHttpUtilCallback() {
+                @Override
+                public void onSuccess(String response) {
+                    dealResponseForTeacher(response);
+                }
 
-    private void initData() {
-        ItemForTeacher itemForTeacher;
-        for (int i = 1; i <= 30; i++) {
-            itemForTeacher = new ItemForTeacher("张瀚漩", "6666666666" + i, "许建军", "9999999999" + i,
-                    "王小" + i, "中一班");
-            datasForTeacher.add(itemForTeacher);
+                @Override
+                public void onFailure(String response) {
+                    ToastUtils.showShortToast("不好意思，服务器出故障了");
+                }
+            });
+        } else if (type == 1) {
+            adapter = new ParentAdapter(this, datasForParent);
+            classTeacherRecycler.setAdapter(adapter);
+            url = URL_FOR_PARENT;
+            Parent parent = DataSupport.findFirst(Parent.class);
+            key = parent.getcId();
+            params.put(KEY_FOR_PARENT, key);
+            okHttpUtil.mOkHttpPost(url, params, new OkHttpUtil.OkHttpUtilCallback() {
+                @Override
+                public void onSuccess(String response) {
+                    dealResponseForParent(response);
+                }
+
+                @Override
+                public void onFailure(String response) {
+                    ToastUtils.showShortToast("不好意思，服务器出故障了");
+                }
+            });
         }
 
-        ItemForParent itemForParent;
-        for (int i = 1; i <= 30; i++) {
-            itemForParent = new ItemForParent("韩" + i + "青老师", "23333333333" + i, "安卓武装部");
-            datasForParent.add(itemForParent);
-        }
+        classTeacherRecycler.setAdapter(adapter);
+
     }
+
+    private void dealResponseForParent(String response) {
+        ArrayList<InfoForParentBean> beans = GsonUtil.jsonToArrayList(response, InfoForParentBean.class);
+        ArrayList<ItemForParent> datas = new ArrayList<>();
+        for (int i = 0; i < beans.size(); i++) {
+            InfoForParentBean bean = beans.get(i);
+            datas.add(new ItemForParent(bean.gettName(), bean.gettPhone()));
+        }
+        datasForParent.addAll(datas);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void dealResponseForTeacher(String response) {
+        ArrayList<InfoForTeacherBean> beans = GsonUtil.jsonToArrayList(response, InfoForTeacherBean.class);
+        ArrayList<ItemForTeacher> datas = new ArrayList<>();
+        for (int i = 0; i < beans.size(); i++) {
+            InfoForTeacherBean bean = beans.get(i);
+            String childName = bean.getsName();
+            ArrayList<ItemForTeacherParent> parents = getParents(bean);
+            datas.add(new ItemForTeacher(childName, parents));
+        }
+        datasForTeacher.addAll(datas);
+        adapter.notifyDataSetChanged();
+    }
+
+    /*
+    *   由于后台给的数据奇葩，要自己解析
+    * */
+    private ArrayList<ItemForTeacherParent> getParents(InfoForTeacherBean bean) {
+        String response = bean.getsAcount();
+        String[] strings = response.split("\\.");
+        ArrayList<ItemForTeacherParent> parents = new ArrayList<>();
+        for (int i = 0; i < strings.length; i++) {
+            String[] parent = strings[0].split(":");
+            parents.add(new ItemForTeacherParent(parent[0], parent[1]));
+        }
+        return parents;
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -99,11 +190,15 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    /*
+    *   老师界面的Adapter
+    * */
     private class TeacherAdapter extends RecyclerView.Adapter<TeacherViewHolder> implements View.OnClickListener {
         private ArrayList<ItemForTeacher> datas;
         private LayoutInflater inflater;
 
-        TeacherAdapter(ArrayList<ItemForTeacher> datas, Context context) {
+        TeacherAdapter(Context context, ArrayList<ItemForTeacher> datas) {
             this.datas = datas;
             inflater = LayoutInflater.from(context);
         }
@@ -118,15 +213,20 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(TeacherViewHolder holder, int position) {
-            ItemForTeacher data = datas.get(position);
-            holder.motherName.setText(data.getMotherName());
-            holder.motherTel.setText(data.getMotherTel());
-            holder.fatherName.setText(data.getFatherName());
-            holder.fatherTel.setText(data.getFatherTel());
-            holder.childName.setText(data.getChildName());
-            holder.childClass.setText(data.getChildClass());
-            holder.motherTel.setOnClickListener(this);
-            holder.fatherTel.setOnClickListener(this);
+            final ItemForTeacher bean = datas.get(position);
+            ItemForTeacherParent parent = bean.getParents().get(0);
+            holder.itemClassInfolistTeacherParentName.setText(parent.getParentName());
+            holder.itemClassInfolistTeacherParentTel.setText(parent.getParentTel());
+            holder.itemClassInfolistTeacherChildName.setText(bean.getChildName());
+            holder.itemClassInfolistTeacherParentTel.setOnClickListener(this);
+            holder.itemClassInfolistTeacherDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CLassTeacherAvtivity.this, ParentDetailInfoActivity.class);
+                    intent.putExtra("Bean", bean);
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override
@@ -142,26 +242,36 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
             intent.setData(Uri.parse("tel:" + tel));
             startActivity(intent);
         }
+
     }
 
-    private class TeacherViewHolder extends RecyclerView.ViewHolder {
-        private TextView childName;
-        private TextView childClass;
-        private TextView fatherName;
-        private TextView fatherTel;
-        private TextView motherName;
-        private TextView motherTel;
+    /*
+    *   老师界面的ViewHolder
+    * */
+
+    class TeacherViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.item_class_infolist_teacher_child_name)
+        TextView itemClassInfolistTeacherChildName;
+        @BindView(R.id.item_class_infolist_teacher_parent_name)
+        TextView itemClassInfolistTeacherParentName;
+        @BindView(R.id.item_class_infolist_teacher_parent_tel)
+        TextView itemClassInfolistTeacherParentTel;
+        @BindView(R.id.item_class_infolist_teacher_details)
+        TextView itemClassInfolistTeacherDetails;
+
 
         public TeacherViewHolder(View itemView) {
             super(itemView);
-            childName = (TextView) itemView.findViewById(R.id.item_class_infolist_teacher_child_name);
-            childClass = (TextView) itemView.findViewById(R.id.item_class_infolist_teacher_child_class);
-            fatherName = (TextView) itemView.findViewById(R.id.item_calss_infolist_teacher_father_name);
-            fatherTel = (TextView) itemView.findViewById(R.id.item_calss_infolist_teacher_father_tel);
-            motherName = (TextView) itemView.findViewById(R.id.item_calss_infolist_teacher_mother_name);
-            motherTel = (TextView) itemView.findViewById(R.id.item_calss_infolist_teacher_mother_tel);
+            ButterKnife.bind(this, itemView);
         }
     }
+
+
+
+
+    /*
+    *   家长界面的Adapter
+    * */
 
     class ParentAdapter extends RecyclerView.Adapter<ParentViewHolder> implements View.OnClickListener {
         private LayoutInflater inflater;
@@ -181,10 +291,9 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(ParentViewHolder holder, int position) {
             ItemForParent data = datas.get(position);
-            holder.teacherClass.setText(data.getTeacherClass());
-            holder.teacherName.setText(data.getTeacherName());
-            holder.teacherTel.setText(data.getTeacherTel());
-            holder.teacherTel.setOnClickListener(this);
+            holder.itemClassInfolistParentTeacherName.setText(data.getTeacherName());
+            holder.itemClassInfolistParentTeacherTel.setText(data.getTeacherTel());
+            holder.itemClassInfolistParentTeacherTel.setOnClickListener(this);
         }
 
         @Override
@@ -202,85 +311,20 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         }
     }
 
+    /*
+    *   家长界面的VIewHolder
+    * */
+
     class ParentViewHolder extends RecyclerView.ViewHolder {
-        private TextView teacherName;
-        private TextView teacherClass;
-        private TextView teacherTel;
+        @BindView(R.id.item_class_infolist_parent_teacher_name)
+        TextView itemClassInfolistParentTeacherName;
+        @BindView(R.id.item_class_infolist_parent_teacher_tel)
+        TextView itemClassInfolistParentTeacherTel;
 
         public ParentViewHolder(View itemView) {
             super(itemView);
-            teacherClass = (TextView) itemView.findViewById(R.id.item_class_infolist_parent_teacher_class);
-            teacherName = (TextView) itemView.findViewById(R.id.item_class_infolist_parent_teacher_name);
-            teacherTel = (TextView) itemView.findViewById(R.id.item_class_infolist_parent_teacher_tel);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    //教师界面， item的信息
-    private class ItemForTeacher {
-        String fatherName;
-        String fatherTel;
-        String motherName;
-        String motherTel;
-        String childName;
-        String childClass;
-
-        public ItemForTeacher(String fatherName, String fatherTel, String motherName,
-                              String motherTel, String childName, String childClass) {
-            this.fatherName = fatherName;
-            this.fatherTel = fatherTel;
-            this.motherName = motherName;
-            this.motherTel = motherTel;
-            this.childName = childName;
-            this.childClass = childClass;
-        }
-
-        public String getFatherName() {
-            return fatherName;
-        }
-
-        public String getFatherTel() {
-            return fatherTel;
-        }
-
-        public String getMotherName() {
-            return motherName;
-        }
-
-        public String getMotherTel() {
-            return motherTel;
-        }
-
-        public String getChildName() {
-            return childName;
-        }
-
-        public String getChildClass() {
-            return childClass;
-        }
-    }
-
-    //家长界面， item信息
-    private class ItemForParent {
-        private String teacherName;
-        private String teacherTel;
-        private String teacherClass;
-
-        public ItemForParent(String teacherName, String teacherTel, String teacherClass) {
-            this.teacherName = teacherName;
-            this.teacherTel = teacherTel;
-            this.teacherClass = teacherClass;
-        }
-
-        public String getTeacherName() {
-            return teacherName;
-        }
-
-        public String getTeacherTel() {
-            return teacherTel;
-        }
-
-        public String getTeacherClass() {
-            return teacherClass;
-        }
-    }
 }

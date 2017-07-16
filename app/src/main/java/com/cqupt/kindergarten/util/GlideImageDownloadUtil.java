@@ -16,16 +16,18 @@ import java.io.FileOutputStream;
 /**
  * Created by SoulMateXD on 2017/7/13.
  */
-public class SDFileHelper {
+public class GlideImageDownloadUtil {
 
     private Context context;
+    private String dir;
 
-    public SDFileHelper() {
+    public GlideImageDownloadUtil() {
     }
 
-    public SDFileHelper(Context context) {
+    public GlideImageDownloadUtil(Context context, String dir) {
         super();
         this.context = context;
+        this.dir = dir;
     }
 
     //Glide保存图片
@@ -47,7 +49,7 @@ public class SDFileHelper {
     public void savaFileToSD(String filename, byte[] bytes) throws Exception {
         //如果手机已插入sd卡,且app具有读写sd卡的权限
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            String filePath = Environment.getExternalStorageDirectory().getCanonicalPath()+"/budejie";
+            String filePath = Environment.getExternalStorageDirectory().getCanonicalPath()+"/" + dir;
             File dir1 = new File(filePath);
             if (!dir1.exists()){
                 dir1.mkdirs();

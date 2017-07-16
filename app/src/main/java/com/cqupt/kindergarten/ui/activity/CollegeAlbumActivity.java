@@ -56,6 +56,8 @@ public class CollegeAlbumActivity extends AppCompatActivity implements SwipeRefr
     private static final String KEY_PID = "pid";
     private static final String URL_ALBUM_DETAIL = "http://172.20.2.164:8080/kindergarden/PictureShowApp";
     private static final String RESPONSE_NULL = "{\"result\":false}";
+    private static final int TYPE_VIDEO = 2;
+    private static final int TYPE_IMAGE = 3;
 
     private String AlbumId;
     private ArrayList<CollegeAlbumBean> datas = new ArrayList<>();
@@ -225,6 +227,7 @@ public class CollegeAlbumActivity extends AppCompatActivity implements SwipeRefr
                 public void onClick(View view, int position) {
                     Intent intent = new Intent(CollegeAlbumActivity.this, AlbumDetailsActivity.class);
                     intent.putExtra("ImageUrl", bean.getT().get(position));
+                    intent.putExtra("IntentType", TYPE_IMAGE);
                     startActivity(intent);
                 }
             });

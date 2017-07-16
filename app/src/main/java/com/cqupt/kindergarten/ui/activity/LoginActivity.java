@@ -151,6 +151,7 @@ public class LoginActivity extends BaseActivity {
         editor.putBoolean(IS_LOGIN, true);
         editor.putInt("TYPE", PARENT);
         editor.putString("Appid", loginMessageParent.getAppid());
+        editor.putString("Apppassword", passWord);
         editor.apply();
         log.d(loginMessageParent.toString());
 
@@ -169,6 +170,7 @@ public class LoginActivity extends BaseActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(IS_LOGIN, true);
         editor.putInt("TYPE", TEACHER);
+        editor.putString("Apppassword", passWord);
         editor.putString("Appid", loginMessageTeacher.getAppid());
         editor.apply();
         log.d(loginMessageTeacher.toString());

@@ -61,13 +61,15 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
     private static final String RESPONSE_NULL = "[]";
     private static final String DEFAULT_IMAGE_URL = "http://imgsrc.baidu.com/forum/w%3D580/sign=79323d29054f78f0800b9afb49300a83/e32e6159252dd42aaaeba2d6053b5bb5c8eab8f5.jpg";
 
+
     private SharedPreferences sharedPreferences;
     private String cID;
 
     private Map<String, Object> map;
     private String url;
 
-    private int type;
+    private int userType;
+    private int intentType;
     private int page = 1;
     private ArrayList<AlbumAdapterBean> datas;
     private AlbumAdapter adapter;
@@ -97,9 +99,10 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
 
     @Override
     public void initView() {
+        getLocalValues();
         Bundle bundle = getArguments();
-        type = bundle.getInt("type");
-        if (type == TYPE_CLASS) {
+        intentType = bundle.getInt("type");
+        if (intentType == TYPE_CLASS) {
             map = new HashMap<>();
             url = URL_CLASS_ALBUM;
             page = 1;
@@ -107,7 +110,7 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
             map.put(KEY_PAGENUM, page);
             page++;
 
-        } else if (type == TYPE_NEWS) {
+        } else if (intentType == TYPE_NEWS) {
             map = new HashMap<>();
             url = URL_COLLEGE_ALBUM;
             page = 1;
@@ -142,11 +145,11 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
 
     private void getLocalValues() {
         sharedPreferences = getContext().getSharedPreferences(LOGIN_SHARED_PREFRERNCES, 0);
-        type = sharedPreferences.getInt("TYPE", 0);
-        if (type == PARENT) {
+        userType = sharedPreferences.getInt("TYPE", 0);
+        if (userType == PARENT) {
             Parent parent = DataSupport.findFirst(Parent.class);
              cID = parent.getcId();
-        } else if (type == TEACHER) {
+        } else if (userType == TEACHER) {
             Teacher teacher = DataSupport.findFirst(Teacher.class);
              cID = teacher.getcId();
         }

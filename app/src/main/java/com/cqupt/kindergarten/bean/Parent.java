@@ -17,6 +17,15 @@ public class Parent extends DataSupport {
     private String sPassword;
     private String sId;
     private String sAddress;
+    private String sface;
+
+    public String getSface() {
+        return sface;
+    }
+
+    public void setSface(String sface) {
+        this.sface = sface;
+    }
 
     @Override
     public String toString() {

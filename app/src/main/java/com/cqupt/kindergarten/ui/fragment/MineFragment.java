@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.cqupt.kindergarten.KindergartenApplication;
 import com.cqupt.kindergarten.R;
 import com.cqupt.kindergarten.base.BaseFragment;
@@ -38,9 +40,17 @@ import com.cqupt.kindergarten.ui.activity.LoginActivity;
 import com.cqupt.kindergarten.ui.activity.MainActivity;
 import com.cqupt.kindergarten.ui.activity.NoticeDetailsActivity;
 import com.cqupt.kindergarten.ui.ui_interface.IMineFragmentInterface;
+import com.cqupt.kindergarten.util.OkHttpUtil;
+import com.cqupt.kindergarten.util.ToastUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.litepal.crud.DataSupport;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -48,6 +58,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static java.lang.String.valueOf;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,20 +89,31 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
     @BindView(R.id.mine_exit)
     TextView mineExit;
     Unbinder unbinder;
+    @BindView(R.id.mine_summary)
+    RelativeLayout mineSummary;
+    @BindView(R.id.mine_regulations)
+    RelativeLayout mineRegulations;
 
     private static final String LOGIN_SHARED_PREFRERNCES = "LoginPreferences";
     private static final String IS_LOGIN = "isLogin";
     public static final int CHOOSE_PHOTO = 2;
     private static final int TEACHER = 0;
     private static final int PARENT = 1;
-    @BindView(R.id.mine_summary)
-    RelativeLayout mineSummary;
-    @BindView(R.id.mine_regulations)
-    RelativeLayout mineRegulations;
+    private static final String UPLOAD_TEACHER_IMAGE_URL = "http://172.0.2.164:8080/kindergarden/TeacherUpFace ";
+    private static final String UPLOAD_PARENT_IMAGE_URL = "http://172.0.2.164:8080/kindergarden//StudentFace";
+    private static final String KEY_PARENT = "sid";
+    private static final String KEY_TEACHER = "tid";
+
+    //上传图片所用key
+    private String uploadUrl;
+    private String keyId;
+    private String keyName;
 
     private String Appid;
-    private int type;
+    private int type;       //是教师还是家长
+    private String userImageUrl;    //头像url
     private SharedPreferences sharedPreferences;
+    private String imagePath;  //上传图片时，本地获取到的图片路径
 
     private MineFragmentComponent mMineFragmentComponent;
     private MainActivity mainActivity;
@@ -125,14 +156,28 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
 
         if (type == PARENT) {
             Parent parent = DataSupport.findFirst(Parent.class);
+            userImageUrl = parent.getSface();
+            uploadUrl = UPLOAD_PARENT_IMAGE_URL;
+            keyId = parent.getsId();
+            keyName = KEY_PARENT;
             mineUserClass.setText("所在班级 : " + parent.getcId());
             mineUserName.setText("昵称 : " + parent.getsName());
             mineUserAppid.setText("账号 : " + Appid);
+            Glide.with(getContext())
+                    .load(userImageUrl)
+                    .into(mingUserImage);
         } else if (type == TEACHER) {
             Teacher teacher = DataSupport.findFirst(Teacher.class);
+            userImageUrl = teacher.getTface();
+            uploadUrl = UPLOAD_TEACHER_IMAGE_URL;
+            keyId = teacher.gettId();
+            keyName = KEY_TEACHER;
             mineUserClass.setText("任课班级 : " + teacher.getcId());
             mineUserName.setText("昵称 : " + teacher.gettName());
             mineUserAppid.setText("账号 : " + Appid);
+            Glide.with(getContext())
+                    .load(userImageUrl)
+                    .into(mingUserImage);
         }
 
         return rootView;
@@ -176,9 +221,40 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
             case CHOOSE_PHOTO:
                 if (resultCode == -1 && data != null) {
                     Uri imageUri = data.getData();
-                    String imagePath = getImagePath(imageUri, null);
-                    Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                    mingUserImage.setImageBitmap(bitmap);
+                    imagePath = getImagePath(imageUri, null);
+                    if (imagePath != null){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                File uploadFile = new File(imagePath);
+                                Map<String, Object> map = new HashMap<>();
+                                map.put(keyName, keyId);
+                                post_file(uploadUrl, map, uploadFile, new Callback() {
+                                    @Override
+                                    public void onFailure(Call call, IOException e) {
+                                        ToastUtils.showShortToast("图片上传失败");
+                                    }
+
+                                    @Override
+                                    public void onResponse(Call call, Response response) throws IOException {
+                                        ToastUtils.showShortToast("上传成功");
+                                        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+                                        mingUserImage.setImageBitmap(bitmap);
+                                        String newUrl = null;
+                                        if (type == PARENT) {
+                                            Parent parent = DataSupport.findFirst(Parent.class);
+                                            parent.setSface(newUrl);
+                                            parent.save();
+                                        } else if (type == TEACHER) {
+                                            Teacher teacher = DataSupport.findFirst(Teacher.class);
+                                            teacher.setTface(newUrl);
+                                            teacher.save();
+                                        }
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
                 }
         }
     }
@@ -258,4 +334,32 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
         super.onDetach();
         mainActivity = null;
     }
+
+
+    /*
+    *   上传图片所用方法
+    * */
+    protected void post_file(final String url, final Map<String, Object> map, File file, Callback callback) {
+        OkHttpClient client = new OkHttpClient();
+        // form 表单形式上传
+        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        if(file != null){
+            // MediaType.parse() 里面是上传的文件类型。
+            RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
+            String filename = file.getName();
+            // 参数分别为， 请求key ，文件名称 ， RequestBody
+            requestBody.addFormDataPart("headImage", file.getName(), body);
+        }
+        if (map != null) {
+            // map 里面是请求中所需要的 key 和 value
+            for (Map.Entry entry : map.entrySet()) {
+                requestBody.addFormDataPart(valueOf(entry.getKey()), valueOf(entry.getValue()));
+            }
+        }
+        Request request = new Request.Builder().url(url).post(requestBody.build()).tag(this).build();
+        // readTimeout("请求超时时间" , 时间单位);
+        client.newBuilder().readTimeout(5000, TimeUnit.MILLISECONDS).build().newCall(request).enqueue(callback);
+
+    }
+
 }

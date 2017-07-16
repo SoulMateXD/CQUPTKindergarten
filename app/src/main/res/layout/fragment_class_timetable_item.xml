@@ -12,85 +12,115 @@
     <LinearLayout
         android:id="@+id/activity_class_time_number"
         android:layout_alignParentLeft="true"
-        android:layout_width="wrap_content"
+        android:layout_width="42dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_below="@id/class_timetable_toolbar"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="40dp"
         >
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="1"
-            android:textColor="@color/color_class_timetable_number"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/useful_background"
+            >
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text="第一节课"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(上午)"
+                android:layout_marginTop="3dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="2"
-            android:textColor="@color/color_class_timetable_number"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/useful_background"
+            >
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text="第二节课"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="3"
-            android:textColor="@color/color_class_timetable_number"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="@color/useful_background"
+            >
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text="第三节课"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(下午)"
+                android:layout_marginTop="3dp"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="4"
-            android:textColor="@color/color_class_timetable_number"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="5"
-            android:textColor="@color/color_class_timetable_number"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="6"
-            android:textColor="@color/color_class_timetable_number"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="7"
-            android:textColor="@color/color_class_timetable_number"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="8"
-            android:textColor="@color/color_class_timetable_number"
-            android:textSize="15dp"
-            android:gravity="center_horizontal"
-            />
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/useful_background"
+            >
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:text="第四节课"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                />
+
+        </RelativeLayout>
+
+
+
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -98,8 +128,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="5dp"
         android:layout_below="@id/class_timetable_toolbar"
         android:layout_toRightOf="@id/activity_class_time_number">
@@ -109,39 +138,55 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="一"
-            android:textColor="@color/color_class_timetable_number"/>
+            android:text="周一"
+            android:layout_marginRight="2dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/useful_background"
+            />
 
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="二"
-            android:textColor="@color/color_class_timetable_number"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="三"
-            android:textColor="@color/color_class_timetable_number"/>
+            android:text="周二"
+            android:layout_margin="2dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/useful_background"
+            />
 
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="四"
-            android:textColor="@color/color_class_timetable_number"/>
+            android:text="周三"
+            android:layout_margin="2dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/useful_background"
+            />
 
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="五"
-            android:textColor="@color/color_class_timetable_number"/>
+            android:text="周四"
+            android:layout_margin="2dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/useful_background"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="周五"
+            android:layout_margin="2dp"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/useful_background"
+            />
 
     </LinearLayout>
 
@@ -151,14 +196,14 @@
         android:layout_height="match_parent"
         android:layout_below="@id/class_timetable_week"
         android:layout_toRightOf="@id/activity_class_time_number"
-        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="40dp"
         android:numColumns="5"
         android:scrollbars="none"
-        android:verticalSpacing="1dp"
-        android:horizontalSpacing="1dp"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
         />
 
 

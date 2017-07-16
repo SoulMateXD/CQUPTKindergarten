@@ -14,6 +14,15 @@ public class Teacher extends DataSupport {
     private String tWorkId;
     private String cId;
     private String tgrade;
+    private String tface;
+
+    public String getTface() {
+        return tface;
+    }
+
+    public void setTface(String tface) {
+        this.tface = tface;
+    }
 
     @Override
     public String toString() {

@@ -3,6 +3,7 @@ package com.cqupt.kindergarten.util;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class OkHttpUtil {
                 switch (msg.what) {
                     case SUCCESS:
                         String response = (String) msg.obj;
+                        Log.d("OKHTTPUTIL", response);
                         callback.onSuccess(response);
                         break;
                     case FAILURE:
