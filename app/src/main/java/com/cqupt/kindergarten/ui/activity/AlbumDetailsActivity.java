@@ -1,12 +1,17 @@
 package com.cqupt.kindergarten.ui.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -283,9 +288,12 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
 
                 break;
             case R.id.album_details_download_icon:
-                GlideImageDownloadUtil download = new GlideImageDownloadUtil(this, "CQUPTKindergarten");
-                String fileName = imageUrl.substring(imageUrl.lastIndexOf("/"));
-                download.savePicture(fileName, imageUrl);
+                //下载按钮 申请权限
+                if (ContextCompat.checkSelfPermission(AlbumDetailsActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(AlbumDetailsActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
+                download();
                 break;
             case R.id.album_details_comment_icon:
                 //评论按钮，点击显示底部评论模块
@@ -304,6 +312,12 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
 
                 break;
         }
+    }
+
+    private void download() {
+        GlideImageDownloadUtil download = new GlideImageDownloadUtil(this, "CQUPTKindergarten");
+        String fileName = imageUrl.substring(imageUrl.lastIndexOf("/"));
+        download.savePicture(fileName, imageUrl);
     }
 
     private void sendComment(ImageChatBean bean) {
@@ -439,9 +453,22 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         });
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    download();
+                }else {
+                    ToastUtils.showShortToast("不好意思，没有这个权限我们无法提供下载服务哦");
+                }
+                break;
+        }
+    }
+
     /*
-    *   隐藏软键盘
-    * */
+        *   隐藏软键盘
+        * */
     private void hideKeyBoard() {
         View view = getCurrentFocus();
         if (view != null) {
