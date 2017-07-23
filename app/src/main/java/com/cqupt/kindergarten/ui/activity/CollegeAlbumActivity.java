@@ -152,21 +152,21 @@ public class CollegeAlbumActivity extends AppCompatActivity implements SwipeRefr
             ToastUtils.init(true);
             ToastUtils.showShortToast("没有数据啦~");
         }else {
-            //这里，由于后台给的url数据有问题，是以json字符串做的值，要再次解析。。。
             ArrayList<CollegeAlbumBean> beans = GsonUtil.jsonToArrayList(response, CollegeAlbumBean.class);
-            for (CollegeAlbumBean outerBean : beans){
-                ArrayList<ImageItemBean> innerBeans = outerBean.getT();
-                for (ImageItemBean innerBean : innerBeans){
-                    //默认网上的图片
-                    String url = "http://pic.service.yaolan.com/32/20160906/98/1473134188002_1_w600_h400_o.jpg";
-                    try {
-                        url = new JSONObject(innerBean.getXcAdress()).getString("url");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    innerBean.setXcAdress(url);
-                }
-            }
+//            for (CollegeAlbumBean outerBean : beans){
+//                ArrayList<ImageItemBean> innerBeans = outerBean.getT();
+                //原来后台给的数据很奇葩，他妈的改了也不和我说一声
+//                for (ImageItemBean innerBean : innerBeans){
+//                    //默认网上的图片
+//                    String url = "http://pic.service.yaolan.com/32/20160906/98/1473134188002_1_w600_h400_o.jpg";
+//                    try {
+//                        url = new JSONObject(innerBean.getXcAdress()).getString("url");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    innerBean.setXcAdress(url);
+//                }
+//            }
             datas.addAll(beans);
             adapter.notifyDataSetChanged();
         }

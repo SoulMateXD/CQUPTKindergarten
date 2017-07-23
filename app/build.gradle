@@ -11,6 +11,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
@@ -54,4 +55,5 @@ dependencies {
     compile 'com.zzhoujay.richtext:richtext:2.5.1'
     compile 'com.alexvasilkov:gesture-views:2.3.0'
     compile 'fm.jiecao:jiecaovideoplayer:5.5.4'
+
 }

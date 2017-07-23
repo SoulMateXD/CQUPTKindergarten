@@ -102,22 +102,6 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
         getLocalValues();
         Bundle bundle = getArguments();
         intentType = bundle.getInt("type");
-        if (intentType == TYPE_CLASS) {
-            map = new HashMap<>();
-            url = URL_CLASS_ALBUM;
-            page = 1;
-            map.put(KEY_CID, cID);
-            map.put(KEY_PAGENUM, page);
-            page++;
-
-        } else if (intentType == TYPE_NEWS) {
-            map = new HashMap<>();
-            url = URL_COLLEGE_ALBUM;
-            page = 1;
-            map.put(KEY_CID, "1");
-            map.put(KEY_PAGENUM, page);
-            page++;
-        }
         datas = new ArrayList<>();
         adapter = new AlbumAdapter(getContext(), datas);
         adapter.setOnclick(new RecyclerOnclickInterface() {
@@ -197,27 +181,40 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
 //            ToastUtils.showLongToast(beans.toString());
             for (int i=0; i<beans.size(); i++){
                 AlbumBeanFromJson bean = beans.get(i);
-                String imageUrl = null;
+//                String imageUrl = null;
                 if(bean.getPicface() == null){
                     datas.add(new AlbumAdapterBean(DEFAULT_IMAGE_URL, "99张", bean.getPicname(), bean.getPicid()));
                     continue;
                 }
-                try {
-                    JSONObject jsonObject = new JSONObject(bean.getPicface());
-                    imageUrl = jsonObject.getString("url");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                if (imageUrl!=null)
-                    datas.add(new AlbumAdapterBean(imageUrl, "99张", bean.getPicname(), bean.getPicid()));
+//                try {
+//                    JSONObject jsonObject = new JSONObject(bean.getPicface());
+//                    imageUrl = jsonObject.getString("url");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                if (imageUrl!=null)
+                datas.add(new AlbumAdapterBean(bean.getPicface(), "99张", bean.getPicname(), bean.getPicid()));
             }
-
             adapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void onRefresh() {
+        if (intentType == TYPE_CLASS) {
+            map = new HashMap<>();
+            url = URL_CLASS_ALBUM;
+            map.put(KEY_CID, cID);
+            map.put(KEY_PAGENUM, page);
+            page++;
+
+        } else if (intentType == TYPE_NEWS) {
+            map = new HashMap<>();
+            url = URL_COLLEGE_ALBUM;
+            map.put(KEY_CID, "1");
+            map.put(KEY_PAGENUM, page);
+            page++;
+        }
         HttpUtil.mOkHttpPost(url, map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

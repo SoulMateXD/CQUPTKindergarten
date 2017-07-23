@@ -52,6 +52,7 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
     private static final String URL_FOR_TEACHER = "http://172.20.2.164:8080/kindergarden/StudentParent";
     private static final String KEY_FOR_PARENT = "classid";
     private static final String KEY_FOR_TEACHER = "classname";
+    private static final String RESPONSE_NULL = "[]";
 
 
     private String url;
@@ -140,27 +141,37 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
     }
 
     private void dealResponseForParent(String response) {
-        ArrayList<InfoForParentBean> beans = GsonUtil.jsonToArrayList(response, InfoForParentBean.class);
-        ArrayList<ItemForParent> datas = new ArrayList<>();
-        for (int i = 0; i < beans.size(); i++) {
-            InfoForParentBean bean = beans.get(i);
-            datas.add(new ItemForParent(bean.gettName(), bean.gettPhone()));
+        if (response.equals(RESPONSE_NULL)){
+            ToastUtils.init(true);
+            ToastUtils.showShortToast("没有数据啦~");
+        }else {
+            ArrayList<InfoForParentBean> beans = GsonUtil.jsonToArrayList(response, InfoForParentBean.class);
+            ArrayList<ItemForParent> datas = new ArrayList<>();
+            for (int i = 0; i < beans.size(); i++) {
+                InfoForParentBean bean = beans.get(i);
+                datas.add(new ItemForParent(bean.gettName(), bean.gettPhone()));
+            }
+            datasForParent.addAll(datas);
+            adapter.notifyDataSetChanged();
         }
-        datasForParent.addAll(datas);
-        adapter.notifyDataSetChanged();
     }
 
     private void dealResponseForTeacher(String response) {
-        ArrayList<InfoForTeacherBean> beans = GsonUtil.jsonToArrayList(response, InfoForTeacherBean.class);
-        ArrayList<ItemForTeacher> datas = new ArrayList<>();
-        for (int i = 0; i < beans.size(); i++) {
-            InfoForTeacherBean bean = beans.get(i);
-            String childName = bean.getsName();
-            ArrayList<ItemForTeacherParent> parents = getParents(bean);
-            datas.add(new ItemForTeacher(childName, parents));
+        if (response.equals(RESPONSE_NULL)){
+            ToastUtils.init(true);
+            ToastUtils.showShortToast("没有数据啦~");
+        }else {
+            ArrayList<InfoForTeacherBean> beans = GsonUtil.jsonToArrayList(response, InfoForTeacherBean.class);
+            ArrayList<ItemForTeacher> datas = new ArrayList<>();
+            for (int i = 0; i < beans.size(); i++) {
+                InfoForTeacherBean bean = beans.get(i);
+                String childName = bean.getsName();
+                ArrayList<ItemForTeacherParent> parents = getParents(bean);
+                datas.add(new ItemForTeacher(childName, parents));
+            }
+            datasForTeacher.addAll(datas);
+            adapter.notifyDataSetChanged();
         }
-        datasForTeacher.addAll(datas);
-        adapter.notifyDataSetChanged();
     }
 
     /*
@@ -170,9 +181,15 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
         String response = bean.getsAcount();
         String[] strings = response.split("\\.");
         ArrayList<ItemForTeacherParent> parents = new ArrayList<>();
-        for (int i = 0; i < strings.length; i++) {
-            String[] parent = strings[0].split(":");
-            parents.add(new ItemForTeacherParent(parent[0], parent[1]));
+        if(strings.length >0) {
+            for (int i = 0; i < strings.length; i++) {
+                String[] parent = strings[0].split(":");
+                if (parent.length == 1){
+                    parents.add(new ItemForTeacherParent(parent[0], null));
+                }else if (parent.length == 2){
+                    parents.add(new ItemForTeacherParent(parent[0], parent[1]));
+                }
+            }
         }
         return parents;
     }

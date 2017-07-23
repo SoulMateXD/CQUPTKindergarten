@@ -30,10 +30,11 @@
         android:background="@mipmap/icon_class_notice_image"
         android:layout_marginLeft="2dp"
         app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        android:layout_marginRight="2dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="64dp" />
+        android:layout_marginTop="64dp"
+        app:layout_constraintHorizontal_bias="0.421" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"

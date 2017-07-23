@@ -69,7 +69,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     @BindView(R.id.album_details_time_text)
     TextView timeText;
     @BindView(R.id.album_details_download_icon)
-    ImageView messageIcon;
+    ImageView downloadIcon;
     @BindView(R.id.album_details_collect)
     ImageView collectIcon;
     @BindView(R.id.album_details_dianzan)
@@ -169,6 +169,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
             addCommentUrl = URL_IMAGE_ADD_COMMENT;
             likeUrl = URL_IMAGE_ADD_LIKE;
             toolbarTitle.setText("图片详情");
+            downloadIcon.setVisibility(View.VISIBLE);
         } else if (intentType == TYPE_VIDEO) {
             videoPlayer.setVisibility(View.VISIBLE);
             image.setVisibility(View.GONE);
@@ -187,6 +188,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
             addCommentUrl = URL_VIDEO_ADD_COMMENT;
             likeUrl = URL_VIDEO_ADD_LIKE;
             toolbarTitle.setText("视频详情");
+            downloadIcon.setVisibility(GONE);
         }
 
 
@@ -281,13 +283,9 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
 
                 break;
             case R.id.album_details_download_icon:
-                if (intentType == TYPE_IMAGE){
-                    GlideImageDownloadUtil download = new GlideImageDownloadUtil(this, "CQUPTKindergarten");
-                    String fileName = imageUrl.substring(imageUrl.lastIndexOf("/"));
-                    download.savePicture(fileName, imageUrl);
-                }else if (intentType == TYPE_VIDEO){
-                    ToastUtils.showShortToast("视频暂时不支持下载哦~");
-                }
+                GlideImageDownloadUtil download = new GlideImageDownloadUtil(this, "CQUPTKindergarten");
+                String fileName = imageUrl.substring(imageUrl.lastIndexOf("/"));
+                download.savePicture(fileName, imageUrl);
                 break;
             case R.id.album_details_comment_icon:
                 //评论按钮，点击显示底部评论模块
@@ -450,5 +448,11 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
             ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).
                     hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 }

@@ -74,10 +74,12 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Ne
         NoticeListBean bean = noticeList.get(position);
         holder.mTvTime.setText(bean.getTime());
         holder.mTvTitle.setText(bean.getTitle());
-        RichText.initCacheDir(mContext);
-        RichText.fromHtml(bean.getMessage())
-                .scaleType(ImageHolder.ScaleType.FIT_CENTER)
-                .into(holder.mTvContent);
+        if (bean.getMessage()!= null) {
+            RichText.initCacheDir(mContext);
+            RichText.fromHtml(bean.getMessage())
+                    .scaleType(ImageHolder.ScaleType.FIT_CENTER)
+                    .into(holder.mTvContent);
+        }
 
     }
 

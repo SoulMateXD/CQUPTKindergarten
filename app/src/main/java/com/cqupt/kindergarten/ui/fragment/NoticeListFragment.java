@@ -2,6 +2,7 @@ package com.cqupt.kindergarten.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import com.cqupt.kindergarten.adapter.NoticeListAdapter;
 import com.cqupt.kindergarten.base.BaseFragment;
 import com.cqupt.kindergarten.bean.NewsListBean;
 import com.cqupt.kindergarten.bean.NoticeListBean;
+import com.cqupt.kindergarten.bean.Parent;
+import com.cqupt.kindergarten.bean.Teacher;
 import com.cqupt.kindergarten.injection.component.DaggerNoticeListFragmentComponent;
 import com.cqupt.kindergarten.injection.component.NoticeListFragmentComponent;
 import com.cqupt.kindergarten.injection.module.NoticeListFragmentModule;
@@ -26,6 +29,8 @@ import com.cqupt.kindergarten.ui.ui_interface.INewsListFragment;
 import com.cqupt.kindergarten.util.GsonUtil;
 import com.cqupt.kindergarten.util.OkHttpUtil;
 import com.cqupt.kindergarten.util.ToastUtils;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,22 +60,33 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
     List<NoticeListBean> notices;
 
 
-    private static final String URL = "http://172.20.2.164:8080/kindergarden/GgStateSreach3";
+    private static final String URL_COLLEGE = "http://172.20.2.164:8080/kindergarden/showPumGg";
+    private static final String URL_CLASS = "http://172.20.2.164:8080/kindergarden/showclassGg";
     private static final String RESPONSE_NULL = "[]";
-    private static final String KEY_A = "A";
-    private static final String KEY_B = "B";
-    private static final String KEY_C = "C";
-    private static final String KEY_D = "D";
-    private static final String KEY_PAGENUM = "pageNum";
+    private static final String KEY_PAGENUM = "pagenum";
+    private static final String KEY_CID = "cid";
+    /*
+    *  class，和 news 两个fragment中，公告和图鉴模块，用于跳转判断
+    * */
+    public static int TYPE_CLASS = 0;
+    public static int TYPE_NEWS = 1;
+
+    private SharedPreferences sharedPreferences;
+
+    private int userType;
+
+    private int intentType;
 
     private OkHttpUtil okHttpUtil;
     private int page = 1;
+    private String cid;
+    private String url;
 
     private NoticeListFragmentComponent mNoticeListFragmentComponent;
 
-    public static NoticeListFragment newInstance() {
-
+    public static NoticeListFragment newInstance(int type) {
         Bundle args = new Bundle();
+        args.putInt("IntentType", type);
         NoticeListFragment mFragment = new NoticeListFragment();
         mFragment.setArguments(args);
         return mFragment;
@@ -83,6 +99,8 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
 
     @Override
     public void initView() {
+        getLocalValues();
+        intentType = getArguments().getInt("IntentType");
         okHttpUtil = new OkHttpUtil((Activity) getContext());
         notices = new ArrayList<>();
         mSwipeRefreshWidget.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,
@@ -137,13 +155,15 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
     @Override
     public void onRefresh() {
         Map<String, Object> map = new HashMap<>();
-        map.put(KEY_A, "全部");
-        map.put(KEY_B, null);
-        map.put(KEY_C, null);
-        map.put(KEY_D, null);
         map.put(KEY_PAGENUM, page);
         page++;
-        okHttpUtil.mOkHttpPost(URL, map, new OkHttpUtil.OkHttpUtilCallback() {
+        url = URL_COLLEGE;
+        if (intentType == TYPE_CLASS) {
+            map.put(KEY_CID, cid);
+            url = URL_CLASS;
+        }
+
+        okHttpUtil.mOkHttpPost(url, map, new OkHttpUtil.OkHttpUtilCallback() {
             @Override
             public void onSuccess(String response) {
                 dealJson(response);
@@ -165,6 +185,18 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
             List<NoticeListBean> beans = GsonUtil.jsonToArrayList(response, NoticeListBean.class);
             notices.addAll(beans);
             mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void getLocalValues() {
+        sharedPreferences = getContext().getSharedPreferences(LOGIN_SHARED_PREFRERNCES, 0);
+        userType = sharedPreferences.getInt("TYPE", 0);
+        if (userType == PARENT) {
+            Parent parent = DataSupport.findFirst(Parent.class);
+            cid = parent.getcId();
+        } else if (userType == TEACHER) {
+            Teacher teacher = DataSupport.findFirst(Teacher.class);
+            cid = teacher.getcId();
         }
     }
 }

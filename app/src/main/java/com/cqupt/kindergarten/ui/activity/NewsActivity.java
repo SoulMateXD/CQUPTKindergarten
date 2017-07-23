@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cqupt.kindergarten.R;
 import com.cqupt.kindergarten.base.BaseActivity;
@@ -26,8 +27,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.view.View.GONE;
 
 /**
  * Created by lenovo on 2017/1/15.
@@ -44,12 +43,13 @@ public class NewsActivity extends BaseActivity {
     ViewPager mViewPager;
     @BindView(R.id.toolbar_image)
     ImageView toolbarImage;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
 
     private List<BaseFragment> mFragments;
     private List<String> mTitles;
     private int type;
     private int intentType;
-    private boolean isParent;
     private SharedPreferences preferences;
 
 
@@ -80,20 +80,20 @@ public class NewsActivity extends BaseActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
+        toolbarTitle.setText("公告与新闻");
 
         //初始化intentType相关的数据
         intentType = getIntent().getIntExtra("intentType", 0);
-        if (intentType == TYPE_NEWS){
+        if (intentType == TYPE_NEWS) {
             mTitles.add("校园新闻");
             mTitles.add("校园公告");
-        }else if (intentType == TYPE_CLASS){
-            mTitles.add("班级新闻");
+            mFragments.add(NewsListFragment.newInstance());
+            mFragments.add(NoticeListFragment.newInstance(intentType));
+        } else if (intentType == TYPE_CLASS) {
             mTitles.add("班级公告");
+            mFragments.add(NoticeListFragment.newInstance(intentType));
         }
 
-        //配置顶部tab
-        mFragments.add(NewsListFragment.newInstance());
-        mFragments.add(NoticeListFragment.newInstance());
         mViewPager.setAdapter(new NewsAdapter(getSupportFragmentManager(), mFragments, mTitles));
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setCurrentItem(0);
@@ -102,7 +102,6 @@ public class NewsActivity extends BaseActivity {
 
         loadLoginDataFromPreferences();
         toolbarImage.setVisibility(View.GONE);
-        isParent = (type == PARENT);
 
 
         /*

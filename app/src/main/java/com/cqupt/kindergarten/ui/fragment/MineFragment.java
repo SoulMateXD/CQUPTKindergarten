@@ -193,7 +193,7 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ming_user_image:
-                chooseFromAlbum();
+//                chooseFromAlbum();
                 break;
             case R.id.mine_exit:
                 exit();

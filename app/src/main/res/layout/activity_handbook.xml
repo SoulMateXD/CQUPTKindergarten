@@ -20,7 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/top_image"
-            android:minHeight="?attr/actionBarSize" >
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
+            >
 
             <TextView
                 android:id="@+id/toolbar_title"

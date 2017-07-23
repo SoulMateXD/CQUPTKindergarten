@@ -170,7 +170,7 @@ public class HandBookVideoFragment extends BaseFragment implements SwipeRefreshL
 
             @Override
             public void onFailure(String response) {
-
+                swipeRefresh.setRefreshing(false);
             }
         });
     }

@@ -22,6 +22,7 @@
             app:layout_collapseMode="pin"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             android:background="@drawable/top_image"
+            app:layout_scrollFlags="scroll|enterAlways|snap"
             >
 
             <TextView

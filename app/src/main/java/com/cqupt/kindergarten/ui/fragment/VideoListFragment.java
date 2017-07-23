@@ -75,15 +75,6 @@ public class VideoListFragment extends BaseFragment implements SwipeRefreshLayou
         getLocalValues();
         Bundle bundle = getArguments();
         intentType = bundle.getInt("type");
-        params = new HashMap<>();
-        if (intentType == TYPE_CLASS) {
-            url = CLASS_VEDIO_LIST_URL;
-            params.put("mcJson", cID);
-            params.put("pageNum", page);
-        } else if (intentType == TYPE_NEWS) {
-            url = COLLEGE_VIDEO_LIST_URL;
-            params.put("pageNum", page);
-        }
 
         datas = new ArrayList<>();
         adapter = new VideoListAdapter(getContext(), datas);
@@ -151,6 +142,17 @@ public class VideoListFragment extends BaseFragment implements SwipeRefreshLayou
 
     @Override
     public void onRefresh() {
+        params = new HashMap<>();
+        if (intentType == TYPE_CLASS) {
+            url = CLASS_VEDIO_LIST_URL;
+            params.put("mcJson", cID);
+            params.put("pageNum", page);
+        } else if (intentType == TYPE_NEWS) {
+            url = COLLEGE_VIDEO_LIST_URL;
+            params.put("pageNum", page);
+        }
+        page++;
+
         okHttpUtil.mOkHttpPost(url, params, new OkHttpUtil.OkHttpUtilCallback() {
             @Override
             public void onSuccess(String response) {
@@ -169,12 +171,13 @@ public class VideoListFragment extends BaseFragment implements SwipeRefreshLayou
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(String response) {
                 ToastUtils.showShortToast("数据加载失败");
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

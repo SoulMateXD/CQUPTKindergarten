@@ -49,39 +49,41 @@ public class NoticeDetailsActivity extends AppCompatActivity {
         bean = intent.getParcelableExtra("NoticeItem");
 
         toolbarTitle.setText(bean.getTitle());
-        RichText.initCacheDir(this);
-        RichText.fromHtml(bean.getMessage())
-                .scaleType(ImageHolder.ScaleType.FIT_CENTER)
-                .fix(new ImageFixCallback() {
-                    @Override
-                    public void onInit(ImageHolder holder) {
+        if (bean.getMessage()!= null) {
+            RichText.initCacheDir(this);
+            RichText.fromHtml(bean.getMessage())
+                    .scaleType(ImageHolder.ScaleType.FIT_CENTER)
+                    .fix(new ImageFixCallback() {
+                        @Override
+                        public void onInit(ImageHolder holder) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onLoading(ImageHolder holder) {
+                        @Override
+                        public void onLoading(ImageHolder holder) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onSizeReady(ImageHolder holder, int imageWidth, int imageHeight, ImageHolder.SizeHolder sizeHolder) {
+                        @Override
+                        public void onSizeReady(ImageHolder holder, int imageWidth, int imageHeight, ImageHolder.SizeHolder sizeHolder) {
 
-                    }
+                        }
 
 
-                    @Override
-                    public void onImageReady(ImageHolder holder, int width, int height) {
-                        int ScreenWidth = ScreenUtils.getScreenWidth(getApplicationContext());
-                        if (ScreenWidth > width)
-                            holder.setSize(width, height);
-                    }
+                        @Override
+                        public void onImageReady(ImageHolder holder, int width, int height) {
+                            int ScreenWidth = ScreenUtils.getScreenWidth(getApplicationContext());
+                            if (ScreenWidth > width)
+                                holder.setSize(width, height);
+                        }
 
-                    @Override
-                    public void onFailure(ImageHolder holder, Exception e) {
+                        @Override
+                        public void onFailure(ImageHolder holder, Exception e) {
 
-                    }
-                })//设置图片最大宽度
-                .into(tvContent);
+                        }
+                    })//设置图片最大宽度
+                    .into(tvContent);
+        }
 
     }
 
