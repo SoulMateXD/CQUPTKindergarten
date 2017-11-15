@@ -70,6 +70,7 @@
                 android:layout_toLeftOf="@id/item_video_message_icon"
                 android:layout_marginRight="20dp"
                 android:layout_centerVertical="true"
+                android:visibility="gone"
                 />
 
             <ImageView
@@ -80,6 +81,7 @@
                 android:layout_toLeftOf="@id/item_video_collect"
                 android:layout_marginRight="20dp"
                 android:layout_centerVertical="true"
+                android:visibility="gone"
                 />
 
         </RelativeLayout>

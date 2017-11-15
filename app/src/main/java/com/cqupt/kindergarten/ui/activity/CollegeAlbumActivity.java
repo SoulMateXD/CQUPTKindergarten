@@ -54,7 +54,10 @@ public class CollegeAlbumActivity extends AppCompatActivity implements SwipeRefr
 
     private static final String KEY_PAGENUM = "pageNum";
     private static final String KEY_PID = "pid";
-    private static final String URL_ALBUM_DETAIL = "http://172.20.2.164:8080/kindergarden/PictureShowApp";
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String URL_ALBUM_DETAIL = URL+"kindergarden/PictureShowApp";
+    private static final String URL_COLLECT = URL + "kindergarden/CollectPicTotal";
+    private static final String URL_VIDEO_DETAIL = URL + "kindergarden/CollectPicTotal";
     private static final String RESPONSE_NULL = "{\"result\":false}";
     private static final int TYPE_VIDEO = 2;
     private static final int TYPE_IMAGE = 3;
@@ -62,6 +65,8 @@ public class CollegeAlbumActivity extends AppCompatActivity implements SwipeRefr
     private String AlbumId;
     private ArrayList<CollegeAlbumBean> datas = new ArrayList<>();
     private int page = 1;
+    private String url;
+    private int intentType;
 
     private CollegeAlbumAdapter adapter;
     private Handler handler = new Handler() {
@@ -95,6 +100,7 @@ public class CollegeAlbumActivity extends AppCompatActivity implements SwipeRefr
         Intent intent = getIntent();
         AlbumAdapterBean bean = intent.getParcelableExtra("AlbumData");
         AlbumId = bean.getAlbumId();
+        intentType = intent.getIntExtra("intentType", 0);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(bean.getAlbumTitle());
@@ -123,12 +129,18 @@ public class CollegeAlbumActivity extends AppCompatActivity implements SwipeRefr
 
     @Override
     public void onRefresh() {
+
         Map<String, Object> map = new HashMap<>();
         map.put(KEY_PAGENUM, page);
         map.put(KEY_PID, AlbumId);
         page++;
+        if (intentType == 2){
+            url = URL_COLLECT;
+        }else {
+            url = URL_ALBUM_DETAIL;
+        }
 
-        HttpUtil.mOkHttpPost(URL_ALBUM_DETAIL, map, new Callback() {
+        HttpUtil.mOkHttpPost(url, map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Message message = new Message();

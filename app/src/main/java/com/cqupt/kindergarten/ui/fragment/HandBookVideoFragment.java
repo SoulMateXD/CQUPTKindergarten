@@ -27,6 +27,7 @@ import com.cqupt.kindergarten.util.ToastUtils;
 
 import org.litepal.crud.DataSupport;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,15 +46,16 @@ public class HandBookVideoFragment extends BaseFragment implements SwipeRefreshL
     Unbinder unbinder;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
-
-    private static final String VIDEO_URL = "http://172.20.2.164:8080/kindergarden/MovieShowApp";
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String VIDEO_URL = URL+"kindergarden/MovieShowApp";
+    private static final String COLLECT_URL = URL + "kindergarden/CollectMovTotal";
     private static final String KEY_MCID = "MCid";
     private static final String KEY_PAGENUM = "pageNum";
     private static final String RESPONSE_NULL = "[]";
     private static final int TYPE_VIDEO = 2;
     private static final int TYPE_IMAGE = 3;
 
-
+    private int intentType;
     private String mcId;
     private String url;
     private int userType;
@@ -73,12 +75,13 @@ public class HandBookVideoFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void initView() {
         bean = getArguments().getParcelable("VideoListBean");
+        intentType = getArguments().getInt("intentType");
         okHttpUtil = new OkHttpUtil(getActivity());
         datas = new ArrayList<>();
         adapter = new VideoAdapter(getContext(), datas);
 
         mcId = bean.getMcid();
-        url = VIDEO_URL;
+
 
         adapter.setOnClickListener(new VideoRecyclerOnclickListener() {
             @Override
@@ -126,10 +129,11 @@ public class HandBookVideoFragment extends BaseFragment implements SwipeRefreshL
 
     }
 
-    public static HandBookVideoFragment newInstance(VideoListBean bean) {
+    public static HandBookVideoFragment newInstance(VideoListBean bean, int intentType) {
         HandBookVideoFragment fragment = new HandBookVideoFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("VideoListBean", bean);
+        bundle.putInt("intentType", intentType);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -150,10 +154,19 @@ public class HandBookVideoFragment extends BaseFragment implements SwipeRefreshL
 
     @Override
     public void onRefresh() {
-        params = new HashMap<>();
-        params.put(KEY_MCID, mcId);
-        params.put(KEY_PAGENUM, page);
-        page++;
+        if (intentType == 2){
+            url = COLLECT_URL;
+            params = new HashMap<>();
+            params.put("mcid", mcId);
+            params.put(KEY_PAGENUM, page);
+            page++;
+        }else {
+            url = VIDEO_URL;
+            params = new HashMap<>();
+            params.put(KEY_MCID, mcId);
+            params.put(KEY_PAGENUM, page);
+            page++;
+        }
         okHttpUtil.mOkHttpPost(url, params, new OkHttpUtil.OkHttpUtilCallback() {
             @Override
             public void onSuccess(String response) {

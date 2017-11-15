@@ -37,6 +37,8 @@ public class NewsDetailActivity extends BaseActivity implements INewsDetailActiv
     NewsDetailActivityPresenter mNewsDetailActivityPresenterm;
     @BindView(R.id.toolbar_layout)
     CollapsingToolbarLayout toolbarLayout;
+    @BindView(R.id.tv_publisher)
+    TextView tvPublisher;
     private NewsDetailActivityComponent mNewsDetailActivityComponent;
     @BindView(R.id.img_news)
     ImageView mImgNews;
@@ -115,6 +117,7 @@ public class NewsDetailActivity extends BaseActivity implements INewsDetailActiv
                     }
                 })//设置图片最大宽度
                 .into(mTvNewsContent);
+        tvPublisher.setText("发布人: " + bean.getIssuer());
     }
 
     @Override

@@ -38,9 +38,11 @@ public abstract class BaseFragment extends Fragment{
     * */
     protected  static int TYPE_CLASS = 0;
     protected  static int TYPE_NEWS = 1;
+    protected  static int TYPE_COLLECTION = 2;
     protected  static final int TEACHER = 0;
     protected  static final int PARENT = 1;
     protected static final String LOGIN_SHARED_PREFRERNCES = "LoginPreferences";
+    protected static String userId;
 
     @Nullable
     @Override

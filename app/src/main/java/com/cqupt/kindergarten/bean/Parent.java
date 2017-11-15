@@ -18,6 +18,24 @@ public class Parent extends DataSupport {
     private String sId;
     private String sAddress;
     private String sface;
+    private String pictureContentid;
+    private String movieContentid;
+
+    public String getPictureContentid() {
+        return pictureContentid;
+    }
+
+    public void setPictureContentid(String pictureContentid) {
+        this.pictureContentid = pictureContentid;
+    }
+
+    public String getMovieContentid() {
+        return movieContentid;
+    }
+
+    public void setMovieContentid(String movieContentid) {
+        this.movieContentid = movieContentid;
+    }
 
     public String getSface() {
         return sface;

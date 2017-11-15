@@ -55,8 +55,8 @@ public class NewsListFragment extends BaseFragment implements INewsListFragment,
     RecyclerView mRecyclerview;
     @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout mSwipeRefreshWidget;
-
-    private static final String URL = "http://172.20.2.164:8080/kindergarden/NewsStateSreach3";
+    private static final String HURL = "http://119.29.225.57:8080/";
+    private static final String URL = HURL+"kindergarden/NewsStateSreach3";
     private static final String RESPONSE_NULL = "[]";
     private static final String KEY_A = "A";
     private static final String KEY_B = "B";

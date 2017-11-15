@@ -52,6 +52,9 @@ public class CollegeAlbumInnerAdapter extends RecyclerView.Adapter<CollegeAlbumI
         Glide.with(context)
                 .load(bean.getXcAdress())
                 .placeholder(R.drawable.default_image)
+                .thumbnail(0.05f)
+                .crossFade()
+                .centerCrop()
                 .into(holder.imageView);
 
         holder.imageView.setTag(R.id.recycler_item_position_tag, position);

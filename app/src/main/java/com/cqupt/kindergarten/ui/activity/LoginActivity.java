@@ -70,8 +70,8 @@ public class LoginActivity extends BaseActivity {
     private static final int PARENT = 1;
     private static final String LOGIN_SHARED_PREFRERNCES = "LoginPreferences";
     private static final String IS_LOGIN = "isLogin";
-
-    private static final String KGURL = "http://172.20.2.164:8080/kindergarden/LoginServletApp";
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String KGURL = URL+"kindergarden/LoginServletApp";
 
     private String userName;
     private String passWord;
@@ -161,7 +161,7 @@ public class LoginActivity extends BaseActivity {
 
         boolean ii = loginMessageParent.save();
         log.d(ii + "");
-        Parent parent = loginMessageParent.getObject()[0];
+        Parent parent = loginMessageParent.getObject();
         parent.save();
     }
 

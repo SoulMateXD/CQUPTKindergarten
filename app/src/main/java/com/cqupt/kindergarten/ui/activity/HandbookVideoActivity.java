@@ -29,6 +29,7 @@ public class HandbookVideoActivity extends AppCompatActivity {
     FrameLayout handbookVideoFrame;
 
     private VideoListBean bean;
+    private int intentType;
 
 
     @Override
@@ -42,10 +43,12 @@ public class HandbookVideoActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
 
         bean = getIntent().getParcelableExtra("VideoListData");
+        intentType = getIntent().getIntExtra("intentType", 0);
+
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        HandBookVideoFragment fragment = HandBookVideoFragment.newInstance(bean);
+        HandBookVideoFragment fragment = HandBookVideoFragment.newInstance(bean, intentType);
         transaction.replace(R.id.handbook_video_frame, fragment);
         transaction.commit();
     }

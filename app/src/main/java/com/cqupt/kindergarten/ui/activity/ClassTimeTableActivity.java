@@ -60,7 +60,8 @@ public class ClassTimeTableActivity extends AppCompatActivity {
     private static final int TEACHER = 0;
     private static final int PARENT = 1;
 
-    private static final String POSTURL = "http://172.20.2.164:8080/kindergarden/LessonAppShow";
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String POSTURL = URL + "kindergarden/LessonAppShow";
     private static final String POSTKEY = "lessonIdJson";
     private String POSTVALUE;
     private int type;
@@ -180,11 +181,11 @@ public class ClassTimeTableActivity extends AppCompatActivity {
         for (int i = 0; i < beans.size(); i++) {
             list.clear();
             LessonDataBean bean = beans.get(i);
-            list.addAll(new ArrayList<>(Arrays.asList(bean.getlMon().split(","))));
-            list.addAll(new ArrayList<>(Arrays.asList(bean.getlTue().split(","))));
-            list.addAll(new ArrayList<>(Arrays.asList(bean.getlWed().split(","))));
-            list.addAll(new ArrayList<>(Arrays.asList(bean.getlThu().split(","))));
-            list.addAll(new ArrayList<>(Arrays.asList(bean.getLfri().split(","))));
+            list.addAll(new ArrayList<>(Arrays.asList(bean.getlMon().split(","))).subList(0, 4));
+            list.addAll(new ArrayList<>(Arrays.asList(bean.getlTue().split(","))).subList(0, 4));
+            list.addAll(new ArrayList<>(Arrays.asList(bean.getlWed().split(","))).subList(0, 4));
+            list.addAll(new ArrayList<>(Arrays.asList(bean.getlThu().split(","))).subList(0, 4));
+            list.addAll(new ArrayList<>(Arrays.asList(bean.getLfri().split(","))).subList(0, 4));
             Bean bean1 = new Bean(list, "第 " + bean.getlWeek() + " 周");
             data.add(bean1);
         }

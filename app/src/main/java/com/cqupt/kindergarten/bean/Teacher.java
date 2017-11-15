@@ -15,6 +15,24 @@ public class Teacher extends DataSupport {
     private String cId;
     private String tgrade;
     private String tface;
+    private String pictureContentid;
+    private String movieContentid;
+
+    public String getMovieContentid() {
+        return movieContentid;
+    }
+
+    public void setMovieContentid(String movieContentid) {
+        this.movieContentid = movieContentid;
+    }
+
+    public String getPictureContentid() {
+        return pictureContentid;
+    }
+
+    public void setPictureContentid(String pictureContentid) {
+        this.pictureContentid = pictureContentid;
+    }
 
     public String getTface() {
         return tface;

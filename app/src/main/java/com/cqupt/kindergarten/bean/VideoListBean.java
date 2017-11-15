@@ -8,11 +8,11 @@ import android.os.Parcelable;
  */
 
 public class VideoListBean implements Parcelable {
-    private String mcpeople;
-    private String mctime;
-    private String mccontent;
-    private String mcclassid;
-    private String mcid;
+    private String mcpeople ="";
+    private String mctime="";
+    private String mccontent="";
+    private String mcclassid="";
+    private String mcid="";
 
     @Override
     public int describeContents() {
@@ -29,6 +29,11 @@ public class VideoListBean implements Parcelable {
     }
 
     public VideoListBean() {
+    }
+
+    public VideoListBean(String mccontent, String mcid) {
+        this.mccontent = mccontent;
+        this.mcid = mcid;
     }
 
     protected VideoListBean(Parcel in) {

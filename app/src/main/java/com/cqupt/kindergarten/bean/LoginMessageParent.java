@@ -10,7 +10,7 @@ public class LoginMessageParent extends DataSupport{
 
     private String Appid;
     private String msg;
-    private Parent[] Object;
+    private Parent Object;
 
     public String getAppid() {
         return Appid;
@@ -28,16 +28,16 @@ public class LoginMessageParent extends DataSupport{
         this.msg = msg;
     }
 
-    public Parent[] getObject() {
+    public Parent getObject() {
         return Object;
     }
 
-    public void setObject(Parent[] object) {
+    public void setObject(Parent object) {
         Object = object;
     }
 
     @Override
     public String toString() {
-        return "Appid: " + Appid + "  Msg: " + msg + " Parent:" + Object[0];
+        return "Appid: " + Appid + "  Msg: " + msg + " Parent:" + Object;
     }
 }

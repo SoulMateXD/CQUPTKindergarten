@@ -48,8 +48,9 @@ public class CLassTeacherAvtivity extends AppCompatActivity {
     @BindView(R.id.class_teacher_recycler)
     RecyclerView classTeacherRecycler;
 
-    private static final String URL_FOR_PARENT = "http://172.20.2.164:8080/kindergarden/TeacherByClass";
-    private static final String URL_FOR_TEACHER = "http://172.20.2.164:8080/kindergarden/StudentParent";
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String URL_FOR_PARENT = URL + "kindergarden/TeacherByClass";
+    private static final String URL_FOR_TEACHER = URL + "kindergarden/StudentParent";
     private static final String KEY_FOR_PARENT = "classid";
     private static final String KEY_FOR_TEACHER = "classname";
     private static final String RESPONSE_NULL = "[]";

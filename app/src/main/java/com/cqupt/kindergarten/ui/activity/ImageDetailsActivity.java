@@ -30,7 +30,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
         imageUrl = getIntent().getStringExtra("ImageUrl");
         gestureImage.getController().getSettings()
                 .setMaxZoom(4f);
-        Glide.with(this)
+        Glide.with(getApplicationContext())
                 .load(imageUrl)
                 .placeholder(R.drawable.default_image)
                 .into(gestureImage);

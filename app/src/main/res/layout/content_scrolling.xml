@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
+    android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.cqupt.kindergarten.ui.activity.NewsDetailActivity"
     tools:showIn="@layout/activity_news_detail">
@@ -16,6 +17,7 @@
     android:layout_marginTop="15dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
+        android:layout_marginBottom="20dp"
     android:orientation="vertical">
 
         <TextView
@@ -24,6 +26,24 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textSize="17sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_publisher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:layout_gravity="right"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:layout_gravity="right"
             />
 
 

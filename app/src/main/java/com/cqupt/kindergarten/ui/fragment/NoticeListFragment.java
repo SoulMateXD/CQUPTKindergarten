@@ -59,9 +59,10 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
     NoticeListAdapter mAdapter;
     List<NoticeListBean> notices;
 
-
-    private static final String URL_COLLEGE = "http://172.20.2.164:8080/kindergarden/showPumGg";
-    private static final String URL_CLASS = "http://172.20.2.164:8080/kindergarden/showclassGg";
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String URL_COLLEGE = URL+"kindergarden/showPumGg";
+    private static final String URL_CLASS = URL+"kindergarden/showclassGg";
+    private static final String URL_SUIBI = URL + "kindergarden/ClassEduction";
     private static final String RESPONSE_NULL = "[]";
     private static final String KEY_PAGENUM = "pagenum";
     private static final String KEY_CID = "cid";
@@ -163,6 +164,13 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
             url = URL_CLASS;
         }
 
+        if (intentType == 3){
+            map = new HashMap<>();
+            map.put("pageNum", page);
+            map.put("cid", cid);
+            url = URL_SUIBI;
+        }
+
         okHttpUtil.mOkHttpPost(url, map, new OkHttpUtil.OkHttpUtilCallback() {
             @Override
             public void onSuccess(String response) {
@@ -178,7 +186,7 @@ public class NoticeListFragment extends BaseFragment implements INewsListFragmen
     }
 
     private void dealJson(String response) {
-        if (response.equals(RESPONSE_NULL)){
+        if (response.equals(RESPONSE_NULL )||response.equals("{\"false\":\"false\"}")){
             ToastUtils.init(true);
             ToastUtils.showShortToast("没有数据啦~");
         }else {

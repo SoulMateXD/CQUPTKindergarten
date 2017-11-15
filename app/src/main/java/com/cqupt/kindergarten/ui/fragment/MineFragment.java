@@ -1,6 +1,7 @@
 package com.cqupt.kindergarten.ui.fragment;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -36,6 +39,8 @@ import com.cqupt.kindergarten.injection.component.DaggerMineFragmentComponent;
 import com.cqupt.kindergarten.injection.component.MineFragmentComponent;
 import com.cqupt.kindergarten.injection.module.MineFragmentModule;
 import com.cqupt.kindergarten.presenter.MineFragmentPresenter;
+import com.cqupt.kindergarten.ui.activity.ClassTimeTableActivity;
+import com.cqupt.kindergarten.ui.activity.HandbookActivity;
 import com.cqupt.kindergarten.ui.activity.LoginActivity;
 import com.cqupt.kindergarten.ui.activity.MainActivity;
 import com.cqupt.kindergarten.ui.activity.NoticeDetailsActivity;
@@ -44,10 +49,13 @@ import com.cqupt.kindergarten.util.OkHttpUtil;
 import com.cqupt.kindergarten.util.ToastUtils;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +68,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -67,6 +76,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+import static com.cqupt.kindergarten.util.MyDialog.TIME_OUT;
 import static java.lang.String.valueOf;
 
 /**
@@ -99,10 +109,12 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
     public static final int CHOOSE_PHOTO = 2;
     private static final int TEACHER = 0;
     private static final int PARENT = 1;
-    private static final String UPLOAD_TEACHER_IMAGE_URL = "http://172.0.2.164:8080/kindergarden/TeacherUpFace ";
-    private static final String UPLOAD_PARENT_IMAGE_URL = "http://172.0.2.164:8080/kindergarden//StudentFace";
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String UPLOAD_TEACHER_IMAGE_URL = URL+"kindergarden/TeacherUpFace ";
+    private static final String UPLOAD_PARENT_IMAGE_URL = URL+"kindergarden/StudentFace";
     private static final String KEY_PARENT = "sid";
     private static final String KEY_TEACHER = "tid";
+    public static int TYPE_COLLECTION = 2;
 
     //上传图片所用key
     private String uploadUrl;
@@ -117,6 +129,7 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
 
     private MineFragmentComponent mMineFragmentComponent;
     private MainActivity mainActivity;
+    private ProgressDialog progressDialog;
 
     @Override
     public int getLayoutId() {
@@ -165,6 +178,7 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
             mineUserAppid.setText("账号 : " + Appid);
             Glide.with(getContext())
                     .load(userImageUrl)
+                    .skipMemoryCache(true)
                     .into(mingUserImage);
         } else if (type == TEACHER) {
             Teacher teacher = DataSupport.findFirst(Teacher.class);
@@ -177,8 +191,11 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
             mineUserAppid.setText("账号 : " + Appid);
             Glide.with(getContext())
                     .load(userImageUrl)
+                    .skipMemoryCache(true)
                     .into(mingUserImage);
         }
+
+        userId = keyId;
 
         return rootView;
     }
@@ -189,11 +206,11 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
         unbinder.unbind();
     }
 
-    @OnClick({R.id.ming_user_image, R.id.mine_exit, R.id.mine_summary, R.id.mine_regulations})
+    @OnClick({R.id.ming_user_image, R.id.mine_exit, R.id.mine_summary, R.id.mine_regulations, R.id.mine_my_collection})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ming_user_image:
-//                chooseFromAlbum();
+                chooseFromAlbum();
                 break;
             case R.id.mine_exit:
                 exit();
@@ -211,6 +228,10 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
                 intent2.putExtra("NoticeItem", bean2);
                 startActivity(intent2);
                 break;
+            case R.id.mine_my_collection:
+                Intent collectionIntent = new Intent(getContext(), HandbookActivity.class);
+                collectionIntent.putExtra("intentType", TYPE_COLLECTION);
+                startActivity(collectionIntent);
         }
     }
 
@@ -223,33 +244,52 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
                     Uri imageUri = data.getData();
                     imagePath = getImagePath(imageUri, null);
                     if (imagePath != null){
+                        showProgressDialog();
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 File uploadFile = new File(imagePath);
-                                Map<String, Object> map = new HashMap<>();
-                                map.put(keyName, keyId);
-                                post_file(uploadUrl, map, uploadFile, new Callback() {
+                                uploadMultiFile(uploadFile, uploadUrl, keyName, keyId, new Callback() {
                                     @Override
-                                    public void onFailure(Call call, IOException e) {
-                                        ToastUtils.showShortToast("图片上传失败");
+                                    public void onFailure(Call call, final IOException e) {
+                                        mainActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ToastUtils.showShortToast("图片上传失败");
+                                                dismissProgressDialog();
+                                            }
+                                        });
                                     }
 
                                     @Override
-                                    public void onResponse(Call call, Response response) throws IOException {
-                                        ToastUtils.showShortToast("上传成功");
-                                        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                                        mingUserImage.setImageBitmap(bitmap);
-                                        String newUrl = null;
-                                        if (type == PARENT) {
-                                            Parent parent = DataSupport.findFirst(Parent.class);
-                                            parent.setSface(newUrl);
-                                            parent.save();
-                                        } else if (type == TEACHER) {
-                                            Teacher teacher = DataSupport.findFirst(Teacher.class);
-                                            teacher.setTface(newUrl);
-                                            teacher.save();
-                                        }
+                                    public void onResponse(Call call, final Response response) throws IOException {
+                                        mainActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                String newUrl = null;
+                                                try {
+                                                    newUrl = response.body().string();
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                ToastUtils.showShortToast(newUrl);
+                                                Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+                                                mingUserImage.setImageBitmap(bitmap);
+
+                                                if (type == PARENT) {
+                                                    Parent parent = DataSupport.findFirst(Parent.class);
+                                                    parent.setSface(newUrl);
+                                                    parent.save();
+                                                } else if (type == TEACHER) {
+                                                    Teacher teacher = DataSupport.findFirst(Teacher.class);
+                                                    teacher.setTface(newUrl);
+                                                    teacher.save();
+                                                }
+                                                dismissProgressDialog();
+                                            }
+                                        });
                                     }
                                 });
                             }
@@ -336,30 +376,118 @@ public class MineFragment extends BaseFragment implements IMineFragmentInterface
     }
 
 
+//    /*
+//    *   上传图片所用方法
+//    * */
+//    protected void post_file(final String url, final Map<String, Object> map, File file, Callback callback) {
+//        OkHttpClient client = new OkHttpClient();
+//        // form 表单形式上传
+//        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
+//        if(file != null){
+//            // MediaType.parse() 里面是上传的文件类型。
+//            RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
+//            String filename = file.getName();
+//            // 参数分别为， 请求key ，文件名称 ， RequestBody
+//            requestBody.addFormDataPart("headImage", file.getName(), body);
+//        }
+//        if (map != null) {
+//            // map 里面是请求中所需要的 key 和 value
+//            for (Map.Entry entry : map.entrySet()) {
+//                requestBody.addFormDataPart(valueOf(entry.getKey()), valueOf(entry.getValue()));
+//            }
+//        }
+//        Request request = new Request.Builder().url(url).post(requestBody.build()).tag(this).build();
+//        // readTimeout("请求超时时间" , 时间单位);
+//        client.newBuilder().readTimeout(5000, TimeUnit.MILLISECONDS).build().newCall(request).enqueue(callback);
+//
+//    }
+
     /*
-    *   上传图片所用方法
-    * */
-    protected void post_file(final String url, final Map<String, Object> map, File file, Callback callback) {
-        OkHttpClient client = new OkHttpClient();
-        // form 表单形式上传
-        MultipartBody.Builder requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        if(file != null){
-            // MediaType.parse() 里面是上传的文件类型。
-            RequestBody body = RequestBody.create(MediaType.parse("image/*"), file);
-            String filename = file.getName();
-            // 参数分别为， 请求key ，文件名称 ， RequestBody
-            requestBody.addFormDataPart("headImage", file.getName(), body);
-        }
-        if (map != null) {
-            // map 里面是请求中所需要的 key 和 value
-            for (Map.Entry entry : map.entrySet()) {
-                requestBody.addFormDataPart(valueOf(entry.getKey()), valueOf(entry.getValue()));
-            }
-        }
-        Request request = new Request.Builder().url(url).post(requestBody.build()).tag(this).build();
-        // readTimeout("请求超时时间" , 时间单位);
-        client.newBuilder().readTimeout(5000, TimeUnit.MILLISECONDS).build().newCall(request).enqueue(callback);
+   *   上传带参数的文件到服务器
+   * */
+    private void uploadMultiFile(File uploadFile, String uploadUrl, String keyName, String keyId, Callback callback){
+//        MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder();
+//        multipartBodyBuilder.setType(MultipartBody.FORM);
+//        multipartBodyBuilder.addFormDataPart("tid", "123");
+//        multipartBodyBuilder.addFormDataPart("image", uploadFile.getName(), RequestBody.create( MediaType.parse("image/png"), uploadFile));
+//        RequestBody requestBody = multipartBodyBuilder.build();
+//        Request request = new Request.Builder().url(uploadUrl).post(requestBody).build();
+        RequestBody fileBody = RequestBody.create
+                (MediaType.parse("image/png"), uploadFile);
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                //写入 key  value  参数
+                //写入 文件
+                //参数必须自己拼接
+
+//                .addFormDataPart("image", uploadFile.getName(), fileBody)
+                .addPart(Headers.of(
+                        "Content-Disposition", "form-data; name=\"file\";filename=\"file.jpg\"")
+                        , fileBody)
+//                .addPart(Headers.of(
+//                        "Content-Disposition",
+//                        "form-data; name=\"tid\"")
+//                        ,RequestBody.create(null, "3"))
+                .addFormDataPart("tid", keyId)
+                .build();
+        Request request = new Request.Builder()
+                .url(uploadUrl + "?"+keyName+"=" + keyId)
+                .header("Content-type", "multipart/form-data")
+                .post(requestBody)
+                .build();
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        OkHttpClient okHttpClient =
+                builder.connectTimeout(5, TimeUnit.SECONDS)
+                        .writeTimeout(5, TimeUnit.SECONDS)
+                        .build();
+        okHttpClient.newCall(request).enqueue(callback);
 
     }
 
+    /*
+    *   请求数据，转圈圈
+    * */
+    private void showProgressDialog() {
+        progressDialog = new ProgressDialog(mainActivity);
+        progressDialog.setTitle("请稍后 ^.^");
+        progressDialog.setMessage("上传照片中...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(15000);
+                    if (progressDialog.isShowing()) {
+                        Message message = new Message();
+                        message.what = TIME_OUT;
+                        handler.sendMessage(message);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            int response = msg.what;
+            switch (response) {
+                case TIME_OUT:
+                    Toast.makeText(getContext(), "您的网络有点不给力噢！请检查下网络设置^.^", Toast.LENGTH_SHORT).show();
+                    break;
+
+            }
+            dismissProgressDialog();
+        }
+    };
+
+    /*
+    *   让ProgressDialog消失
+    * */
+    private void dismissProgressDialog() {
+        progressDialog.dismiss();
+    }
 }

@@ -91,6 +91,9 @@ public class NewsActivity extends BaseActivity {
             mFragments.add(NoticeListFragment.newInstance(intentType));
         } else if (intentType == TYPE_CLASS) {
             mTitles.add("班级公告");
+            mTitles.add("班级随笔");
+            mFragments.add(NoticeListFragment.newInstance(intentType));
+            intentType = 3;
             mFragments.add(NoticeListFragment.newInstance(intentType));
         }
 

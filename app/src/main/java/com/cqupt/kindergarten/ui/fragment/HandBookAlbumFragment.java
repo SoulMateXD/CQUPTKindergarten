@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 import org.litepal.crud.DataSupport;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,9 +55,10 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
     @BindView(R.id.swipe_refresh_widget)
     SwipeRefreshLayout swipeRefreshLayout;
     Unbinder unbinder;
-
-    private static final String URL_COLLEGE_ALBUM = "http://172.20.2.164:8080/kindergarden/PCtShowteacher";
-    private static final String URL_CLASS_ALBUM = "http://172.20.2.164:8080/kindergarden/PCShowApp";
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String URL_COLLEGE_ALBUM = URL+"kindergarden/PCtShowteacher";
+    private static final String URL_CLASS_ALBUM = URL+"kindergarden/PCShowApp";
+    private static final String URL_COLLECTION_ALBUM = URL + "kindergarden/CollectPhotocontent";
     private static final String KEY_PAGENUM = "pageNum";
     private static final String KEY_CID = "cid";
     private static final String RESPONSE_NULL = "[]";
@@ -70,7 +73,7 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
 
     private int userType;
     private int intentType;
-    private int page = 1;
+    private int page;
     private ArrayList<AlbumAdapterBean> datas;
     private AlbumAdapter adapter;
     private Handler handler = new Handler() {
@@ -102,6 +105,7 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
         getLocalValues();
         Bundle bundle = getArguments();
         intentType = bundle.getInt("type");
+        page = 1;
         datas = new ArrayList<>();
         adapter = new AlbumAdapter(getContext(), datas);
         adapter.setOnclick(new RecyclerOnclickInterface() {
@@ -110,6 +114,7 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
                 AlbumAdapterBean bean = datas.get(position);
                 Intent intent = new Intent(getContext(), CollegeAlbumActivity.class);
                 intent.putExtra("AlbumData", bean);
+                intent.putExtra("intentType", intentType);
                 startActivity(intent);
             }
         });
@@ -172,20 +177,39 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
     }
 
     private void dealJson(String response) {
-        if (response.equals(RESPONSE_NULL)){
-            ToastUtils.init(true);
-            ToastUtils.showShortToast("没有数据啦~");
+        if (intentType == TYPE_COLLECTION){
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                Log.d("AAAA", jsonObject.getString("cpname"));
+                if (page == 2){
+                    AlbumAdapterBean bean = new AlbumAdapterBean(jsonObject.getString("cpface"), "99张",
+                            jsonObject.getString("cpname"), jsonObject.getString("cpid"));
+                    datas.add(bean);
+                    adapter.notifyDataSetChanged();
+                }else {
+                    ToastUtils.init(true);
+                    ToastUtils.showShortToast("没有数据啦~");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         }else {
-            ArrayList<AlbumBeanFromJson> beans = GsonUtil.jsonToArrayList(response, AlbumBeanFromJson.class);
+            if (response.equals(RESPONSE_NULL)){
+                ToastUtils.init(true);
+                ToastUtils.showShortToast("没有数据啦~");
+            }else {
+                ArrayList<AlbumBeanFromJson> beans = GsonUtil.jsonToArrayList(response, AlbumBeanFromJson.class);
 //            ToastUtils.init(true);
 //            ToastUtils.showLongToast(beans.toString());
-            for (int i=0; i<beans.size(); i++){
-                AlbumBeanFromJson bean = beans.get(i);
+                for (int i=0; i<beans.size(); i++){
+                    AlbumBeanFromJson bean = beans.get(i);
 //                String imageUrl = null;
-                if(bean.getPicface() == null){
-                    datas.add(new AlbumAdapterBean(DEFAULT_IMAGE_URL, "99张", bean.getPicname(), bean.getPicid()));
-                    continue;
-                }
+                    if(bean.getPicface() == null){
+                        datas.add(new AlbumAdapterBean(DEFAULT_IMAGE_URL, "99张", bean.getPicname(), bean.getPicid()));
+                        continue;
+                    }
 //                try {
 //                    JSONObject jsonObject = new JSONObject(bean.getPicface());
 //                    imageUrl = jsonObject.getString("url");
@@ -193,9 +217,10 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
 //                    e.printStackTrace();
 //                }
 //                if (imageUrl!=null)
-                datas.add(new AlbumAdapterBean(bean.getPicface(), "99张", bean.getPicname(), bean.getPicid()));
+                    datas.add(new AlbumAdapterBean(bean.getPicface(), "99张", bean.getPicname(), bean.getPicid()));
+                }
+                adapter.notifyDataSetChanged();
             }
-            adapter.notifyDataSetChanged();
         }
     }
 
@@ -213,6 +238,11 @@ public class HandBookAlbumFragment extends BaseFragment implements SwipeRefreshL
             url = URL_COLLEGE_ALBUM;
             map.put(KEY_CID, "1");
             map.put(KEY_PAGENUM, page);
+            page++;
+        }else if (intentType == TYPE_COLLECTION){
+            map = new HashMap<>();
+            url = URL_COLLECTION_ALBUM;
+            map.put("userid", userId);
             page++;
         }
         HttpUtil.mOkHttpPost(url, map, new Callback() {

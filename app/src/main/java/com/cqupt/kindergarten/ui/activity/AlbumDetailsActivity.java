@@ -29,8 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.cqupt.kindergarten.R;
 import com.cqupt.kindergarten.adapter.ImageChatAdapter;
+import com.cqupt.kindergarten.base.BaseActivity;
 import com.cqupt.kindergarten.bean.ImageChatBean;
 import com.cqupt.kindergarten.bean.ImageItemBean;
 import com.cqupt.kindergarten.bean.Parent;
@@ -63,7 +65,7 @@ import okhttp3.Response;
 
 import static android.view.View.GONE;
 
-public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class AlbumDetailsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
@@ -103,13 +105,15 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     @BindView(R.id.activity_main)
     CoordinatorLayout activityMain;
 
-    private static final String URL_IMAGE_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateShow";
-    private static final String URL_IMAGE_ADD_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateAdd";
-    private static final String URL_IMAGE_ADD_LIKE = "http://172.20.2.164:8080/kindergarden/PictureLike";
-    private static final String URL_VIDEO_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateShow";
-    private static final String URL_VIDEO_ADD_COMMENT = "http://172.20.2.164:8080/kindergarden/CommunicateAdd";
-    private static final String URL_VIDEO_ADD_LIKE = "http://172.20.2.164:8080/kindergarden/MovieLike";
-
+    private static final String URL = "http://119.29.225.57:8080/";
+    private static final String URL_IMAGE_COMMENT = URL + "kindergarden/CommunicateShow";
+    private static final String URL_IMAGE_ADD_COMMENT = URL + "kindergarden/CommunicateAdd";
+    private static final String URL_IMAGE_ADD_LIKE = URL + "kindergarden/PictureLike";
+    private static final String URL_VIDEO_COMMENT = URL + "kindergarden/CommunicateShow";
+    private static final String URL_VIDEO_ADD_COMMENT = URL + "kindergarden/CommunicateAdd";
+    private static final String URL_VIDEO_ADD_LIKE = URL + "kindergarden/MovieLike";
+    private static final String URL_VIDEO_COLLECT = URL + "kindergarden/AddCollectMov";
+    private static final String URL_IMAGE_COLLECT = URL + "kindergarden/AddCollectpic";
     private static final String KEY_COMID = "ComId";
     private static final String KEY_XID = "XId";
     private static final String KEY_ADD_COMMENT = "CommuniJson";
@@ -125,13 +129,18 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     private boolean isCollect;
     private ImageItemBean imageBean;
     private VideoBean videoBean;
+    //是图片还是视频
     private int intentType;
+    //是老师还是家长
+    private int type;
     private String likeUrl;
     private String commentUrl;
     private String addCommentUrl;
     private String imageUrl;
     private String videoUrl;
+    private String collectUrl;
     private String xId;
+    private String mcId;
     private int dianzanNumber;
     private ArrayList<ImageChatBean> datas = new ArrayList<>();
     private ImageChatAdapter adapter;
@@ -140,16 +149,15 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     private boolean isResponse;
     private OkHttpUtil okHttpUtil;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album_details);
         ButterKnife.bind(this);
-
-        initView();
     }
 
-    private void initView() {
+    @Override
+    public void initView(){
         okHttpUtil = new OkHttpUtil(this);
         getUserImformation();
         Intent intent = getIntent();
@@ -157,25 +165,44 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         if (intentType == 0) {
             ToastUtils.showShortToast("出错了。。");
         } else if (intentType == TYPE_IMAGE) {
+            if (type == TEACHER){
+                Teacher teacher = DataSupport.findFirst(Teacher.class);
+                mcId = teacher.getPictureContentid();
+            }else{
+                Parent parent = DataSupport.findFirst(Parent.class);
+                mcId = parent.getPictureContentid();
+            }
             videoPlayer.setVisibility(GONE);
             image.setVisibility(View.VISIBLE);
             imageBean = intent.getParcelableExtra("ImageUrl");
             imageUrl = imageBean.getXcAdress();
             xId = imageBean.getXcId();
+
             dianzanNumber = Integer.valueOf(imageBean.getpLike());
             Glide.with(this)
                     .load(imageUrl)
                     .placeholder(R.drawable.default_image)
+                    .thumbnail(0.3f)
+                    .centerCrop()
+                    .crossFade()
+                    .priority(Priority.IMMEDIATE)
                     .into(image);
             timeText.setText(imageBean.getXcDate());
             dianzanNumberText.setText(dianzanNumber + "");
-
+            collectUrl = URL_IMAGE_COLLECT;
             commentUrl = URL_IMAGE_COMMENT;
             addCommentUrl = URL_IMAGE_ADD_COMMENT;
             likeUrl = URL_IMAGE_ADD_LIKE;
             toolbarTitle.setText("图片详情");
             downloadIcon.setVisibility(View.VISIBLE);
         } else if (intentType == TYPE_VIDEO) {
+            if (type == TEACHER){
+                Teacher teacher = DataSupport.findFirst(Teacher.class);
+                mcId = teacher.getMovieContentid();
+            }else{
+                Parent parent = DataSupport.findFirst(Parent.class);
+                mcId = parent.getMovieContentid();
+            }
             videoPlayer.setVisibility(View.VISIBLE);
             image.setVisibility(View.GONE);
             videoBean = intent.getParcelableExtra("VideoBean");
@@ -191,6 +218,7 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
 
             commentUrl = URL_VIDEO_COMMENT;
             addCommentUrl = URL_VIDEO_ADD_COMMENT;
+            collectUrl = URL_VIDEO_COLLECT;
             likeUrl = URL_VIDEO_ADD_LIKE;
             toolbarTitle.setText("视频详情");
             downloadIcon.setVisibility(GONE);
@@ -229,10 +257,20 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
 
     }
 
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public int getLayoutID() {
+        return R.layout.activity_album_details;
+    }
+
     private void getUserImformation() {
         SharedPreferences sharedPreferences = getSharedPreferences(LOGIN_SHARED_PREFRERNCES, 0);
         String Appid = sharedPreferences.getString("Appid", "");
-        int type = sharedPreferences.getInt("TYPE", 0);
+        type = sharedPreferences.getInt("TYPE", 0);
 
         if (type == PARENT) {
             Parent parent = DataSupport.findFirst(Parent.class);
@@ -395,10 +433,23 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
     }
 
     private void collectSwitch(ImageView image, boolean currentState) {
-        if (currentState)
+        if (currentState) {
             image.setImageResource(R.drawable.collect_clicked);
-        else
-            image.setImageResource(R.drawable.collect_unclicked);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("pmid", mcId);
+            map.put("pictureid", xId);
+            okHttpUtil.mOkHttpPost(collectUrl, map, new OkHttpUtil.OkHttpUtilCallback() {
+                @Override
+                public void onSuccess(String response) {
+                    Toast.makeText(AlbumDetailsActivity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(String response) {
+                    Toast.makeText(AlbumDetailsActivity.this, "收藏失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private Handler handler = new Handler() {
@@ -466,6 +517,11 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         }
     }
 
+    @Override
+    public void setUpComponent() {
+
+    }
+
     /*
         *   隐藏软键盘
         * */
@@ -482,4 +538,5 @@ public class AlbumDetailsActivity extends AppCompatActivity implements SwipeRefr
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
     }
+
 }

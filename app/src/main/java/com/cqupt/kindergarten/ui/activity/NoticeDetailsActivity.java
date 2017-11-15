@@ -25,6 +25,8 @@ public class NoticeDetailsActivity extends AppCompatActivity {
     TextView tvContent;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.tv_publisher)
+    TextView tvPublisher;
 
     private String title;
     private String message;
@@ -49,7 +51,7 @@ public class NoticeDetailsActivity extends AppCompatActivity {
         bean = intent.getParcelableExtra("NoticeItem");
 
         toolbarTitle.setText(bean.getTitle());
-        if (bean.getMessage()!= null) {
+        if (bean.getMessage() != null) {
             RichText.initCacheDir(this);
             RichText.fromHtml(bean.getMessage())
                     .scaleType(ImageHolder.ScaleType.FIT_CENTER)
@@ -83,6 +85,7 @@ public class NoticeDetailsActivity extends AppCompatActivity {
                         }
                     })//设置图片最大宽度
                     .into(tvContent);
+            tvPublisher.setText("发布人: "+bean.getIssuer());
         }
 
     }

@@ -38,6 +38,7 @@ public class HandbookActivity extends AppCompatActivity {
     * */
     public static int TYPE_CLASS = 0;
     public static int TYPE_NEWS = 1;
+    public static int TYPE_COLLECTION = 2;
 
     private int intentType;
     private ArrayList<String> mTitles;
@@ -67,14 +68,19 @@ public class HandbookActivity extends AppCompatActivity {
         intentType = getIntent().getIntExtra("intentType", 0);
         if (intentType == TYPE_CLASS){
             getSupportActionBar().setTitle("");
-            toolbarTitle.setText("班级图鉴");
+            toolbarTitle.setText("班级活动照片/视频");
             mTitles.add("班级图片");
             mTitles.add("班级视频");
         }else if (intentType == TYPE_NEWS){
             getSupportActionBar().setTitle("");
-            toolbarTitle.setText("校园图鉴");
+            toolbarTitle.setText("全员大型活动照片/视频");
             mTitles.add("校园图片");
             mTitles.add("校园视频");
+        }else if (intentType == TYPE_COLLECTION){
+            getSupportActionBar().setTitle("");
+            toolbarTitle.setText("我的收藏");
+            mTitles.add("图片收藏");
+            mTitles.add("视频收藏");
         }
 
         //初始化顶部tab
@@ -85,8 +91,6 @@ public class HandbookActivity extends AppCompatActivity {
         handbookViewpager.setOffscreenPageLimit(2);
         handbookViewpager.setCurrentItem(0);
         tabLayout.setupWithViewPager(handbookViewpager);
-
-
     }
 
     @Override
